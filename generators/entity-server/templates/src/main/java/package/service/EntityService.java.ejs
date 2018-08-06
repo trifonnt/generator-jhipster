@@ -120,6 +120,7 @@ public interface <%= entityClass %>Service {
       if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
     //@Trifon
     /**
+     * Get one <%= entityInstance %> by <%= fieldName %>.
      *
      * @param <%= fieldName %> the <%= fieldName %> of the entity
      * @return the entity

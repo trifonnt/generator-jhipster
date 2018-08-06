@@ -209,7 +209,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
       if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
     //@Trifon
     /**
-     * Get one <%= entityInstance %> by name.
+     * Get one <%= entityInstance %> by <%= fieldName %>.
      *
      * @param <%= fieldName %> the <%= fieldName %> of the entity
      * @return the entity
