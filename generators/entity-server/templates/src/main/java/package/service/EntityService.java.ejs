@@ -111,4 +111,21 @@ public interface <%= entityClass %>Service {
      * @return the list of entities
      */
     <% if (pagination !== 'no') { %>Page<<%= instanceType %><% } else { %>List<<%= instanceType %><% } %>> search(String query<% if (pagination !== 'no') { %>, Pageable pageable<% } %>);<% } %>
+
+<%_ for (idx in fields) {
+      const fieldType = fields[idx].fieldType;
+      const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+      const fieldName = fields[idx].fieldName;
+      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+      if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
+    //@Trifon
+    /**
+     *
+     * @param <%= fieldName %> the <%= fieldName %> of the entity
+     * @return the entity
+     */
+    Optional<<%= fieldName %>> findOneByName(<%= fieldType %> <%= instanceName %>);
+    <%_ }
+    } _%>
+
 }
