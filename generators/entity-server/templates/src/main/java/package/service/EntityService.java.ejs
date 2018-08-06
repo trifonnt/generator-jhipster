@@ -116,7 +116,9 @@ public interface <%= entityClass %>Service {
       const fieldType = fields[idx].fieldType;
       const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
       const fieldName = fields[idx].fieldName;
-      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod; _%>
+      // Trifon <%= fieldName %>
+      <%_
       if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
     //@Trifon
     /**
