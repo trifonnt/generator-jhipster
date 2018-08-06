@@ -221,7 +221,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     @Transactional(readOnly = true)
     <%_ } _%>
     public Optional<<%= instanceType %>> findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>) {
-      log.debug("Request to get <%= entityClass %> by <%= fieldName %>: {}", <%= fieldName %>);<%- include('../../common/get_by_unique_template', {viaService: viaService, returnDirectly:true}); -%>
+      log.debug("Request to get <%= entityClass %> by <%= fieldName %>: {}", <%= fieldName %>);<%- include('../../common/get_by_unique_template', {viaService: viaService, returnDirectly:true, fieldInJavaBeanMethod: fieldInJavaBeanMethod}); -%>
     }
     <%_ }
     } _%>
