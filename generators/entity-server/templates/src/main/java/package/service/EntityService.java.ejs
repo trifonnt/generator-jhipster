@@ -116,9 +116,7 @@ public interface <%= entityClass %>Service {
       const fieldType = fields[idx].fieldType;
       const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
       const fieldName = fields[idx].fieldName;
-      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod; _%>
-      // Trifon <%= fieldName %>
-      <%_
+      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
       if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
     //@Trifon
     /**
@@ -126,7 +124,7 @@ public interface <%= entityClass %>Service {
      * @param <%= fieldName %> the <%= fieldName %> of the entity
      * @return the entity
      */
-    Optional<<%= fieldName %>> findOneByName(<%= fieldType %> <%= instanceName %>);
+    Optional<<%= instanceType %>> findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>);
     <%_ }
     } _%>
 

@@ -161,7 +161,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     @Transactional(readOnly = true)
     <%_ } _%>
     public Optional<<%= instanceType %>> findOne(<%= pkType %> id) {
-        log.debug("Request to get <%= entityClass %> : {}", id);<%- include('../../common/get_template', {viaService: viaService, returnDirectly:true}); -%>
+        log.debug("Request to get <%= entityClass %> by id: {}", id);<%- include('../../common/get_template', {viaService: viaService, returnDirectly:true}); -%>
     }
 
     /**
@@ -200,4 +200,29 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
         <%_ } } _%>
     }
     <%_ } _%>
+
+<%_ for (idx in fields) {
+      const fieldType = fields[idx].fieldType;
+      const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+      const fieldName = fields[idx].fieldName;
+      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+      if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
+    //@Trifon
+    /**
+     * Get one <%= entityInstance %> by name.
+     *
+     * @param <%= fieldName %> the <%= fieldName %> of the entity
+     * @return the entity
+     */
+    <%_ if (service === 'serviceImpl') { _%>
+    @Override
+    <%_ } _%>
+    <%_ if (databaseType === 'sql') { _%>
+    @Transactional(readOnly = true)
+    <%_ } _%>
+    public Optional<<%= instanceType %>> findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>) {
+      log.debug("Request to get <%= entityClass %> by <%= fieldName %>: {}", <%= fieldName %>);<%- include('../../common/get_by_unique_template', {viaService: viaService, returnDirectly:true}); -%>
+    }
+    <%_ }
+    } _%>
 }
