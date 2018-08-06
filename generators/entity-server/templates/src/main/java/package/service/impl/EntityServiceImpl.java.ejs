@@ -226,17 +226,14 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
       log.debug("Request to get <%= entityClass %> by <%= fieldName %>: {}", <%= fieldName %>);<%- include('../../common/get_by_unique_template', {viaService: viaService, returnDirectly:true, fieldName: fieldName, fieldInJavaBeanMethod: fieldInJavaBeanMethod}); -%>
     }
 
-    <%_ }
-    }
-    _%>
 	//@Trifon
 	/**
-	 * Get or Create <%= entityClass %>.
+	 * Get or Create <%= entityInstance %> by <%= fieldName %>.
 	 *
 	 * @return the entity
 	 */
-	public <%= entityClass %> getOrCreate<%= entityClass %>(<%- include('../../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>) {
-		<%= instanceType %> <%= instanceName %> = findOneBy<%- include('../../common/find-unique-field-name', {returnDirectly:true, capitalLetter: true}); -%>(<%- include('../../common/find-unique-field-name', {returnDirectly:true, capitalLetter: false}); -%>)
+	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%- include('../../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>) {
+		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldName %>)
 				.orElse(null);
 		if (<%= instanceName %> == null) {
 			<%= instanceName %> = 
@@ -251,4 +248,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 
 		return <%= entityInstance %>Mapper.toEntity(<%= instanceName %>);
 	}
+    <%_ }
+    }
+    _%>
 }

@@ -130,13 +130,14 @@ public interface <%= entityClass %>Service {
      */
     Optional<<%= instanceType %>> findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>);
 
-    <%_ }
-    } _%>
     //@Trifon
     /**
-     * Get or Create <%= entityClass %>.
+     * Get or Create <%= entityInstance %> by <%= fieldName %>.
      *
      * @return the entity
      */
-     <%= entityClass %> getOrCreate<%= entityClass %>(<%- include('../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>);
+     <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%- include('../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>);
+
+    <%_ }
+    } _%>
 }
