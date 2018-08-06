@@ -21,6 +21,7 @@ package <%=packageName%>.service;
     const instanceName = (dto === 'mapstruct') ? entityInstance + 'DTO' : entityInstance; %>
 <%_ if (dto === 'mapstruct') { _%>
 import <%=packageName%>.service.dto.<%= entityClass %>DTO;
+import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } else { _%>
 import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } _%>
@@ -129,10 +130,11 @@ public interface <%= entityClass %>Service {
 
     <%_ }
     } _%>
+    //@Trifon
     /**
-     * Get or Create <%= entityInstance %>.
+     * Get or Create <%= entityClass %>.
      *
      * @return the entity
      */
-     <%= instanceType %>> getOrCreate<%= fieldInJavaBeanMethod %>(<%- include('../../common/list-of-fields_template', {viaService: viaService, returnDirectly:true, fieldName: fieldName, fieldInJavaBeanMethod: fieldInJavaBeanMethod}); -%>);
+     <%= entityClass %> getOrCreate<%= entityClass %>(<%- include('../common/list-of-fields_template', {returnDirectly:true}); -%>);
 }

@@ -17,9 +17,10 @@
  limitations under the License.
 -%>
 <%#	Returns a string of all fields and their types for the entity. -%>
-<%-
+<%
 
   const fieldsArray = [];
+  let result = '';
 
 for (idx in fields) {
     const fieldType = fields[idx].fieldType;
@@ -27,7 +28,6 @@ for (idx in fields) {
     const fieldName = fields[idx].fieldName;
     const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
   const field = fields[idx];
-  let result = '';
 
     fieldsArray.push(field.fieldType + ' ' + field.fieldName);
 }
