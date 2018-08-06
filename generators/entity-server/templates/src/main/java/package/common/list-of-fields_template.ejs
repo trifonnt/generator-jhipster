@@ -16,17 +16,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-<%#	Returns a string of all validator annotations for the entity field. -%>
-<%
-const field = fields[idx];
-let result = '';
+<%#	Returns a string of all fields and their types for the entity. -%>
+<%-
 
-if (field.fieldValidate === true) {
-    const fieldsArray = [];
+  const fieldsArray = [];
+
+for (idx in fields) {
+    const fieldType = fields[idx].fieldType;
+    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+    const fieldName = fields[idx].fieldName;
+    const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+  const field = fields[idx];
+  let result = '';
 
     fieldsArray.push(field.fieldType + ' ' + field.fieldName);
+}
 
+for (idx in relationships) {
+    fieldsArray.push(relationships[idx].relationshipNameCapitalized + ' ' + relationships[idx].relationshipName);
+}
     result = fieldsArray.join(', ');
     result += '';
-} -%>
+-%>
 <%- result -%>
