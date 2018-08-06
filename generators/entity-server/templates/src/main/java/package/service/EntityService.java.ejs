@@ -129,4 +129,10 @@ public interface <%= entityClass %>Service {
 
     <%_ }
     } _%>
+    /**
+     * Get or Create <%= entityInstance %>.
+     *
+     * @return the entity
+     */
+     <%= instanceType %>> getOrCreate<%= fieldInJavaBeanMethod %>(<%- include('../../common/list-of-fields_template', {viaService: viaService, returnDirectly:true, fieldName: fieldName, fieldInJavaBeanMethod: fieldInJavaBeanMethod}); -%>);
 }
