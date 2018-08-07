@@ -263,6 +263,42 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 
 		return <%= entityInstance %>;
 	}
+
+	//@Trifon
+	/**
+	 * Import one <%= entityInstance %> by <%= fieldName %>.
+	 *
+	 * @param columns list of columns
+	 * @return the entity
+	 */
+	<%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns) {
+<%_ for (idx2 in fields) {
+      const fieldType2 = fields[idx2].fieldType;
+      const fieldTypeBlobContent2 = fields[idx2].fieldTypeBlobContent;
+      const fieldName2 = fields[idx2].fieldName;
+      const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod; _%>
+		<%= fieldType2 %> <%= fieldName2 %> = columns[<%= idx2 %>]; <%_
+	 } _%>
+//		Integer adempiereProductId = Integer.parseInt(columns[0]);
+//		Boolean isActive = Boolean.valueOf(columns[6]);
+
+		<%= instanceType %> <%= entityInstance %> = null;
+		// +01) Search for existing <%= entityInstance %> by <%= fieldName %>
+		Optional<<%= instanceType %>> optional<%= instanceType %> = findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldName %>);
+		if (optional<%= instanceType %>.isPresent()) {
+			<%= entityInstance %> = optional<%= instanceType %>.get();
+		} else {
+			<%= entityInstance %> = new <%= instanceType %>();
+			<%= entityInstance %>.set<%= fieldInJavaBeanMethod %>(adempiereProductId);
+			// +02) Set default values
+//			setDefaultValues(<%= entityInstance %>);
+		}
+
+		// +03) Update Product
+		<%= entityInstance %>.setXXX(value);
+
+		return productDTO;
+	}
     <%_ }
     }
     _%>

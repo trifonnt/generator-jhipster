@@ -145,6 +145,15 @@ public interface <%= entityClass %>Service {
      */
      <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder);
 
+    //@Trifon
+    /**
+     * Import one <%= entityInstance %> by <%= fieldName %>.
+     *
+     * @param columns list of columns
+     * @return the entity
+     */
+    <%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns);
+
     <%_ }
     } _%>
 }
