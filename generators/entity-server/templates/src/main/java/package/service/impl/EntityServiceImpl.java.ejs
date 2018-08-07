@@ -271,17 +271,28 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 * @param columns list of columns
 	 * @return the entity
 	 */
-	<%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns) {
+	public <%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns) {
 <%_ for (idx2 in fields) {
       const fieldType2 = fields[idx2].fieldType;
       const fieldTypeBlobContent2 = fields[idx2].fieldTypeBlobContent;
       const fieldName2 = fields[idx2].fieldName;
       const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod;
-      if (1 == 1) {
-        
+
+      let columnValue = 'columns['+ idx2 + ']';
+      if (fieldType2.toLowerCase() === 'integer') {
+        columnValue = 'Integer.parseInt(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'long') {
+        columnValue = 'Long.parseLong(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'float') {
+        columnValue = 'Float.parseFloat(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'double') {
+        columnValue = 'Double.parseDouble(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'bigdecimal') {
+        // 
+        columnValue = 'new BigDecimal(columns['+ idx2 +'])';
       }
       _%>
-		<%= fieldType2 %> <%= fieldName2 %> = columns[<%= idx2 %>];
+		<%= fieldType2 %> <%= fieldName2 %> = <%= columnValue %>;
 <%_	} _%>
 //		Integer adempiereProductId = Integer.parseInt(columns[0]);
 //		Boolean isActive = Boolean.valueOf(columns[6]);
@@ -298,8 +309,13 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 //			setDefaultValues(<%= entityInstance %>);
 		}
 
-		// +03) Update Product
-		<%= entityInstance %>.setXXX(value);
+		// +03) Update <%= entityInstance %>
+<%_ for (idx2 in fields) {
+      const fieldName2 = fields[idx2].fieldName;
+      const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod;
+      _%>
+		<%= entityInstance %>.set<%= fieldInJavaBeanMethod2 %>(<%= fieldName2 %>);
+<%_	} _%>
 
 		return <%= entityInstance %>;
 	}
