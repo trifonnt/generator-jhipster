@@ -267,7 +267,6 @@ public class <%= entityClass %>Resource {
       const fieldName = fields[idx].fieldName;
       const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
       if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
-
 	/**
 	 * Import <%= entityInstance %> by <%= fieldName %> from .csv file
 	 * 
@@ -312,4 +311,7 @@ public class <%= entityClass %>Resource {
 		}
 	}
 
+<%_ }
+}
+_%>
 }
