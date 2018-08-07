@@ -290,12 +290,12 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
       } else if (fieldType2.toLowerCase() === 'bigdecimal') {
         // 
         columnValue = 'new BigDecimal(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'boolean') {
+        columnValue = 'Boolean.valueOf(columns['+ idx2 +'])';
       }
       _%>
 		<%= fieldType2 %> <%= fieldName2 %> = <%= columnValue %>;
 <%_	} _%>
-//		Integer adempiereProductId = Integer.parseInt(columns[0]);
-//		Boolean isActive = Boolean.valueOf(columns[6]);
 
 		<%= instanceType %> <%= entityInstance %> = null;
 		// +01) Search for existing <%= entityInstance %> by <%= fieldName %>
