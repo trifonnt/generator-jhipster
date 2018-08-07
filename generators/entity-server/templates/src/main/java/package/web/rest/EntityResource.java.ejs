@@ -66,6 +66,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.IOException;
 <%_ if (reactiveRepositories) { _%>
 import reactor.core.publisher.Flux;
 <%_ } _%>
@@ -304,7 +305,7 @@ public class <%= entityClass %>Resource {
 						numImportedRecords = numImportedRecords + 1;
 					}
 				}
-				return ResponseEntity.ok().body(String.format("Imported #%s <%= entityInstance %> from file %s", numImportedRecords, file.getOriginalFilename()));
+				return ResponseEntity.ok().body(String.format("Imported #%s records from file %s", numImportedRecords, file.getOriginalFilename()));
 			} finally {
 				if (buffReader != null) {
 					buffReader.close();
