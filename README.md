@@ -24,4 +24,6 @@ List of new features added to JHipster:
 
 [x] Improved i18n .json files to have plural names for one-to-many and many-to-many relationships.
 
+[x] Added importBy<UNIQUE_FIELD>(...) in Java service classes.
+
 [] Different DB Sequence for each entity.

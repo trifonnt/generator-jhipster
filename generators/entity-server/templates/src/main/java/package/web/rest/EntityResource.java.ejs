@@ -260,4 +260,56 @@ public class <%= entityClass %>Resource {
      */
     @GetMapping("/_search/<%= entityApiUrl %>")
     @Timed<%- include('../../common/search_template', {viaService: viaService}); -%><% } %>
+
+<%_ for (idx in fields) {
+      const fieldType = fields[idx].fieldType;
+      const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+      const fieldName = fields[idx].fieldName;
+      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+      if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
+
+	/**
+	 * Import <%= entityInstance %> by <%= fieldName %> from .csv file
+	 * 
+	 * @param file
+	 * @return
+	 */
+    @PostMapping("/<%= entityApiUrl %>/import-by-<%= fieldName %>.csv")
+    @Timed
+    public ResponseEntity<String> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(@RequestParam("file") MultipartFile file) throws URISyntaxException {
+		if (!file.isEmpty()) {
+			log.debug("REST request to import <%= entityClass %> by <%= fieldName %> with file: {}", file);
+			BufferedReader buffReader = null;
+			try {
+				// Open the file
+				buffReader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+
+				int numImportedRecords = 0;
+				boolean isFirstLine = true;
+				String strLine;
+				// Read file line by line
+				while ((strLine = buffReader.readLine()) != null) {
+					if (isFirstLine) {
+						isFirstLine = false;
+					} else {
+						String[] columns = strLine.split(";"); // TODO - Add separator as parameter of REST request
+
+						<%= instanceType %> <%= instanceName %> = <%= entityInstance %>Service.import<%= entityClass %>(columns);
+
+						<%= instanceName %> = <%= entityInstance %>Service.save(<%= instanceName %>);
+
+						numImportedRecords = numImportedRecords + 1;
+					}
+				}
+				return ResponseEntity.ok().body(String.format("Imported #%s <%= entityInstance %> from file %s", numImportedRecords, file.getOriginalFilename()));
+			} finally {
+				if (buffReader != null) {
+					buffReader.close();
+				}
+			}
+		} else {
+			return ResponseEntity.ok().body("File is empty, no records were imported.");
+		}
+	}
+
 }
