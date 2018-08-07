@@ -276,9 +276,13 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
       const fieldType2 = fields[idx2].fieldType;
       const fieldTypeBlobContent2 = fields[idx2].fieldTypeBlobContent;
       const fieldName2 = fields[idx2].fieldName;
-      const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod; _%>
-		<%= fieldType2 %> <%= fieldName2 %> = columns[<%= idx2 %>]; <%_
-	 } _%>
+      const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod;
+      if (1 == 1) {
+        
+      }
+      _%>
+		<%= fieldType2 %> <%= fieldName2 %> = columns[<%= idx2 %>];
+<%_	} _%>
 //		Integer adempiereProductId = Integer.parseInt(columns[0]);
 //		Boolean isActive = Boolean.valueOf(columns[6]);
 
@@ -289,7 +293,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 			<%= entityInstance %> = optional<%= instanceType %>.get();
 		} else {
 			<%= entityInstance %> = new <%= instanceType %>();
-			<%= entityInstance %>.set<%= fieldInJavaBeanMethod %>(adempiereProductId);
+			<%= entityInstance %>.set<%= fieldInJavaBeanMethod %>(<%= fieldName %>);
 			// +02) Set default values
 //			setDefaultValues(<%= entityInstance %>);
 		}
@@ -297,7 +301,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 		// +03) Update Product
 		<%= entityInstance %>.setXXX(value);
 
-		return productDTO;
+		return <%= entityInstance %>;
 	}
     <%_ }
     }
