@@ -326,6 +326,30 @@ public class UserResource {
             .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
     <%_ } _%>
     }
+
+    /**
+     * GET /users/:id : get the "id" user.
+     *
+     * @param id the id of the user to find
+     * @return the ResponseEntity with status 200 (OK) and with body the "id" user, or with status 404 (Not Found)
+     */
+    @GetMapping("/users/{id:.+}")
+    @Timed
+    <%_ if (!reactive) { _%>
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+        log.debug("REST request to get User : {}", id);
+        return ResponseUtil.wrapOrNotFound(
+            userService.getUserWithAuthorities(id)
+                .map(UserDTO::new));
+    <%_ } else { _%>
+    public Mono<UserDTO> getUser(@PathVariable Long id) {
+        log.debug("REST request to get User : {}", id);
+        return userService.getUserWithAuthorities(id)
+            .map(UserDTO::new)
+            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
+    <%_ } _%>
+    }
+
 <%_ if (authenticationType !== 'oauth2') { _%>
 
     /**
@@ -349,6 +373,29 @@ public class UserResource {
             .map(it -> ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build());
     <%_ } _%>
     }
+
+    /**
+     * DELETE /users/:id : delete the "id" User.
+     *
+     * @param id the id of the user to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/users/{id:.+}")
+    @Timed
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    <%_ if (!reactive) { _%>
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        log.debug("REST request to delete User: {}", id);
+        userService.deleteUser(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> "userManagement.deleted"<% } else { %> "A user is deleted with id " + id<% } %>, String.valueOf(id))).build();
+    <%_ } else { _%>
+    public Mono<ResponseEntity<Void>> deleteUser(@PathVariable Long id) {
+        log.debug("REST request to delete User: {}", id);
+        return userService.deleteUser(id)
+            .map(it -> ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", String.valuesOf(id))).build());
+    <%_ } _%>
+    }
+
 <%_ } _%>
 <%_ if (searchEngine === 'elasticsearch') { _%>
 

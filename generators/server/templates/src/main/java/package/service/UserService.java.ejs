@@ -521,6 +521,20 @@ public class UserService {
             log.debug("Deleted User: {}", user);
         });
     }
+
+    public void deleteUser(Long id) {
+        userRepository.findById(id).ifPresent(user -> {
+            userRepository.delete(user);
+            <%_ if (searchEngine === 'elasticsearch') { _%>
+            userSearchRepository.delete(user);
+            <%_ } _%>
+            <%_ if (cacheManagerIsAvailable === true) { _%>
+            this.clearUserCaches(user);
+            <%_ } _%>
+            log.debug("Deleted User: {}", user);
+        });
+    }
+
     <%_ } else { _%>
     private Mono<User> updateUser(User user) {
         return SecurityUtils.getCurrentUserLogin()
@@ -543,6 +557,15 @@ public class UserService {
 
     public Mono<Void> deleteUser(String login) {
         return userRepository.findOneByLogin(login)
+            .flatMap(user -> userRepository.delete(user).thenReturn(user))
+            <%_ if (cacheManagerIsAvailable === true) { _%>
+            .doOnNext(this::clearUserCaches)
+            <%_ } _%>
+            .doOnNext(user -> log.debug("Deleted User: {}", user))
+            .then();
+    }
+    public Mono<Void> deleteUser(Long id) {
+        return userRepository.findById(id)
             .flatMap(user -> userRepository.delete(user).thenReturn(user))
             <%_ if (cacheManagerIsAvailable === true) { _%>
             .doOnNext(this::clearUserCaches)
