@@ -26,7 +26,7 @@ const writeReactFiles = require('./files-react').writeFiles;
 const packagejs = require('../../package.json');
 const constants = require('../generator-constants');
 const statistics = require('../statistics');
-
+const shell = require('shelljs')
 let useBlueprint;
 
 module.exports = class extends BaseGenerator {
@@ -361,6 +361,9 @@ module.exports = class extends BaseGenerator {
         return {
             write() {
                 switch (this.clientFramework) {
+                	case 'vue': {
+                		return;
+                	}
                     case 'react':
                         return writeReactFiles.call(this, useBlueprint);
                     default:
@@ -410,6 +413,10 @@ module.exports = class extends BaseGenerator {
     _end() {
         return {
             end() {
+            	if(this.clientFramework == 'vue') {
+            		this.log("TRIFON")
+            		return shell.exec('yo jhipster-vuejs2')
+            	}
                 this.log(chalk.green.bold('\nClient application generated successfully.\n'));
 
                 const logMsg = `Start your Webpack development server with:\n ${chalk.yellow.bold(`${this.clientPackageManager} start`)}\n`;
