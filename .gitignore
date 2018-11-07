@@ -15,3 +15,4 @@ yarn-error.log
 *.sw?
 /test/templates/import-jdl/*.png
 .git
+/yarn.lock
