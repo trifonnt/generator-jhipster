@@ -55,7 +55,8 @@ module.exports = class extends PrivateBase {
      *
      * @param {string} namespace - namespace of the .yo-rc.json config file. By default: generator-jhipster
      */
-    getJhipsterAppConfig(namespace = 'generator-jhipster') {
+	// @Trifon
+    getJhipsterAppConfig(namespace = 'generator-jhipster-x') {
         this.warning('This method is deprecated. Use getAllJhipsterConfig');
         const fromPath = '.yo-rc.json';
         if (shelljs.test('-f', fromPath)) {
