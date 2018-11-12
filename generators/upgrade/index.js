@@ -27,7 +27,7 @@ const constants = require('../generator-constants');
 const statistics = require('../statistics');
 
 /* Constants used throughout */
-const GENERATOR_JHIPSTER = 'generator-jhipster';
+const GENERATOR_JHIPSTER = 'generator-jhipster-x';
 const UPGRADE_BRANCH = 'jhipster_upgrade';
 const GIT_VERSION_NOT_ALLOW_MERGE_UNRELATED_HISTORIES = '2.9.0';
 const FIRST_CLI_SUPPORTED_VERSION = '4.5.1'; // The first version in which CLI support was added

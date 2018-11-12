@@ -753,7 +753,7 @@ module.exports = class extends Generator {
      * @param {string} blueprint - generator name
      */
     checkBlueprint(blueprint, subGen = '') {
-        if (blueprint === 'generator-jhipster') {
+        if (blueprint === 'generator-jhipster-x') {
             this.error(`You cannot use ${chalk.yellow(blueprint)} as the blueprint.`);
         }
         const done = this.async();
@@ -1087,7 +1087,7 @@ module.exports = class extends Generator {
                 entities[entity.name] = entity.definition;
             });
             jhiCore.convertJsonEntitiesToJDL(entities, jdl);
-            jhiCore.convertJsonServerOptionsToJDL({ 'generator-jhipster': this.config.getAll() }, jdl);
+            jhiCore.convertJsonServerOptionsToJDL({ 'generator-jhipster-x': this.config.getAll() }, jdl);
         } catch (e) {
             this.log(e.message || e);
             this.error('\nError while parsing entities to JDL\n');
@@ -1135,8 +1135,8 @@ module.exports = class extends Generator {
 
         if (shelljs.test('-f', fromPath)) {
             const fileData = this.fs.readJSON(fromPath);
-            if (fileData && fileData['generator-jhipster']) {
-                return fileData['generator-jhipster'];
+            if (fileData && fileData['generator-jhipster-x']) {
+                return fileData['generator-jhipster-x'];
             }
             return false;
         }

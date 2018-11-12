@@ -154,7 +154,7 @@ class Statistics {
         this.postRequest(
             '/s/entry',
             {
-                'generator-jhipster': yorc,
+                'generator-jhipster-x': yorc,
                 'generator-id': this.clientId,
                 'generator-version': generatorVersion,
                 'git-provider': 'local',

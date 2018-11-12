@@ -34,7 +34,7 @@ const PrivateBase = require('./generator-base-private');
 
 const JHIPSTER_CONFIG_DIR = '.jhipster';
 const MODULES_HOOK_FILE = `${JHIPSTER_CONFIG_DIR}/modules/jhi-hooks.json`;
-const GENERATOR_JHIPSTER = 'generator-jhipster';
+const GENERATOR_JHIPSTER = 'generator-jhipster-x';
 
 const CLIENT_MAIN_SRC_DIR = constants.CLIENT_MAIN_SRC_DIR;
 const CLIENT_WEBPACK_DIR = constants.CLIENT_WEBPACK_DIR;
