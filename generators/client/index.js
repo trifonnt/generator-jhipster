@@ -415,7 +415,7 @@ module.exports = class extends BaseGenerator {
             end() {
             	if(this.clientFramework == 'vue') {
             		this.log("TRIFON")
-            		return shell.exec('yo jhipster-vuejs2')
+                    this.composeWith(require.resolve('generator-jhipster-vuejs2/generators/app'))
             	}
                 this.log(chalk.green.bold('\nClient application generated successfully.\n'));
 
