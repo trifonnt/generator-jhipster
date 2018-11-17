@@ -18,6 +18,8 @@
  */
 const chalk = require('chalk');
 const shelljs = require('shelljs');
+const { loadConfigs, setClusteredApps } = require('./docker-base');
+const { getBase64Secret } = require('./utils');
 
 module.exports = {
     askForApplicationType,
