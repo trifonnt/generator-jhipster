@@ -33,7 +33,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/jhipster/generator-jhipster.git"
+        "url": "git://github.com/trifonnt/generator-jhipster-x.git"
     },
     "scripts": {
         "prettier:format": "prettier --write '{,**/}*.{js,json,md}'",
