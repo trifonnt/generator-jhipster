@@ -26,7 +26,7 @@ const _ = require('lodash');
 const SUB_GENERATORS = require('./commands');
 
 const CLI_NAME = 'jhipster';
-const GENERATOR_NAME = 'generator-jhipster-x';
+const GENERATOR_NAME = 'generator-jhipster-x'; //@Trifon
 const debug = function(msg) {
     if (this.debugEnabled) {
         console.log(`${chalk.blue('DEBUG!')}  ${msg}`);
