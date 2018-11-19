@@ -522,6 +522,7 @@ public class UserService {
         });
     }
 
+    /@Trifon
     public void deleteUser(Long id) {
         userRepository.findById(id).ifPresent(user -> {
             userRepository.delete(user);
@@ -564,6 +565,7 @@ public class UserService {
             .doOnNext(user -> log.debug("Deleted User: {}", user))
             .then();
     }
+    //Trifon
     public Mono<Void> deleteUser(Long id) {
         return userRepository.findById(id)
             .flatMap(user -> userRepository.delete(user).thenReturn(user))
