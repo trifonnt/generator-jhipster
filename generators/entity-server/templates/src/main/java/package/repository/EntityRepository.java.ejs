@@ -83,11 +83,10 @@ public interface <%=entityClass%>Repository extends <% if (databaseType === 'sql
             unique = true;
         }
     }
-    if (unique === 'sql') { _%>
+    if (unique) { _%>
     Optional<<%= entityClass %>> findOneBy<%= fieldName %>(<%= fieldType %> fieldName);
     <%_ }
     } _%>
-
     <%_ for (idx in relationships) {
         if (relationships[idx].relationshipType === 'many-to-one' && relationships[idx].otherEntityName === 'user' && databaseType === 'sql') { _%>
 
