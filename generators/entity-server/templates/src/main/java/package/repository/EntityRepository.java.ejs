@@ -64,7 +64,7 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Repository
 public interface <%=entityClass%>Repository extends <% if (databaseType === 'sql') { %>JpaRepository<% } %><% if (databaseType === 'mongodb') { %>MongoRepository<% } %><% if (databaseType === 'cassandra') { %>CassandraRepository<% } %><% if (databaseType === 'couchbase') { %>N1qlCouchbaseRepository<% } %><<%=entityClass%>, <%= pkType %>><% if (jpaMetamodelFiltering) { %>, JpaSpecificationExecutor<<%=entityClass%>><% } %> {
-// @Trifon <%_ 
+// @Trifon - <%_ 
 for (idx in fields) {
     let required = false;
     let unique = false;
@@ -74,6 +74,7 @@ for (idx in fields) {
     const fieldType = fields[idx].fieldType;
     const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
     const fieldName = fields[idx].fieldName;
+    const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
     const fieldNameUnderscored = fields[idx].fieldNameUnderscored;
     const fieldNameAsDatabaseColumn = fields[idx].fieldNameAsDatabaseColumn;
     if (fieldValidate === true) {
@@ -84,9 +85,9 @@ for (idx in fields) {
             unique = true;
         }
     }
-    _%> <%= fieldName %>(unique = <%= unique %>), <%_
     if (unique) { _%>
-    Optional<<%= entityClass %>> findOneBy<%= fieldName %>(<%= fieldType %> fieldName);
+
+    Optional<<%= entityClass %>> findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>);
     <%_ }
     } _%>
     <%_ for (idx in relationships) {
