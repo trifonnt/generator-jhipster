@@ -56,6 +56,7 @@ import java.util.Optional;
 
 import java.util.UUID;
 <%_ } _%>
+import java.util.Optional;
 
 /**
  * Spring Data <% if (databaseType === 'mongodb') { %>MongoDB<% } if (databaseType === 'couchbase') { %>Couchbase<% } if (databaseType === 'cassandra') { %>Cassandra<% } %> repository for the <%= entityClass %> entity.
@@ -63,6 +64,30 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 @Repository
 public interface <%=entityClass%>Repository extends <% if (databaseType === 'sql') { %>JpaRepository<% } %><% if (databaseType === 'mongodb') { %>MongoRepository<% } %><% if (databaseType === 'cassandra') { %>CassandraRepository<% } %><% if (databaseType === 'couchbase') { %>N1qlCouchbaseRepository<% } %><<%=entityClass%>, <%= pkType %>><% if (jpaMetamodelFiltering) { %>, JpaSpecificationExecutor<<%=entityClass%>><% } %> {
+<%_ for (idx in fields) {
+    let required = false;
+    let unique = false;
+    const fieldValidate = fields[idx].fieldValidate;
+    const fieldValidateRules = fields[idx].fieldValidateRules;
+    const fieldValidateRulesMaxlength = fields[idx].fieldValidateRulesMaxlength;
+    const fieldType = fields[idx].fieldType;
+    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+    const fieldName = fields[idx].fieldName;
+    const fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+    const fieldNameAsDatabaseColumn = fields[idx].fieldNameAsDatabaseColumn;
+    if (fieldValidate === true) {
+        if (fieldValidateRules.includes('required')) {
+            required = true;
+        }
+        if (fieldValidateRules.includes('unique')) {
+            unique = true;
+        }
+    }
+    if (unique === 'sql') { _%>
+    Optional<<%= entityClass %>> findOneBy<%= fieldName %>(<%= fieldType %> fieldName);
+    <%_ }
+    } _%>
+
     <%_ for (idx in relationships) {
         if (relationships[idx].relationshipType === 'many-to-one' && relationships[idx].otherEntityName === 'user' && databaseType === 'sql') { _%>
 
