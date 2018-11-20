@@ -522,7 +522,7 @@ public class UserService {
         });
     }
 
-    /@Trifon
+    //@Trifon
     public void deleteUser(Long id) {
         userRepository.findById(id).ifPresent(user -> {
             userRepository.delete(user);
