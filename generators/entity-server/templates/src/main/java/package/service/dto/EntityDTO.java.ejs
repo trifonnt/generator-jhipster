@@ -57,6 +57,9 @@ import <%=packageName%>.domain.enumeration.<%= fields[idx].fieldType %>;
  */
 public class <%= entityClass %>DTO implements Serializable {
 
+	//@Trifon
+	private static final long serialVersionUID = 1L;
+
     private <%= pkType %> id;
     <%_ for (idx in fields) {
         const fieldValidate = fields[idx].fieldValidate;
