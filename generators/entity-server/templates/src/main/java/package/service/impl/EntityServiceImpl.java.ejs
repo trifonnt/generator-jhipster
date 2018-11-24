@@ -223,6 +223,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     public Optional<<%= instanceType %>> findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>) {
       log.debug("Request to get <%= entityClass %> by <%= fieldName %>: {}", <%= fieldName %>);<%- include('../../common/get_by_unique_template', {viaService: viaService, returnDirectly:true, fieldName: fieldName, fieldInJavaBeanMethod: fieldInJavaBeanMethod}); -%>
     }
+
     <%_ }
     } _%>
 }
