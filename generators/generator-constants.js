@@ -120,6 +120,11 @@ const LANGUAGES = [
         momentLocaleId: 'hy-am'
     },
     {
+        name: 'Bulgarian',
+        dispName: 'Български',
+        value: 'bg'
+    },
+    {
         name: 'Belorussian',
         dispName: 'Беларускі',
         value: 'by',
