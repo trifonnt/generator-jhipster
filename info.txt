@@ -1,0 +1,6 @@
+= Steps when publishing new version
+$ git commit -m "Version ..."
+$ git push
+
+$ npm version 5.7.0-t21 --allow-same-version
+$ npm publish

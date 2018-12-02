@@ -86,7 +86,7 @@ public class <%= entityClass %>DTO implements Serializable {
     @Lob
     <%_ } _%>
     <%_ if (fieldTypeBlobContent !== 'text') { _%>
-    private <%= fieldType %> <%= fieldName %><%_ if (fieldType === 'Boolean') { _%> = Boolean.FALSE<%_ } _%>;
+    private <%= fieldType %> <%= fieldName %> <%_ if (fieldType === 'Boolean') { _%> = Boolean.FALSE<%_ } _%>;
     <%_ } else { _%>
     private String <%= fieldName %>;
     <%_ } _%>
