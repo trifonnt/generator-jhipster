@@ -4,3 +4,20 @@ $ git push
 
 $ npm version 5.7.0-t21 --allow-same-version
 $ npm publish
+
+
+= Step when UPDATING to new version
+<PROJECT WHICH USES GENERATOR>
+$ npm update generator-jhipster-vuejs2
+
+
+= Step when UPDATING to new version of LOCAL GIT version generator
+<PROJECT WHICH USES GENERATOR>
+$ npm link generator-vue
+
+
+
+= Steps when using MasterDetail VUEJS generator
+$ yo vue:masterSlave Dokumenti EDocument DocumentComment 1253
+   URL
+ - http://localhost:8888/entities/masterslave/Dokumenti/new/1253
