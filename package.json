@@ -20,8 +20,8 @@
         "Webpack",
         "Docker"
     ],
-    "homepage": "https://www.jhipster.tech/",
-    "bugs": "https://github.com/jhipster/generator-jhipster/issues",
+    "homepage": "",
+    "bugs": "https://github.com/trifonnt/generator-jhipster-x/issues",
     "author": {
         "name": "Julien Dubois",
         "email": "",
@@ -55,7 +55,6 @@
         "conf": "2.0.0",
         "didyoumean": "1.2.1",
         "ejs": "2.6.1",
-        "generator-jhipster-x": "^5.7.0-t20",
         "glob": "7.1.2",
         "gulp-filter": "5.1.0",
         "insight": "0.10.1",
