@@ -25,6 +25,8 @@ import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } else { _%>
 import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } _%>
+import <%=packageName%>.domain.*;
+import java.util.Set;
 <%_ if (pagination !== 'no' || fieldsContainOwnerManyToMany === true) { _%>
 
 import org.springframework.data.domain.Page;
@@ -136,5 +138,5 @@ public interface <%= entityClass %>Service {
      *
      * @return the entity
      */
-     <%= entityClass %> getOrCreate<%= entityClass %>(<%- include('../common/list-of-fields_template', {returnDirectly:true}); -%>);
+     <%= entityClass %> getOrCreate<%= entityClass %>(<%- include('../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>);
 }

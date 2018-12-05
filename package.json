@@ -1,6 +1,6 @@
 {
     "name": "generator-jhipster-x",
-    "version": "5.7.0-t25",
+    "version": "5.7.0-t26",
     "description": "Spring Boot + Angular/React in one handy generator",
     "files": [
         "cli",

@@ -16,26 +16,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-<%#	Returns a string of all fields and their types for the entity. -%>
+<%#	Returns name of unique field or relationship. -%>
 <%
-
-  const fieldsArray = [];
   let result = '';
 
 for (idx in fields) {
     const fieldType = fields[idx].fieldType;
     const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
     const fieldName = fields[idx].fieldName;
+    const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
+    const fieldNameHumanized = fields[idx].fieldNameHumanized;
     const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
-  const field = fields[idx];
+    const field = fields[idx];
 
-    fieldsArray.push(field.fieldType + ' ' + field.fieldName);
+    if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
+      if (capitalLetter) {
+      	result = fieldNameCapitalized
+      } else {
+      	result = fieldName
+      }
+    }
 }
-
-for (idx in relationships) {
-    fieldsArray.push(relationships[idx].relationshipNameCapitalized + ' ' + relationships[idx].relationshipName);
-}
-    result = fieldsArray.join(', ');
-    result += '';
 -%>
 <%- result -%>

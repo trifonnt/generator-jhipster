@@ -30,6 +30,7 @@ package <%= packageName %>.service<% if (service === 'serviceImpl') { %>.impl<% 
     if (service === 'serviceImpl') { %>
 import <%= packageName %>.service.<%= entityClass %>Service;<% } %>
 import <%= packageName %>.domain.<%= entityClass %>;
+import <%= packageName %>.domain.*;
 import <%= packageName %>.repository.<%= entityClass %>Repository;
 <%_ if (reactiveRepositories) { _%>
 import <%= packageName %>.repository.reactive.<%= entityClass %>ReactiveRepository;
@@ -63,6 +64,7 @@ import java.util.LinkedList;
 import java.util.List;
 <%_ } _%>
 import java.util.Optional;
+import java.util.Set;
 <%_ if (databaseType === 'cassandra') { _%>
 import java.util.UUID;
 <%_ } _%>
@@ -225,5 +227,28 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     }
 
     <%_ }
-    } _%>
+    }
+    _%>
+	//@Trifon
+	/**
+	 * Get or Create <%= entityClass %>.
+	 *
+	 * @return the entity
+	 */
+	public <%= entityClass %> getOrCreate<%= entityClass %>(<%- include('../../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>) {
+		<%= instanceType %> <%= instanceName %> = findOneBy<%- include('../../common/find-unique-field-name', {returnDirectly:true, capitalLetter: true}); -%>(<%- include('../../common/find-unique-field-name', {returnDirectly:true, capitalLetter: false}); -%>)
+				.orElse(null);
+		if (<%= instanceName %> == null) {
+			<%= instanceName %> = 
+				save( 
+					<%= entityInstance %>Mapper.toDto(
+						new <%= entityClass %>()
+							<%- include('../../common/list-of-fields_names_n_values_template', {returnDirectly:true}); -%>
+					)
+				);
+		}
+		log.debug("Trifon - <%= entityClass %>.Id = " + <%= instanceName %>.getId());
+
+		return <%= entityInstance %>Mapper.toEntity(<%= instanceName %>);
+	}
 }
