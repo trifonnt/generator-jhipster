@@ -25,10 +25,15 @@ for (idx in fields) {
     const fieldType = fields[idx].fieldType;
     const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
     const fieldName = fields[idx].fieldName;
+    const fieldNameUnderscored = fields[idx].fieldNameUnderscored;
     const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
     const field = fields[idx];
 
-    fieldsArray.push(field.fieldType + ' ' + field.fieldName);
+    if (fieldTypeBlobContent !== 'text') {
+      fieldsArray.push(field.fieldType + ' ' + field.fieldName);
+    } else {
+      fieldsArray.push('String' + ' ' + field.fieldName);
+    }
 }
 
 for (idx in relationships) {
