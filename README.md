@@ -1,4 +1,8 @@
-This is fork of the awesome JHipster project.
-This project is intended only for limited use cases and as playground to test new ideas.
+This project is FRIENDLY fork of the awesome JHipster project.
 
 PLEASE USE it on your risk and only if you know what you are doing!
+
+List of new features added to JHipster:
+[x] Fluent methods for User class.
+[x] Generate methods <ENTITY> getBy<UNIQUE_FIELD>(...) in Java service classes.
+[x] Generate methods <ENTITY> getOrCreateBy<UNIQUE_FIELD>(...) in Java service classes.
