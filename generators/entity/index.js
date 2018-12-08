@@ -273,6 +273,7 @@ module.exports = class extends BaseBlueprintGenerator {
                     context.haveFieldWithJavadoc = false;
                     context.relationships = [];
                     context.pagination = 'no';
+                    context.generateMenuItem = true;
                     context.validation = false;
                     context.dto = 'no';
                     context.service = 'no';
@@ -336,7 +337,8 @@ module.exports = class extends BaseBlueprintGenerator {
             askForService: prompts.askForService,
             askForDTO: prompts.askForDTO,
             askForFiltering: prompts.askForFiltering,
-            askForPagination: prompts.askForPagination
+            askForPagination: prompts.askForPagination,
+            askForGenerateMenuItem: prompts.askForGenerateMenuItem,
         };
     }
 
@@ -594,6 +596,10 @@ module.exports = class extends BaseBlueprintGenerator {
                     this.warning(`pagination is missing in .jhipster/${entityName}.json, using no as fallback`);
                     context.pagination = 'no';
                 }
+                if (_.isUndefined(context.generateMenuItem)) {
+                    this.warning(`generateMenuItem is missing in .jhipster/${entityName}.json, using true as fallback`);
+                    context.generateMenuItem = true;
+                }
                 if (!context.clientRootFolder && !context.skipUiGrouping) {
                     // if it is a gateway generating from a microservice, or a microservice
                     if (context.useMicroserviceJson || context.applicationType === 'microservice') {
@@ -627,6 +633,7 @@ module.exports = class extends BaseBlueprintGenerator {
                 } else {
                     this.data.pagination = 'no';
                 }
+                this.data.generateMenuItem = context.generateMenuItem;
                 this.data.javadoc = context.javadoc;
                 if (context.entityAngularJSSuffix) {
                     this.data.angularJSSuffix = context.entityAngularJSSuffix;

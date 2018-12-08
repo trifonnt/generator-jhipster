@@ -33,8 +33,31 @@ module.exports = {
     askForDTO,
     askForService,
     askForFiltering,
-    askForPagination
+    askForPagination,
+    askForGenerateMenuItem,
 };
+
+function askForGenerateMenuItem() {
+    const context = this.context;
+    // don't prompt if data are imported from a file
+    if (context.useConfigurationFile) {
+        return;
+    }
+    const done = this.async();
+    const prompts = [
+        {
+            type: 'confirm',
+            name: 'askForGenerateMenuItem',
+            message: 'Do you want to generate menu item?',
+            default: true
+        }
+    ];
+    this.prompt(prompts).then(props => {
+        context.generateMenuItem = props.generateMenuItem;
+        done();
+    });
+}
+
 
 function askForMicroserviceJson() {
     const context = this.context;
