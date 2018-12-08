@@ -364,6 +364,10 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
+                    if (_.isUndefined(field.visibleForRole)) {
+                        field.visibleForRole = '';
+                    }
+
                     if (_.isUndefined(field.fieldType)) {
                         this.error(
                             chalk.red(`fieldType is missing in .jhipster/${entityName}.json for field ${JSON.stringify(field, null, 4)}`)
@@ -501,6 +505,9 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
+                    if (_.isUndefined(field.visibleForRole)) {
+                        relationship.visibleForRole = '';
+                    }
                     if (_.isUndefined(relationship.otherEntityName)) {
                         this.error(
                             chalk.red(
@@ -511,6 +518,10 @@ module.exports = class extends BaseBlueprintGenerator {
                                 )}`
                             )
                         );
+                    }
+
+                    if (_.isUndefined(relationship.otherEntityName2)) {
+                        relationship.otherEntityName2 = "";
                     }
 
                     if (_.isUndefined(relationship.otherEntityRelationshipName)) {

@@ -503,6 +503,12 @@ function askForField(done) {
             message: 'What is the name of your field?'
         },
         {
+            when: response => response.fieldAdd === true,
+            type: 'input',
+            name: 'visibleForRole',
+            message: 'What roles is this field visible for? String with commas, no spaces'
+        },
+        {
             when: response => response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'couchbase'].includes(databaseType)),
             type: 'list',
             name: 'fieldType',
@@ -907,6 +913,12 @@ function askForRelationship(done) {
             default: true
         },
         {
+            when: response => response.fieldAdd === true,
+            type: 'input',
+            name: 'visibleForRole',
+            message: 'What roles is this field visible for? String with commas, no spaces'
+        },
+        {
             when: response => response.relationshipAdd === true,
             type: 'input',
             name: 'otherEntityName',
@@ -926,6 +938,27 @@ function askForRelationship(done) {
                 return true;
             },
             message: 'What is the name of the other entity?'
+        },
+        {
+            when: response => response.relationshipAdd === true,
+            type: 'input',
+            name: 'otherEntityName2',
+            validate: input => {
+                if (!/^([a-zA-Z0-9_]*)$/.test(input)) {
+                    return 'Your other entity name cannot contain special characters';
+                }
+                if (input === '') {
+                    return 'Your other entity name cannot be empty';
+                }
+                if (jhiCore.isReservedKeyword(input, 'JAVA')) {
+                    return 'Your other entity name cannot contain a Java reserved keyword';
+                }
+                if (input.toLowerCase() === 'user' && context.applicationType === 'microservice') {
+                    return "Your entity cannot have a relationship with User because it's a gateway entity";
+                }
+                return true;
+            },
+            message: 'What is the name of the other entity 2?'
         },
         {
             when: response => response.relationshipAdd === true,
