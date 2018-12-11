@@ -25,8 +25,6 @@ import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } else { _%>
 import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } _%>
-import <%=packageName%>.domain.*;
-import java.util.Set;
 <%_ if (pagination !== 'no' || fieldsContainOwnerManyToMany === true) { _%>
 
 import org.springframework.data.domain.Page;
@@ -40,8 +38,6 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 <%_ } _%>
 import java.util.Optional;
-import java.time.Instant;
-import java.time.LocalDate;
 <%_ if (databaseType === 'cassandra') { _%>
 import java.util.UUID;
 <%_ } _%>
@@ -138,7 +134,7 @@ public interface <%= entityClass %>Service {
      *
      * @return the entity
      */
-     <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%- include('../common/list-of-fields_n_relationships_template', {returnDirectly:true}); -%>);
+     <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %> param);
 
     <%_ }
     } _%>
