@@ -47,7 +47,7 @@ function askForGenerateMenuItem() {
     const prompts = [
         {
             type: 'confirm',
-            name: 'askForGenerateMenuItem',
+            name: 'generateMenuItem',
             message: 'Do you want to generate menu item?',
             default: true
         }
@@ -872,6 +872,7 @@ function askForField(done) {
 
             const field = {
                 fieldName: props.fieldName,
+                visibleForRole: props.visibleForRole,
                 fieldType: props.fieldType,
                 fieldTypeBlobContent: props.fieldTypeBlobContent,
                 fieldValues: props.fieldValues,
@@ -913,7 +914,7 @@ function askForRelationship(done) {
             default: true
         },
         {
-            when: response => response.fieldAdd === true,
+            when: response => response.relationshipAdd === true,
             type: 'input',
             name: 'visibleForRole',
             message: 'What roles is this field visible for? String with commas, no spaces'
@@ -1082,10 +1083,12 @@ function askForRelationship(done) {
         if (props.relationshipAdd) {
             const relationship = {
                 relationshipName: props.relationshipName,
+                visibleForRole: props.visibleForRole,
                 otherEntityName: _.lowerFirst(props.otherEntityName),
                 relationshipType: props.relationshipType,
                 relationshipValidateRules: props.relationshipValidateRules,
                 otherEntityField: props.otherEntityField,
+                otherEntityName2: props.otherEntityName2,
                 ownerSide: props.ownerSide,
                 otherEntityRelationshipName: props.otherEntityRelationshipName
             };

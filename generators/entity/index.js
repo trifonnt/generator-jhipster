@@ -505,7 +505,7 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
-                    if (_.isUndefined(field.visibleForRole)) {
+                    if (_.isUndefined(relationship.visibleForRole)) {
                         relationship.visibleForRole = '';
                     }
                     if (_.isUndefined(relationship.otherEntityName)) {
@@ -620,6 +620,7 @@ module.exports = class extends BaseBlueprintGenerator {
             },
 
             writeEntityJson() {
+                this.log("HERE")
                 const context = this.context;
                 if (context.useConfigurationFile && context.updateEntity === 'regenerate') {
                     return; // do not update if regenerating entity
@@ -633,6 +634,7 @@ module.exports = class extends BaseBlueprintGenerator {
                 this.data.clientRootFolder = context.clientRootFolder;
                 this.data.relationships = context.relationships;
                 this.data.fields = context.fields;
+                this.log(context)
                 this.data.changelogDate = context.changelogDate;
                 this.data.dto = context.dto;
                 this.data.searchEngine = context.searchEngine;
@@ -655,10 +657,12 @@ module.exports = class extends BaseBlueprintGenerator {
                 if (context.applicationType === 'gateway' && context.useMicroserviceJson) {
                     this.data.microserviceName = context.microserviceName;
                 }
+                this.log("WRITEEE")
                 this.fs.writeJSON(context.filename, this.data, null, 4);
             },
 
             loadInMemoryData() {
+                console.log("HERELOADING")
                 const context = this.context;
                 const entityName = context.name;
                 const entityNamePluralizedAndSpinalCased = _.kebabCase(pluralize(entityName));
