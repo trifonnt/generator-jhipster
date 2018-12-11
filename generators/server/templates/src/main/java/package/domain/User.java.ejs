@@ -200,7 +200,7 @@ public class User<% if (databaseType === 'sql' || databaseType === 'mongodb' || 
         this.id = id;
     }
     //@Trifon
-    public User setId(<% if (databaseType === 'sql' && authenticationType !== 'oauth2') { %>Long<% } else { %>String<% } %> id) {
+    public User id(<% if (databaseType === 'sql' && authenticationType !== 'oauth2') { %>Long<% } else { %>String<% } %> id) {
         this.id = id;
         return this;
     }
