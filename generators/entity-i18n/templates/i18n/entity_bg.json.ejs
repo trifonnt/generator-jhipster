@@ -26,9 +26,9 @@ let helpBlocks = 0; %>
                 "createOrEditLabel": "Създай или модифицирай <%= entityClassHumanized %>"<% if (searchEngine === 'elasticsearch') { %>,
                 "search": "Търси <%= entityClassHumanized %>"<% } %>
             },<% if (!microserviceAppName) { %>
-            "created": "Създаден е нов <%= entityClassHumanized %> с ключ {{ param }}",
-            "updated": "<%= entityClassHumanized %> с ключ {{ param }} е модифициран",
-            "deleted": "<%= entityClassHumanized %> с ключ {{ param }} е изтрит",<% } %>
+            "created": "Създаден е нов <%= entityClassHumanized %> с ключ {{ id }}",
+            "updated": "<%= entityClassHumanized %> с ключ {{ id }} е модифициран",
+            "deleted": "<%= entityClassHumanized %> с ключ {{ id }} е изтрит",<% } %>
             "delete": {
                 "question": "Сигурни ли сте, че искате да изтриете <%= entityClassHumanized %> {{ id }}?"
             },
@@ -49,9 +49,9 @@ let helpBlocks = 0; %>
     }<% if (microserviceAppName) { %>,
     "<%= microserviceAppName %>": {
         "<%= entityTranslationKey %>" : {
-            "created": "Създаден е нов <%= entityClassHumanized %> с ключ {{ param }}",
-            "updated": "<%= entityClassHumanized %> с ключ {{ param }} е модифициран",
-            "deleted": "<%= entityClassHumanized %> с ключ {{ param }} е изтрит"
+            "created": "Създаден е нов <%= entityClassHumanized %> с ключ {{ id }}",
+            "updated": "<%= entityClassHumanized %> с ключ {{ id }} е модифициран",
+            "deleted": "<%= entityClassHumanized %> с ключ {{ id }} е изтрит"
         }
     }<% } %>
 }
