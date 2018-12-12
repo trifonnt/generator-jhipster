@@ -26,11 +26,11 @@ let helpBlocks = 0; %>
                 "createOrEditLabel": "<%= entityClassHumanized %> erstellen oder bearbeiten"<% if (searchEngine === 'elasticsearch') { %>,
                 "search": "Suche nach <%= entityClassHumanized %>"<% } %>
             },<% if (!microserviceAppName) { %>
-            "created": "<%= entityClassHumanized %> erstellt mit ID {{ id }}",
-            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {{ id }}",
-            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {{ id }}",<% } %>
+            "created": "<%= entityClassHumanized %> erstellt mit ID {id}",
+            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {id}",
+            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {id}",<% } %>
             "delete": {
-                "question": "Soll <%= entityClassHumanized %> {{ id }} wirklich dauerhaft gelöscht werden?"
+                "question": "Soll <%= entityClassHumanized %> {id} wirklich dauerhaft gelöscht werden?"
             },
             "detail": {
                 "title": "<%= entityClassHumanized %>"
@@ -49,9 +49,9 @@ let helpBlocks = 0; %>
     }<% if (microserviceAppName) { %>,
     "<%= microserviceAppName %>": {
         "<%= entityTranslationKey %>" : {
-            "created": "<%= entityClassHumanized %> erstellt mit ID {{ id }}",
-            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {{ id }}",
-            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {{ id }}"
+            "created": "<%= entityClassHumanized %> erstellt mit ID {id}",
+            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {id}",
+            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {id}"
         }
     }<% } %>
 }
