@@ -32,16 +32,22 @@ for (idx in fields) {
 }
 
 for (idx in relationships) {
-    const relationshipType = relationships[idx].relationshipType;
-    const ownerSide = relationships[idx].ownerSide;
     const relationshipName = relationships[idx].relationshipName;
+    const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
+    const relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural;
+    const relationshipNameHumanized = relationships[idx].relationshipNameHumanized;
     const relationshipFieldName = relationships[idx].relationshipFieldName;
     const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
-    const relationshipNameHumanized = relationships[idx].relationshipNameHumanized;
+    const ownerSide = relationships[idx].ownerSide;
+    const relationshipType = relationships[idx].relationshipType;
     const otherEntityName = relationships[idx].otherEntityName;
-    const otherEntityStateName = relationships[idx].otherEntityStateName;
+    const otherEntityNamePlural = relationships[idx].otherEntityNamePlural;
+    const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
     const otherEntityField = relationships[idx].otherEntityField;
     const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized;
+    const otherEntityStateName = relationships[idx].otherEntityStateName;
+    const otherEntityRelationshipNameCapitalized = relationships[idx].otherEntityRelationshipNameCapitalized;
+    const otherEntityRelationshipNameCapitalizedPlural = relationships[idx].otherEntityRelationshipNameCapitalizedPlural;
     if (
     	   (relationshipType === 'one-to-many')
     	|| (relationshipType === 'many-to-many')
@@ -52,7 +58,6 @@ for (idx in relationships) {
     } else {
         fieldsArray.push('.' + relationships[idx].relationshipName + '(' + relationships[idx].relationshipName + ')');
     }
-
 }
 
     result = fieldsArray.join('\r\n							');
