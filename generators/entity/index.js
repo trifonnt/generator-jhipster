@@ -368,6 +368,10 @@ module.exports = class extends BaseBlueprintGenerator {
                         field.visibleForRole = '';
                     }
 
+                    if (_.isUndefined(field.readonlyForRole)) {
+                        field.readonlyForRole = '';
+                    }
+
                     if (_.isUndefined(field.fieldType)) {
                         this.error(
                             chalk.red(`fieldType is missing in .jhipster/${entityName}.json for field ${JSON.stringify(field, null, 4)}`)
@@ -505,8 +509,8 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
-                    if (_.isUndefined(relationship.visibleForRole)) {
-                        relationship.visibleForRole = '';
+                    if (_.isUndefined(relationship.readonlyForRole)) {
+                        relationship.readonlyForRole = '';
                     }
                     if (_.isUndefined(relationship.otherEntityName)) {
                         this.error(

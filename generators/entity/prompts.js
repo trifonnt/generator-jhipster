@@ -506,7 +506,15 @@ function askForField(done) {
             when: response => response.fieldAdd === true,
             type: 'input',
             name: 'visibleForRole',
-            message: 'What roles is this field visible for? String with commas, no spaces'
+            message: 'What roles is this field visible for? String with commas, no spaces',
+            default: "ROLE_USER,ROLE_ADMIN"
+        },
+        {
+            when: response => response.fieldAdd === true,
+            type: 'input',
+            name: 'readonlyForRole',
+            message: 'What roles is this field read only for? String with commas, no spaces',
+            default: false,
         },
         {
             when: response => response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'couchbase'].includes(databaseType)),
@@ -873,6 +881,7 @@ function askForField(done) {
             const field = {
                 fieldName: props.fieldName,
                 visibleForRole: props.visibleForRole,
+                readonlyForRole: props.readonlyForRole,
                 fieldType: props.fieldType,
                 fieldTypeBlobContent: props.fieldTypeBlobContent,
                 fieldValues: props.fieldValues,
@@ -917,7 +926,15 @@ function askForRelationship(done) {
             when: response => response.relationshipAdd === true,
             type: 'input',
             name: 'visibleForRole',
-            message: 'What roles is this field visible for? String with commas, no spaces'
+            message: 'What roles is this field visible for? String with commas, no spaces',
+            default: "ROLE_USER,ROLE_ADMIN"
+        },
+        {
+            when: response => response.relationshipAdd === true,
+            type: 'input',
+            name: 'readonlyForRole',
+            message: 'What roles is this field read only for? String with commas, no spaces',
+            default: false
         },
         {
             when: response => response.relationshipAdd === true,
@@ -1084,6 +1101,7 @@ function askForRelationship(done) {
             const relationship = {
                 relationshipName: props.relationshipName,
                 visibleForRole: props.visibleForRole,
+                readonlyForRole: props.readonlyForRole,
                 otherEntityName: _.lowerFirst(props.otherEntityName),
                 relationshipType: props.relationshipType,
                 relationshipValidateRules: props.relationshipValidateRules,
