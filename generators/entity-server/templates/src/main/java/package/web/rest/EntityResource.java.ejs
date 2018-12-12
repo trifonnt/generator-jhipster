@@ -201,6 +201,19 @@ public class <%= entityClass %>Resource {
     }
 
     /**
+     * GET  /<%= entityApiUrl %>/template : get the Template JSON for <%= entityInstance %>.
+     *
+     * @return the ResponseEntity with status 200 (OK) and with body the <%= instanceName %>, or with status 404 (Not Found)
+     */
+    @GetMapping("/<%= entityApiUrl %>/template")
+    @Timed
+    public ResponseEntity<<%= instanceType %>> getTemplate<%= entityClass %>() {
+        log.debug("REST request to get Template for <%= entityClass %>");        
+//        return ResponseUtil.wrapOrNotFound(Optional.of(new <%= instanceType %>()));
+        return ResponseEntity.ok().body(new <%= instanceType %>());
+    }
+
+    /**
      * DELETE  /<%= entityApiUrl %>/:id : delete the "id" <%= entityInstance %>.
      *
      * @param id the id of the <%= instanceName %> to delete
