@@ -39,6 +39,7 @@ import <%=packageName%>.repository.UserRepository;
 import <%=packageName%>.web.rest.errors.BadRequestAlertException;
 import <%=packageName%>.web.rest.util.HeaderUtil;<% if (pagination !== 'no') { %>
 import <%=packageName%>.web.rest.util.PaginationUtil;<% } %>
+import <%=packageName%>.service.dto.IdArrayDTO;
 <%_ if (dto === 'mapstruct') { _%>
 import <%=packageName%>.service.dto.<%= entityClass %>DTO;
 <%_ if (service === 'no') { _%>
