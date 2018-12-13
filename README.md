@@ -10,3 +10,5 @@ List of new features added to JHipster:
 [x] Generate methods <ENTITY> getOrCreateBy<UNIQUE_FIELD>(...) in Java service classes.
 
 [x] Generate method to delete multiple records by ids in Java REST Resource classes.
+
+[x] Generate REST endpoint /<ENTITY>/template which returns template for new record creation.
