@@ -228,6 +228,24 @@ public class <%= entityClass %>Resource {
     }<% if (searchEngine === 'elasticsearch') { %>
 
     /**
+     * DELETE  /<%= entityApiUrl %>/ : delete list of <%= entityInstance %>.
+     *
+     * @param IdArrayDTO the list with <%= entityClass %> ids to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    //   Delete multiple records using REST
+    // - https://stackoverflow.com/questions/21863326/delete-multiple-records-using-rest
+    @DeleteMapping("/<%= entityApiUrl %>")
+    @Timed
+    public ResponseEntity<Void> delete<%= entityClassPlural %>(@Valid @RequestBody IdArrayDTO idArrayDTO) {
+        log.debug("REST request to delete MULTIPLE <%= entityClassPlural %> : {}", idArrayDTO);
+        for (Long id : idArrayDTO.getIds()) {
+<%- include('../../common/delete_template', {viaService: viaService}); -%>
+        }
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idArrayDTO.getIds().toString())).build();
+    }
+
+    /**
      * SEARCH  /_search/<%= entityApiUrl %>?query=:query : search for the <%= entityInstance %> corresponding
      * to the query.
      *
