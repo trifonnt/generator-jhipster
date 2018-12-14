@@ -38,9 +38,6 @@ import java.math.BigDecimal;
 <%_ if (fieldsContainBlob && databaseType === 'cassandra') { _%>
 import java.nio.ByteBuffer;
 <%_ } _%>
-<%_ if (fieldsContainOwnerManyToMany) { _%>
-import java.util.HashSet;
-import java.util.Set;
 <%_ } if (importSet === true) { _%>
 import java.util.HashSet;
 import java.util.Set;
@@ -124,24 +121,24 @@ for (idx in fields) {
         return <%= fieldName %>;
     }
 
-    <%_ if (fieldTypeBlobContent !== 'text') { _%>
+<%_ if (fieldTypeBlobContent !== 'text') { _%>
     public <%= entityClass %>Builder <%= fieldName %>(<%= fieldType %> <%= fieldName %>) {
-    <%_ } else { _%>
+<%_ } else { _%>
     public <%= entityClass %>Builder <%= fieldName %>(String <%= fieldName %>) {
-    <%_ } _%>
+<%_ } _%>
         this.<%= fieldName %> = <%= fieldName %>;
         return this;
     }
 
-        <%_ if (fieldTypeBlobContent !== 'text') { _%>
+<%_ if (fieldTypeBlobContent !== 'text') { _%>
     public void set<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>) {
-        <%_ } else { _%>
+<%_ } else { _%>
     public void set<%= fieldInJavaBeanMethod %>(String <%= fieldName %>) {
-        <%_ } _%>
+<%_ } _%>
         this.<%= fieldName %> = <%= fieldName %>;
     }
-        <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
 
+<%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
     public String get<%= fieldInJavaBeanMethod %>ContentType() {
         return <%= fieldName %>ContentType;
     }
@@ -154,9 +151,10 @@ for (idx in fields) {
     public void set<%= fieldInJavaBeanMethod %>ContentType(String <%= fieldName %>ContentType) {
         this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
     }
-        <%_ } _%>
-    <%_ } _%>
-<%_
+
+<%_ }
+}
+
 for (idx in relationships) {
         const relationshipFieldName = relationships[idx].relationshipFieldName;
         const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
