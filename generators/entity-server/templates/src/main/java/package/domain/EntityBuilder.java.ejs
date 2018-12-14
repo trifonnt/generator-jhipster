@@ -208,6 +208,12 @@ if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') {
 <%_ }
 } _%>
 
+	public <%= entityClass %> build() {
+		return new <%= entityClass %>()
+			<%- include('../common/list-of-fields_names_n_values3_template', {returnDirectly:true}); -%>
+		;
+	}
+
     @Override
     public String toString() {
         return "<%= entityClass %>Builder{" +
