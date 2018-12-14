@@ -32,7 +32,6 @@ import java.time.LocalDate;
 <%_ if (fieldsContainZonedDateTime) { _%>
 import java.time.ZonedDateTime;
 <%_ } _%>
-import java.io.Serializable;
 <%_ if (fieldsContainBigDecimal) { _%>
 import java.math.BigDecimal;
 <%_ } _%>
@@ -46,7 +45,6 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Set;
 <%_ } _%>
-import java.util.Objects;
 <%_ if (databaseType === 'cassandra') { _%>
 import java.util.UUID;
 <%_ } _%>
@@ -88,6 +86,7 @@ public class <%= entityClass %>Builder {
 
 <%_ }
 }
+
 for (idx in relationships) {
     const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
     const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
@@ -102,11 +101,11 @@ for (idx in relationships) {
     const ownerSide = relationships[idx].ownerSide;
 
     if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') { _%>
-
     private Set<<%= otherEntityNameCapitalized %>> <%= relationshipFieldNamePlural %> = new HashSet<>();
-<%_ } else { _%>
 
+<%_ } else { _%>
     private <%= otherEntityNameCapitalized %> <%= relationshipFieldName %>;
+
 <%_ }
 }
 
@@ -118,10 +117,8 @@ for (idx in fields) {
     const fieldName = fields[idx].fieldName;
 
     if (fieldTypeBlobContent !== 'text') { _%>
-
     public <%= fieldType %> <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<%_ } _%><%= fieldInJavaBeanMethod %>() {
 <%_ } else { _%>
-
     public String get<%= fieldInJavaBeanMethod %>() {
 <%_ } _%>
         return <%= fieldName %>;
