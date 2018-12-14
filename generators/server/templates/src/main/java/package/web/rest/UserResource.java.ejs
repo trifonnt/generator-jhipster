@@ -120,6 +120,9 @@ public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
+    // @Trifon
+    private static final String ENTITY_NAME = "userManagement";
+
     private final UserService userService;
 <%_ if (authenticationType !== 'oauth2') { _%>
 
@@ -166,7 +169,7 @@ public class UserResource {
         log.debug("REST request to save User : {}", userDTO);
 
         if (userDTO.getId() != null) {
-            throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
+            throw new BadRequestAlertException("A new user cannot already have an ID", ENTITY_NAME, "idexists");
             // Lowercase the user login before comparing with database
         <%_ if (!reactive) { _%>
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
@@ -177,7 +180,7 @@ public class UserResource {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> "userManagement.created"<% } else { %> "A user is created with identifier " + newUser.getLogin()<% } %>, newUser.getLogin()))
+                .headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> ENTITY_NAME+".created"<% } else { %> "A user is created with identifier " + newUser.getLogin()<% } %>, newUser.getLogin()))
                 .body(newUser);
         }
         <%_ } else { _%>
@@ -201,7 +204,7 @@ public class UserResource {
             .map(user -> {
                 try {
                     return ResponseEntity.created(new URI("/api/users/" + user.getLogin()))
-                        .headers(HeaderUtil.createAlert( "userManagement.created", user.getLogin()))
+                        .headers(HeaderUtil.createAlert( ENTITY_NAME+".created", user.getLogin()))
                         .body(user);
                 } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
@@ -235,7 +238,7 @@ public class UserResource {
         Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
 
         return ResponseUtil.wrapOrNotFound(updatedUser,
-            HeaderUtil.createAlert(<% if (enableTranslation) { %>"userManagement.updated"<% } else { %>"A user is updated with identifier " + userDTO.getLogin()<% } %>, userDTO.getLogin()));
+            HeaderUtil.createAlert(<% if (enableTranslation) { %>ENTITY_NAME+".updated"<% } else { %>"A user is updated with identifier " + userDTO.getLogin()<% } %>, userDTO.getLogin()));
     <%_ } else { _%>
     public Mono<ResponseEntity<UserDTO>> updateUser(@Valid @RequestBody UserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
@@ -258,7 +261,7 @@ public class UserResource {
             })
             .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
             .map(user -> ResponseEntity.ok()
-                .headers(HeaderUtil.createAlert("userManagement.updated", userDTO.getLogin()))
+                .headers(HeaderUtil.createAlert(ENTITY_NAME+".updated", userDTO.getLogin()))
                 .body(user)
             );
     <%_ } _%>
@@ -366,12 +369,12 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> "userManagement.deleted"<% } else { %> "A user is deleted with identifier " + login<% } %>, login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> ENTITY_NAME+".deleted"<% } else { %> "A user is deleted with identifier " + login<% } %>, login)).build();
     <%_ } else { _%>
     public Mono<ResponseEntity<Void>> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         return userService.deleteUser(login)
-            .map(it -> ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build());
+            .map(it -> ResponseEntity.ok().headers(HeaderUtil.createAlert( ENTITY_NAME+".deleted", login)).build());
     <%_ } _%>
     }
 
@@ -389,12 +392,12 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         log.debug("REST request to delete User: {}", id);
         userService.deleteUser(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> "userManagement.deleted"<% } else { %> "A user is deleted with id " + id<% } %>, String.valueOf(id))).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(<% if (enableTranslation) {%> ENTITY_NAME+".deleted"<% } else { %> "A user is deleted with id " + id<% } %>, String.valueOf(id))).build();
     <%_ } else { _%>
     public Mono<ResponseEntity<Void>> deleteUser(@PathVariable Long id) {
         log.debug("REST request to delete User: {}", id);
         return userService.deleteUser(id)
-            .map(it -> ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", String.valuesOf(id))).build());
+            .map(it -> ResponseEntity.ok().headers(HeaderUtil.createAlert( ENTITY_NAME+".deleted", String.valuesOf(id))).build());
     <%_ } _%>
     }
 
