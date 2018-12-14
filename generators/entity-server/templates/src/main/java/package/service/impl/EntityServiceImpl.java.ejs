@@ -237,10 +237,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 		if (<%= instanceName %> == null) {
 			<%= instanceName %> = 
 				save( 
-					<%= entityInstance %>Mapper.toDto(
-						new <%= entityClass %>()
-							<%- include('../../common/list-of-fields_names_n_values2_template', {returnDirectly:true}); -%>
-					)
+					<%= entityInstance %>Mapper.toDto(builder.build())
 				);
 		}
 		log.debug("Trifon - <%= entityClass %>.Id = " + <%= instanceName %>.getId());
