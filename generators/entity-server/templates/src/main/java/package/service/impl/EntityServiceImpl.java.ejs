@@ -30,6 +30,7 @@ package <%= packageName %>.service<% if (service === 'serviceImpl') { %>.impl<% 
     if (service === 'serviceImpl') { %>
 import <%= packageName %>.service.<%= entityClass %>Service;<% } %>
 import <%= packageName %>.domain.<%= entityClass %>;
+import <%= packageName %>.domain.<%= entityClass %>Builder;
 import <%= packageName %>.repository.<%= entityClass %>Repository;
 <%_ if (reactiveRepositories) { _%>
 import <%= packageName %>.repository.reactive.<%= entityClass %>ReactiveRepository;
@@ -231,7 +232,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 * @return the entity
 	 */
 	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder) {
-		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(bulder.get<%= fieldInJavaBeanMethod %>())
+		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(builder.get<%= fieldInJavaBeanMethod %>())
 				.orElse(null);
 		if (<%= instanceName %> == null) {
 			<%= instanceName %> = 
