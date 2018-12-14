@@ -147,55 +147,75 @@ public class <%= entityClass %>Builder {
     }
         <%_ } _%>
     <%_ } _%>
-    <%_ for (idx in relationships) {
-        relationshipFieldName = relationships[idx].relationshipFieldName,
-        relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural,
-        otherEntityName = relationships[idx].otherEntityName,
-        otherEntityNamePlural = relationships[idx].otherEntityNamePlural,
-        relationshipType = relationships[idx].relationshipType,
-        otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized,
-        otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized,
-        relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized,
-        relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural,
-        ownerSide = relationships[idx].ownerSide;
-        if (relationshipType === 'many-to-many' && ownerSide === true) { _%>
+<%_
+    for (idx in relationships) {
+        const relationshipFieldName = relationships[idx].relationshipFieldName;
+        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+        const relationshipType = relationships[idx].relationshipType;
+        const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+        const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
+        const relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural;
+        const otherEntityName = relationships[idx].otherEntityName;
+        const otherEntityNamePlural = relationships[idx].otherEntityNamePlural;
+        const otherEntityRelationshipNameCapitalized = relationships[idx].otherEntityRelationshipNameCapitalized;
+        const otherEntityRelationshipNameCapitalizedPlural = relationships[idx].otherEntityRelationshipNameCapitalizedPlural;
+    _%>
+    <%_ if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') { _%>
 
     public Set<<%= otherEntityNameCapitalized %>> get<%= relationshipNameCapitalizedPlural %>() {
         return <%= relationshipFieldNamePlural %>;
     }
+        <%_ if (fluentMethods) { _%>
+
+    public <%= entityClass %> <%= relationshipFieldNamePlural %>(Set<<%= otherEntityNameCapitalized %>> <%= otherEntityNamePlural %>) {
+        this.<%= relationshipFieldNamePlural %> = <%= otherEntityNamePlural %>;
+        return this;
+    }
+
+    public <%= entityClass %> add<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldNamePlural %>.add(<%= otherEntityName %>);
+            <%_ if (relationshipType === 'one-to-many') { _%>
+        <%= otherEntityName %>.set<%= otherEntityRelationshipNameCapitalized %>(this);
+            <%_ } else if (otherEntityRelationshipNameCapitalizedPlural !== '' && relationshipType === 'many-to-many') {
+                // JHipster version < 3.6.0 didn't ask for this relationship name _%>
+        <%= otherEntityName %>.get<%= otherEntityRelationshipNameCapitalizedPlural %>().add(this);
+            <%_ } _%>
+        return this;
+    }
+
+    public <%= entityClass %> remove<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldNamePlural %>.remove(<%= otherEntityName %>);
+            <%_ if (relationshipType === 'one-to-many') { _%>
+        <%= otherEntityName %>.set<%= otherEntityRelationshipNameCapitalized %>(null);
+            <%_ } else if (otherEntityRelationshipNameCapitalizedPlural !== '' && relationshipType === 'many-to-many') {
+                // JHipster version < 3.6.0 didn't ask for this relationship name _%>
+        <%= otherEntityName %>.get<%= otherEntityRelationshipNameCapitalizedPlural %>().remove(this);
+            <%_ } _%>
+        return this;
+    }
+        <%_ } _%>
 
     public void set<%= relationshipNameCapitalizedPlural %>(Set<<%= otherEntityNameCapitalized %>> <%= otherEntityNamePlural %>) {
         this.<%= relationshipFieldNamePlural %> = <%= otherEntityNamePlural %>;
     }
-    <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) { _%>
+    <%_ } else { _%>
 
-    <%_ if (relationshipNameCapitalized.length > 1) { _%>
-    public <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>String<% } else { %><%= pkType %><% } %> get<%= relationshipNameCapitalized %>Id() {
-        return <%= relationshipFieldName %>Id;
+    public <%= otherEntityNameCapitalized %> get<%= relationshipNameCapitalized %>() {
+        return <%= relationshipFieldName %>;
     }
+        <%_ if (fluentMethods) { _%>
 
-    public void set<%= relationshipNameCapitalized %>Id(<% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>String<% } else { %><%= pkType %><% } %> <%= otherEntityName %>Id) {
-        this.<%= relationshipFieldName %>Id = <%= otherEntityName %>Id;
+    public <%= entityClass %> <%= relationshipFieldName %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldName %> = <%= otherEntityName %>;
+        return this;
     }
-    <%_ } else { // special case when the entity name has one character _%>
-    public <%= pkType %> get<%= relationshipNameCapitalized.toLowerCase() %>Id() {
-        return <%= relationshipFieldName %>Id;
-    }
+        <%_ } _%>
 
-    public void set<%= relationshipNameCapitalized.toLowerCase() %>Id(<%= pkType %> <%= otherEntityName %>Id) {
-        this.<%= relationshipFieldName %>Id = <%= otherEntityName %>Id;
+    public void set<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldName %> = <%= otherEntityName %>;
     }
     <%_ } _%>
-    <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
-
-    public String get<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>() {
-        return <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>;
-    }
-
-    public void set<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>(String <%= otherEntityName %><%= otherEntityFieldCapitalized %>) {
-        this.<%= relationshipFieldName %><%= otherEntityFieldCapitalized %> = <%= otherEntityName %><%= otherEntityFieldCapitalized %>;
-    }
-    <%_ } } } _%>
+<%_ } _%>
 
     @Override
     public String toString() {
@@ -205,7 +225,7 @@ public class <%= entityClass %>Builder {
                 const fieldName = fields[idx].fieldName;
                 const fieldType = fields[idx].fieldType;
                 const isNumeric = ['integer', 'long', 'float', 'double', 'bigdecimal'].includes(fieldType.toLowerCase());
-                let startLineCharacter = isFirstField ? '' : ',';
+                let startLineCharacter = isFirstField ? ' ' : ',';
                 isFirstField = false; _%>
             "<%= startLineCharacter %> <%= fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fields[idx].fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
             <%_ } _%>
@@ -215,7 +235,7 @@ public class <%= entityClass %>Builder {
                 const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
                 const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized;
                 const ownerSide = relationships[idx].ownerSide;
-                let startLineCharacter = isFirstField ? '' : ',';
+                let startLineCharacter = isFirstField ? ' ' : ',';
                 isFirstField = false; _%>
                 <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) { _%>
             "<%= startLineCharacter %> <%= relationshipFieldName %>=<% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>'<% } %>" + get<%= relationshipNameCapitalized %>Id() <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>+ "'" <% } %>+
