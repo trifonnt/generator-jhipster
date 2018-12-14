@@ -230,8 +230,8 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 *
 	 * @return the entity
 	 */
-	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %> param) {
-		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(param.get<%= fieldInJavaBeanMethod %>())
+	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder) {
+		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(bulder.get<%= fieldInJavaBeanMethod %>())
 				.orElse(null);
 		if (<%= instanceName %> == null) {
 			<%= instanceName %> = 
