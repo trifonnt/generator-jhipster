@@ -235,10 +235,8 @@ if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') {
                 let startLineCharacter = isFirstField ? ' ' : ',';
                 isFirstField = false; _%>
                 <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) { _%>
-            "<%= startLineCharacter %> <%= relationshipFieldName %>=<% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>'<% } %>" + get<%= relationshipNameCapitalized %>Id() <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>+ "'" <% } %>+
-                    <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
-            "<%= startLineCharacter %> <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>() + "'" +
-            <%_ } } } _%>
+            "<%= startLineCharacter %> <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
+            <%_ } } _%>
             "}";
     }
 }
