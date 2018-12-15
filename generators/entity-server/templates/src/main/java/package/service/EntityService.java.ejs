@@ -56,6 +56,15 @@ public interface <%= entityClass %>Service {
     <%= instanceType %> save(<%= instanceType %> <%= instanceName %>);
 
     /**
+     * Save a <%= entityInstance %>.
+     *
+     * @param <%= entityInstance %> the entity to save
+     * @return the persisted entity
+     */
+     // @Trifon
+    <%= entityClass %> save(<%= entityClass %> <%= entityInstance %>);
+
+    /**
      * Get all the <%= entityInstancePlural %>.
      *<% if (pagination !== 'no') { %>
      * @param pageable the pagination information<% } %>

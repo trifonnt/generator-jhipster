@@ -102,6 +102,25 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 <%- include('../../common/save_template', {viaService: viaService, returnDirectly: true}); -%>
     }
 
+	/**
+	 * Save a <%= entityInstance %>.
+	 *
+	 * @param <%= instanceName %> the entity to save
+	 * @return the persisted entity
+	 */
+	<%_ if (service === 'serviceImpl') { _%>
+	@Override
+	<%_ } _%>
+	// @Trifon
+	public <%= entityClass %> save(<%= entityClass %> <%= entityInstance %>) {
+		log.debug("Request to save <%= entityClass %> : {}", <%= entityInstance %>);
+		<%= entityInstance %> <%= entityInstance %>Repository.save(<%= entityInstance %>);
+		<%_ } if (searchEngine === 'elasticsearch') { _%>
+		<%= entityInstance %>SearchRepository.save(<%= entityInstance %>);
+		<%_ } _%>
+		return result;
+	}
+
     /**
      * Get all the <%= entityInstancePlural %>.
      *<% if (pagination !== 'no') { %>
@@ -232,17 +251,14 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 * @return the entity
 	 */
 	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder) {
-		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(builder.get<%= fieldInJavaBeanMethod %>())
+		<%= entityClass %> <%= entityInstance %> = <%= entityInstance %>Repository.findOneBy<%= fieldInJavaBeanMethod %>(builder.get<%= fieldInJavaBeanMethod %>())
 				.orElse(null);
-		if (<%= instanceName %> == null) {
-			<%= instanceName %> = 
-				save( 
-					<%= entityInstance %>Mapper.toDto(builder.build())
-				);
+		if (<%= entityInstance %> == null) {
+			<%= entityInstance %> = save(builder.build());
 		}
-		log.debug("Trifon - <%= entityClass %>.Id = " + <%= instanceName %>.getId());
+		log.debug("Trifon - <%= entityClass %>.Id = " + <%= entityInstance %>.getId());
 
-		return <%= entityInstance %>Mapper.toEntity(<%= instanceName %>);
+		return <%= entityInstance %>;
 	}
     <%_ }
     }
