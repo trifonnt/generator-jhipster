@@ -115,7 +115,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	public <%= entityClass %> save(<%= entityClass %> <%= entityInstance %>) {
 		log.debug("Request to save <%= entityClass %> : {}", <%= entityInstance %>);
 		<%= entityInstance %> <%= entityInstance %>Repository.save(<%= entityInstance %>);
-		<%_ } if (searchEngine === 'elasticsearch') { _%>
+		<%_ if (searchEngine === 'elasticsearch') { _%>
 		<%= entityInstance %>SearchRepository.save(<%= entityInstance %>);
 		<%_ } _%>
 		return result;
