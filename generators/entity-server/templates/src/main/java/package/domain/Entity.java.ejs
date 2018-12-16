@@ -203,9 +203,18 @@ public class <%= entityClass %> implements Serializable {
       <%_ } _%>
       <%_ if (databaseType === 'mongodb' || databaseType === 'couchbase') { _%>
     @Field("<%=fieldNameUnderscored %>_content_type")
-    @Field("<%=fieldNameUnderscored %>_file_name")
       <%_ } _%>
     private String <%= fieldName %>ContentType;
+
+      <%_ if (databaseType === 'sql' || databaseType === 'cassandra') { _%>
+    @Column(<% if (databaseType !== 'cassandra') { %>name = <% } %>"<%-fieldNameAsDatabaseColumn %>_file_name"<% if (required && databaseType !== 'cassandra') { %>, nullable = false<% } %>)
+        <%_ if (required && databaseType === 'cassandra') { _%>
+    @NotNull
+        <%_ } _%>
+      <%_ } _%>
+      <%_ if (databaseType === 'mongodb' || databaseType === 'couchbase') { _%>
+    @Field("<%=fieldNameUnderscored %>_file_name")
+      <%_ } _%>
     private String <%= fieldName %>FileName;
 
     <%_ }
