@@ -92,7 +92,6 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ } _%>
     <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
     private String <%= fieldName %>ContentType;
-
     private String <%= fieldName %>FileName;
         <%_ } _%>
     <%_ } _%>
