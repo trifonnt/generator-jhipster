@@ -14,3 +14,5 @@ List of new features added to JHipster:
 [x] Generate REST endpoint /ENTITY/template which returns template for new record creation.
 
 [x] Generate Builder class for each ENTITY.
+
+[x] Save File name for byte[] field types.

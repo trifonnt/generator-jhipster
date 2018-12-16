@@ -203,8 +203,10 @@ public class <%= entityClass %> implements Serializable {
       <%_ } _%>
       <%_ if (databaseType === 'mongodb' || databaseType === 'couchbase') { _%>
     @Field("<%=fieldNameUnderscored %>_content_type")
+    @Field("<%=fieldNameUnderscored %>_file_name")
       <%_ } _%>
     private String <%= fieldName %>ContentType;
+    private String <%= fieldName %>FileName;
 
     <%_ }
     }
@@ -351,16 +353,29 @@ public class <%= entityClass %> implements Serializable {
     public String get<%= fieldInJavaBeanMethod %>ContentType() {
         return <%= fieldName %>ContentType;
     }
+
+    public String get<%= fieldInJavaBeanMethod %>FileName() {
+        return <%= fieldName %>FileName;
+    }
     <%_ if (fluentMethods) { _%>
 
     public <%= entityClass %> <%= fieldName %>ContentType(String <%= fieldName %>ContentType) {
         this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
         return this;
     }
+
+    public <%= entityClass %> <%= fieldName %>FileName(String <%= fieldName %>FileName) {
+        this.<%= fieldName %>FileName = <%= fieldName %>FileName;
+        return this;
+    }
     <%_ } _%>
 
     public void set<%= fieldInJavaBeanMethod %>ContentType(String <%= fieldName %>ContentType) {
         this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
+    }
+
+    public void set<%= fieldInJavaBeanMethod %>FileName(String <%= fieldName %>FileName) {
+        this.<%= fieldName %>FileName = <%= fieldName %>FileName;
     }
     <%_ } _%>
 <%_ } _%>
@@ -468,6 +483,7 @@ public class <%= entityClass %> implements Serializable {
             ", <%= fieldName %>=<% if (! isNumeric) {%>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
                 <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
             ", <%= fieldName %>ContentType='" + get<%= fieldInJavaBeanMethod %>ContentType() + "'" +
+            ", <%= fieldName %>FileName='" + get<%= fieldInJavaBeanMethod %>FileName() + "'" +
                 <%_ } _%>
             <%_ } _%>
             "}";
