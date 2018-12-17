@@ -363,7 +363,7 @@ public class <%= entityClass %> implements Serializable {
     <%_ } _%>
         this.<%= fieldName %> = <%= fieldName %>;
         <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
-        if (<%= fieldName %> == null) {
+        if (<%= fieldName %> == null || <%= fieldName %>.length == 0) {
         	<%= fieldName %>ContentType = null;
         	<%= fieldName %>FileName = null;
         }
