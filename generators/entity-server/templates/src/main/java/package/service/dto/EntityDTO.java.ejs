@@ -163,6 +163,10 @@ public class <%= entityClass %>DTO implements Serializable {
         return <%= fieldName %>FileName;
     }
 
+    public Boolean is<%= fieldInJavaBeanMethod %>Multiple() {
+        return false;
+    }
+
     public void set<%= fieldInJavaBeanMethod %>FileName(String <%= fieldName %>FileName) {
         this.<%= fieldName %>FileName = <%= fieldName %>FileName;
     }
