@@ -74,6 +74,10 @@ function askForControllerActions() {
                     {
                         name: 'DELETE',
                         value: 'Delete'
+                    },
+                    {
+                        name: 'PATCH',
+                        value: 'Patch'
                     }
                 ],
                 default: 1
