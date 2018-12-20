@@ -210,8 +210,12 @@ public class <%= entityClass %>Resource {
     @Timed
     public ResponseEntity<<%= instanceType %>> getTemplate<%= entityClass %>() {
         log.debug("REST request to get Template for <%= entityClass %>");        
-//        return ResponseUtil.wrapOrNotFound(Optional.of(new <%= instanceType %>()));
-        return ResponseEntity.ok().body(new <%= instanceType %>());
+
+        <%= instanceType %> <%= instanceName %> = new <%= instanceType %>();
+        // Populate all automatically populated fields!
+//        <%= instanceName %>.setCode();
+
+        return ResponseEntity.ok().body(<%= instanceName %>);
     }
 
     /**

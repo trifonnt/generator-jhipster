@@ -144,11 +144,25 @@ public class <%= entityClass %> implements Serializable {
     <%_ } _%>
     private <%= pkType %> id;
 
-<% include('../common/functions');
+<% include('../common/functions', {capitalLetter: false});
     if (hasUniqueField(fields) == false) {
-%>	private RecordSource recordSource;
+%>//	private RecordSource recordSource;
 
 	private String code;
+
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		if (code == null || code.isEmpty()) {
+			code = java.util.UUID.randomUUID().toString();
+		}
+	}
 <% } %>
 
 <%_ for (idx in fields) {
