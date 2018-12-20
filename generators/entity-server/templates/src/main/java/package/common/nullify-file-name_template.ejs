@@ -20,6 +20,7 @@
 <%
   const fieldsArray = [];
   let result = '';
+  let hasFields = false;
 
   const instanceType = (dto === 'mapstruct' && useDTO === true) ? entityClass + 'DTO' : entityClass;
   const instanceName = (dto === 'mapstruct' && useDTO === true) ? entityInstance + 'DTO' : entityInstance;
@@ -37,9 +38,13 @@ for (idx in fields) {
       fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'ContentType(null);');
       fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'FileName(null);');
       fieldsArray.push('}');
+      
+      hasFields = true;
     }
 }
-    result = fieldsArray.join('\r\n		');
-    result += '\r\n';
+    if (hasFields) {
+      result = fieldsArray.join('\r\n		');
+      result += '\r\n';
+    }
 -%>
 <%- result -%>

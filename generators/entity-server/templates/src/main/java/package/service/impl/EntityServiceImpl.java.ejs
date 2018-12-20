@@ -118,7 +118,6 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 		log.debug("Request to save <%= entityClass %> : {}", <%= entityInstance %>);
 
         <%- include('../../common/nullify-file-name_template', {useDTO: false}); -%>
-
 		<%= entityInstance %> = <%= entityInstance %>Repository.save(<%= entityInstance %>);
 		<%_ if (searchEngine === 'elasticsearch') { _%>
 		<%= entityInstance %>SearchRepository.save(<%= entityInstance %>);
