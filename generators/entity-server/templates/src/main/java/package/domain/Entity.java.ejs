@@ -346,12 +346,6 @@ public class <%= entityClass %> implements Serializable {
     public <%= entityClass %> <%= fieldName %>(String <%= fieldName %>) {
         <%_ } _%>
         this.<%= fieldName %> = <%= fieldName %>;
-        <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
-        if (<%= fieldName %> == null) {
-        	<%= fieldName %>ContentType = null;
-        	<%= fieldName %>FileName = null;
-        }
-        <%_ } _%>
         return this;
     }
     <%_ } _%>
@@ -362,12 +356,6 @@ public class <%= entityClass %> implements Serializable {
     public void set<%= fieldInJavaBeanMethod %>(String <%= fieldName %>) {
     <%_ } _%>
         this.<%= fieldName %> = <%= fieldName %>;
-        <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
-        if (<%= fieldName %> == null || <%= fieldName %>.length == 0) {
-        	<%= fieldName %>ContentType = null;
-        	<%= fieldName %>FileName = null;
-        }
-        <%_ } _%>
     }
     <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
 

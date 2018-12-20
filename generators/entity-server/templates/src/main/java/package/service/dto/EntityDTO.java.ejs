@@ -142,12 +142,6 @@ public class <%= entityClass %>DTO implements Serializable {
     public void set<%= fieldInJavaBeanMethod %>(String <%= fieldName %>) {
         <%_ } _%>
         this.<%= fieldName %> = <%= fieldName %>;
-        <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
-        if (<%= fieldName %> == null || <%= fieldName %>.length == 0) {
-        	<%= fieldName %>ContentType = null;
-        	<%= fieldName %>FileName = null;
-        }
-        <%_ } _%>
     }
         <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
 
@@ -163,7 +157,7 @@ public class <%= entityClass %>DTO implements Serializable {
         return <%= fieldName %>FileName;
     }
 
-    public Boolean is<%= fieldInJavaBeanMethod %>Multiple() {
+    public boolean is<%= fieldInJavaBeanMethod %>Multiple() {
         return false;
     }
 
