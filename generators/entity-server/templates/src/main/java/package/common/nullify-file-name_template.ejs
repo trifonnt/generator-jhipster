@@ -34,8 +34,8 @@ for (idx in fields) {
 
     if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') {
       fieldsArray.push('if ('+ instanceName + '.get'+ fieldInJavaBeanMethod +'() == null || '+ instanceName +'.get'+ fieldInJavaBeanMethod +'().length == 0) {');
-      fieldsArray.push('	'+ instanceName + 'set'+ fieldInJavaBeanMethod +'ContentType(null);');
-      fieldsArray.push('	'+ instanceName + 'set'+ fieldInJavaBeanMethod +'FileName(null);');
+      fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'ContentType(null);');
+      fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'FileName(null);');
       fieldsArray.push('}');
     }
 }
