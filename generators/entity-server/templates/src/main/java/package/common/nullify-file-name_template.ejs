@@ -21,8 +21,8 @@
   const fieldsArray = [];
   let result = '';
 
-  const instanceType = (dto === 'mapstruct') ? entityClass + 'DTO' : entityClass;
-  const instanceName = (dto === 'mapstruct') ? entityInstance + 'DTO' : entityInstance;
+  const instanceType = (dto === 'mapstruct' && useDTO === true) ? entityClass + 'DTO' : entityClass;
+  const instanceName = (dto === 'mapstruct' && useDTO === true) ? entityInstance + 'DTO' : entityInstance;
 
 for (idx in fields) {
     const field = fields[idx];
