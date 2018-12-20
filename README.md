@@ -22,4 +22,4 @@ List of new features added to JHipster:
 
 [x] Added PATCH method to jhipster spring-controller.
 
-[x] Different DB Sequence for each entity.
+[] Different DB Sequence for each entity.
