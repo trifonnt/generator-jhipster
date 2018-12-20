@@ -144,6 +144,12 @@ public class <%= entityClass %> implements Serializable {
     <%_ } _%>
     private <%= pkType %> id;
 
+<% include('../common/functions');
+   if (hasUniqueField(fields) == false) { %>
+     private RecordSource recordSource;
+<% }
+%>
+
 <%_ for (idx in fields) {
     if (typeof fields[idx].javadoc !== 'undefined') { _%>
 <%- formatAsFieldJavadoc(fields[idx].javadoc) %>

@@ -18,10 +18,12 @@
 -%>
 <%#	Returns name of unique field. -%>
 <%
-  let resultName = '';
-  let hasUniqueField = false;
+hasUniqueField = function(fields) {
 
-for (idx in fields) {
+  let resultName = '';
+  let hasUniqField = false;
+
+  for (idx in fields) {
     const field = fields[idx];
 
     const fieldType = field.fieldType;
@@ -33,12 +35,13 @@ for (idx in fields) {
 
     if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
       if (capitalLetter) {
-      	resultName = fieldNameCapitalized
+      	resultName = fieldNameCapitalized;
       } else {
-      	resultName = fieldName
+      	resultName = fieldName;
       }
-      hasUniqueField = true;
+      hasUniqField = true;
     }
+  }
+  return hasUniqField;
 }
--%>
-<%- hasUniqueField -%>
+%>
