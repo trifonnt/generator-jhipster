@@ -99,7 +99,6 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     <%_ } _%>
     public <%= instanceType %> save(<%= instanceType %> <%= instanceName %>) {
         log.debug("Request to save <%= entityClass %> : {}", <%= instanceName %>);
-
 <%- include('../../common/nullify-file-name_template', {useDTO: true}); -%>
 <%- include('../../common/save_template', {viaService: viaService, returnDirectly: true}); -%>
     }
@@ -116,7 +115,6 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	// @Trifon
 	public <%= entityClass %> save(<%= entityClass %> <%= entityInstance %>) {
 		log.debug("Request to save <%= entityClass %> : {}", <%= entityInstance %>);
-
 <%- include('../../common/nullify-file-name_template', {useDTO: false}); -%>
 		<%= entityInstance %> = <%= entityInstance %>Repository.save(<%= entityInstance %>);
 		<%_ if (searchEngine === 'elasticsearch') { _%>
