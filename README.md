@@ -3,6 +3,7 @@ This project is FRIENDLY fork of the awesome JHipster project.
 PLEASE USE it on your risk and only if you know what you are doing!
 
 List of new features added to JHipster:
+
 [x] Fluent methods for User class.
 
 [x] Generate methods ENTITY getBy<UNIQUE_FIELD>(...) in Java service classes.
@@ -20,3 +21,5 @@ List of new features added to JHipster:
 [x] When byte[] field is updated and set to null then set xxxContentType and xxxFieldName to null.
 
 [x] Added PATCH method to jhipster spring-controller.
+
+[x] Different DB Sequence for each entity.

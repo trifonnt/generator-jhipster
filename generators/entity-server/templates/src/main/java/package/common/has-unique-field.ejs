@@ -16,26 +16,29 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-<%#	Returns name of unique field or relationship. -%>
+<%#	Returns name of unique field. -%>
 <%
-  let result = '';
+  let resultName = '';
+  let hasUniqueField = false;
 
 for (idx in fields) {
-    const fieldType = fields[idx].fieldType;
-    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
-    const fieldName = fields[idx].fieldName;
-    const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
-    const fieldNameHumanized = fields[idx].fieldNameHumanized;
-    const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
     const field = fields[idx];
+
+    const fieldType = field.fieldType;
+    const fieldTypeBlobContent = field.fieldTypeBlobContent;
+    const fieldName = field.fieldName;
+    const fieldNameHumanized = field.fieldNameHumanized;
+    const fieldNameCapitalized = field.fieldNameCapitalized;
+    const fieldInJavaBeanMethod = field.fieldInJavaBeanMethod;
 
     if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
       if (capitalLetter) {
-      	result = fieldNameCapitalized
+      	resultName = fieldNameCapitalized
       } else {
-      	result = fieldName
+      	resultName = fieldName
       }
+      hasUniqueField = true;
     }
 }
 -%>
-<%- result -%>
+<%- hasUniqueField -%>
