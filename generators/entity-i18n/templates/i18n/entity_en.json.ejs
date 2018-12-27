@@ -42,7 +42,7 @@ let helpBlocks = 0; %>
             	
             	if (relationshipType === 'many-to-many' || relationshipType === 'one-to-many') {
             	  relationshipName = relationships[idx].relationshipNameCapitalizedPlural;
-       	          relationshipNameHumanized = relationships[idx].otherEntityRelationshipNameCapitalizedPlural;
+       	          relationshipNameHumanized = relationships[idx].otherEntityNamePlural;
             	}
             %>,
             "<%=relationshipName%>": "<%= relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
