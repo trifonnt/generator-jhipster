@@ -22,4 +22,6 @@ List of new features added to JHipster:
 
 [x] Added PATCH method to jhipster spring-controller.
 
+[x] Improved i18n .json files to have plural names for one-to-many and many-to-many relationships.
+
 [] Different DB Sequence for each entity.
