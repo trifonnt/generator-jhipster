@@ -177,7 +177,7 @@ public class <%= entityClass %>DTO implements Serializable {
         relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized,
         relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural,
         ownerSide = relationships[idx].ownerSide;
-        if (relationshipType === 'many-to-many' && ownerSide === true) { _%>
+        if ((relationshipType === 'many-to-many' || relationshipType === 'one-to-many') && ownerSide === true) { _%>
 
     public Set<<%= otherEntityNameCapitalized %>DTO> get<%= relationshipNameCapitalizedPlural %>() {
         return <%= relationshipFieldNamePlural %>;
