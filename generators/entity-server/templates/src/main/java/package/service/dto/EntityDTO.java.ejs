@@ -37,7 +37,7 @@ import java.math.BigDecimal;
 <%_ if (fieldsContainBlob && databaseType === 'cassandra') { _%>
 import java.nio.ByteBuffer;
 <%_ } _%>
-<%_ if (fieldsContainOwnerManyToMany) { _%>
+<%_ if (fieldsContainOwnerManyToMany || true) { _%>
 import java.util.HashSet;
 import java.util.Set;
 <%_ } _%>
