@@ -293,10 +293,10 @@ public class <%= entityClass %>Resource {
 				String strLine;
 				// Read file line by line
 				while ((strLine = buffReader.readLine()) != null) {
-					if (isFirstLine) {
+					if (isFirstLine) {  // TODO - Add it as parameter of REST request.
 						isFirstLine = false;
 					} else {
-						String[] columns = strLine.split(";"); // TODO - Add separator as parameter of REST request
+						String[] columns = strLine.split(";"); // TODO - Add separator as parameter of REST request.
 
 						<%= instanceType %> <%= instanceName %> = <%= entityInstance %>Service.import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(columns);
 
