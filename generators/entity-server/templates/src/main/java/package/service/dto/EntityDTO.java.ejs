@@ -87,7 +87,7 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ } _%>
     <%_ if (fieldTypeBlobContent !== 'text') {
     let defaultValueConstant = ';';
-    if (fields[idx].defaultValueConstant !== '') {
+    if (fields[idx].defaultValueConstant && fields[idx].defaultValueConstant !== '') {
       defaultValueConstant = ' = ' + fields[idx].defaultValueConstant + ';'
     }
     _%>
