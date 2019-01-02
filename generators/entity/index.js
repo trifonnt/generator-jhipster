@@ -365,11 +365,25 @@ module.exports = class extends BaseBlueprintGenerator {
                     }
 
                     if (_.isUndefined(field.visibleForRole)) {
-                        field.visibleForRole = '';
+                        field.visibleForRole = 'ROLE_USER,ROLE_ADMIN';
+                        this.warning(
+                            `visibleForRole is missing in .jhipster/${entityName}.json for field ${JSON.stringify(
+                                field,
+                                null,
+                                4
+                            )}, using ${field.visibleForRole} as fallback`
+                        );
                     }
 
                     if (_.isUndefined(field.readOnlyForRole)) {
                         field.readOnlyForRole = '';
+                        this.warning(
+                            `readOnlyForRole is missing in .jhipster/${entityName}.json for field ${JSON.stringify(
+                                field,
+                                null,
+                                4
+                            )}, using EMPTY STRING as fallback`
+                        );
                     }
 
                     if (_.isUndefined(field.fieldType)) {

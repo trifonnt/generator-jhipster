@@ -517,6 +517,13 @@ function askForField(done) {
             default: false,
         },
         {
+            when: response => response.fieldAdd === true,
+            type: 'input',
+            name: 'defaultValueConstant',
+            message: 'Default value of your field if any? Boolean.TRUE/Boolean.FALSE/Integer.MAX_VALUE/new Integer("0")',
+            default: false,
+        },
+        {
             when: response => response.fieldAdd === true && (skipServer || ['sql', 'mongodb', 'couchbase'].includes(databaseType)),
             type: 'list',
             name: 'fieldType',
@@ -882,6 +889,7 @@ function askForField(done) {
                 fieldName: props.fieldName,
                 visibleForRole: props.visibleForRole,
                 readOnlyForRole: props.readOnlyForRole,
+                defaultValueConstant: props.defaultValueConstant,
                 fieldType: props.fieldType,
                 fieldTypeBlobContent: props.fieldTypeBlobContent,
                 fieldValues: props.fieldValues,
