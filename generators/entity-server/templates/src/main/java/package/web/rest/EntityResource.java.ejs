@@ -278,9 +278,9 @@ public class <%= entityClass %>Resource {
 	 * @return
 	 * @throws URISyntaxException, IOException
 	 */
-    @PostMapping("/<%= entityApiUrl %>/import-by-<%= fieldName %>.csv")
-    @Timed
-    public ResponseEntity<String> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(@RequestParam("file") MultipartFile file) throws URISyntaxException, IOException {
+	@PostMapping("/<%= entityApiUrl %>/import-by-<%= fieldName %>.csv")
+	@Timed
+	public ResponseEntity<String> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(@RequestParam("file") MultipartFile file) throws URISyntaxException, IOException {
 		if (!file.isEmpty()) {
 			log.debug("REST request to import <%= entityClass %> by <%= fieldName %> with file: {}", file);
 			BufferedReader buffReader = null;
