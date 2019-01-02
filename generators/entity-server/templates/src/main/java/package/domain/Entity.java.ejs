@@ -209,8 +209,13 @@ public class <%= entityClass %> implements Serializable {
     <%_ if (databaseType === 'mongodb' || databaseType === 'couchbase') { _%>
     @Field("<%=fieldNameUnderscored %>")
     <%_ } _%>
-    <%_ if (fieldTypeBlobContent !== 'text') { _%>
-    private <%= fieldType %> <%= fieldName %> <%_ if (fieldType === 'Boolean') { _%> = Boolean.FALSE<%_ } _%>;
+    <%_ if (fieldTypeBlobContent !== 'text') {
+    let defaultValueConstant = ';';
+    if (fields[idx].defaultValueConstant !== '') {
+      defaultValueConstant = ' = ' + fields[idx].defaultValueConstant + ';'
+    }
+    _%>
+    private <%= fieldType %> <%= fieldName %><%= defaultValueConstant %>
     <%_ } else { _%>
     private String <%= fieldName %>;
     <%_ } _%>
