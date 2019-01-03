@@ -524,10 +524,6 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
-                    if (_.isUndefined(relationship.otherEntityField2)) {
-                        relationship.otherEntityField2 = "";
-                    }
-
                     if (_.isUndefined(relationship.otherEntityRelationshipName)) {
                         if (
                             relationship.relationshipType === 'one-to-many' ||
@@ -559,6 +555,25 @@ module.exports = class extends BaseBlueprintGenerator {
                             )}, using id as fallback`
                         );
                         relationship.otherEntityField = 'id';
+                    }
+
+                    if (_.isUndefined(relationship.otherEntityField2)) {
+                        relationship.otherEntityField2 = "";
+                    }
+                    if (
+                        _.isUndefined(relationship.otherEntityField2) &&
+                        (relationship.relationshipType === 'many-to-one' ||
+                            (relationship.relationshipType === 'many-to-many' && relationship.ownerSide === true) ||
+                            (relationship.relationshipType === 'one-to-one' && relationship.ownerSide === true))
+                    ) {
+                        this.warning(
+                            `otherEntityField2 is missing in .jhipster/${entityName}.json for relationship ${JSON.stringify(
+                                relationship,
+                                null,
+                                4
+                            )}, using EMTPY STRING as fallback`
+                        );
+                        relationship.otherEntityField2 = '';
                     }
 
                     if (_.isUndefined(relationship.relationshipType)) {

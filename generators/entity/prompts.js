@@ -960,27 +960,6 @@ function askForRelationship(done) {
         {
             when: response => response.relationshipAdd === true,
             type: 'input',
-            name: 'otherEntityField2',
-            validate: input => {
-                if (!/^([a-zA-Z0-9_]*)$/.test(input)) {
-                    return 'Your other entity name cannot contain special characters';
-                }
-                if (input === '') {
-                    return 'Your other entity name cannot be empty';
-                }
-                if (jhiCore.isReservedKeyword(input, 'JAVA')) {
-                    return 'Your other entity name cannot contain a Java reserved keyword';
-                }
-                if (input.toLowerCase() === 'user' && context.applicationType === 'microservice') {
-                    return "Your entity cannot have a relationship with User because it's a gateway entity";
-                }
-                return true;
-            },
-            message: 'What is the name of the other entity 2?'
-        },
-        {
-            when: response => response.relationshipAdd === true,
-            type: 'input',
             name: 'relationshipName',
             validate: input => {
                 if (!/^([a-zA-Z0-9_]*)$/.test(input)) {
@@ -1071,6 +1050,20 @@ function askForRelationship(done) {
         {
             when: response =>
                 response.relationshipAdd === true &&
+                (response.relationshipType === 'many-to-one' ||
+                    (response.relationshipType === 'many-to-many' && response.ownerSide === true) ||
+                    (response.relationshipType === 'one-to-one' && response.ownerSide === true)),
+            type: 'input',
+            name: 'otherEntityField2',
+            message: response =>
+                `When you display this relationship on client-side, which SECoND field from '${
+                    response.otherEntityName
+                }' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
+            default: ''
+        },
+        {
+            when: response =>
+                response.relationshipAdd === true &&
                 response.otherEntityName.toLowerCase() !== context.name.toLowerCase() &&
                 (response.relationshipType === 'many-to-one' ||
                     (response.relationshipType === 'many-to-many' &&
@@ -1114,6 +1107,7 @@ function askForRelationship(done) {
             if (props.otherEntityName.toLowerCase() === 'user') {
                 relationship.ownerSide = true;
                 relationship.otherEntityField = 'login';
+                relationship.otherEntityField2 = '';
                 relationship.otherEntityRelationshipName = _.lowerFirst(name);
             }
 
