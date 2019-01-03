@@ -30,6 +30,7 @@ package <%= packageName %>.service<% if (service === 'serviceImpl') { %>.impl<% 
     if (service === 'serviceImpl') { %>
 import <%= packageName %>.service.<%= entityClass %>Service;<% } %>
 import <%= packageName %>.domain.<%= entityClass %>;
+import <%= packageName %>.domain.<%= entityClass %>Builder;
 import <%= packageName %>.repository.<%= entityClass %>Repository;
 <%_ if (reactiveRepositories) { _%>
 import <%= packageName %>.repository.reactive.<%= entityClass %>ReactiveRepository;
@@ -98,8 +99,30 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     <%_ } _%>
     public <%= instanceType %> save(<%= instanceType %> <%= instanceName %>) {
         log.debug("Request to save <%= entityClass %> : {}", <%= instanceName %>);
+<%- include('../../common/nullify-file-name_template', {useDTO: true}); -%>
 <%- include('../../common/save_template', {viaService: viaService, returnDirectly: true}); -%>
     }
+
+	/**
+	 * Save a <%= entityInstance %>.
+	 *
+	 * @param <%= entityInstance %> the entity to save
+	 * @return the persisted entity
+	 */
+	<%_ if (service === 'serviceImpl') { _%>
+	@Override
+	<%_ } _%>
+	// @Trifon
+	public <%= entityClass %> save(<%= entityClass %> <%= entityInstance %>) {
+		log.debug("Request to save <%= entityClass %> : {}", <%= entityInstance %>);
+<%- include('../../common/nullify-file-name_template', {useDTO: false}); -%>
+
+		<%= entityInstance %> = <%= entityInstance %>Repository.save(<%= entityInstance %>);
+		<%_ if (searchEngine === 'elasticsearch') { _%>
+		<%= entityInstance %>SearchRepository.save(<%= entityInstance %>);
+		<%_ } _%>
+		return <%= entityInstance %>;
+	}
 
     /**
      * Get all the <%= entityInstancePlural %>.
@@ -230,21 +253,71 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 *
 	 * @return the entity
 	 */
-	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %> param) {
-		<%= instanceType %> <%= instanceName %> = findOneBy<%= fieldInJavaBeanMethod %>(param.get<%= fieldInJavaBeanMethod %>())
+	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder) {
+		<%= entityClass %> <%= entityInstance %> = <%= entityInstance %>Repository.findOneBy<%= fieldInJavaBeanMethod %>(builder.get<%= fieldInJavaBeanMethod %>())
 				.orElse(null);
-		if (<%= instanceName %> == null) {
-			<%= instanceName %> = 
-				save( 
-					<%= entityInstance %>Mapper.toDto(
-						new <%= entityClass %>()
-							<%- include('../../common/list-of-fields_names_n_values2_template', {returnDirectly:true}); -%>
-					)
-				);
+		if (<%= entityInstance %> == null) {
+			<%= entityInstance %> = save(builder.build());
 		}
-		log.debug("Trifon - <%= entityClass %>.Id = " + <%= instanceName %>.getId());
+		log.debug("Trifon - <%= entityClass %>.Id = " + <%= entityInstance %>.getId());
 
-		return <%= entityInstance %>Mapper.toEntity(<%= instanceName %>);
+		return <%= entityInstance %>;
+	}
+
+	//@Trifon
+	/**
+	 * Import one <%= entityInstance %> by <%= fieldName %>.
+	 *
+	 * @param columns list of columns
+	 * @return the entity
+	 */
+	public <%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns) {
+<%_ for (idx2 in fields) {
+      const fieldType2 = fields[idx2].fieldType;
+      const fieldTypeBlobContent2 = fields[idx2].fieldTypeBlobContent;
+      const fieldName2 = fields[idx2].fieldName;
+      const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod;
+
+      let columnValue = 'columns['+ idx2 + ']';
+      if (fieldType2.toLowerCase() === 'integer') {
+        columnValue = 'Integer.parseInt(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'long') {
+        columnValue = 'Long.parseLong(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'float') {
+        columnValue = 'Float.parseFloat(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'double') {
+        columnValue = 'Double.parseDouble(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'bigdecimal') {
+        // 
+        columnValue = 'new BigDecimal(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'boolean') {
+        columnValue = 'Boolean.valueOf(columns['+ idx2 +'])';
+      }
+      _%>
+		<%= fieldType2 %> <%= fieldName2 %> = <%= columnValue %>;
+<%_	} _%>
+
+		<%= instanceType %> <%= instanceName %> = null;
+		// +01) Search for existing <%= instanceName %> by <%= fieldName %>
+		Optional<<%= instanceType %>> optional<%= instanceType %> = findOneBy<%= fieldInJavaBeanMethod %>(<%= fieldName %>);
+		if (optional<%= instanceType %>.isPresent()) {
+			<%= instanceName %> = optional<%= instanceType %>.get();
+		} else {
+			<%= instanceName %> = new <%= instanceType %>();
+			<%= instanceName %>.set<%= fieldInJavaBeanMethod %>(<%= fieldName %>);
+			// +02) Set default values
+//			setDefaultValues(<%= instanceName %>);
+		}
+
+		// +03) Update <%= instanceName %>
+<%_ for (idx2 in fields) {
+      const fieldName2 = fields[idx2].fieldName;
+      const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod;
+      _%>
+		<%= instanceName %>.set<%= fieldInJavaBeanMethod2 %>(<%= fieldName2 %>);
+<%_	} _%>
+
+		return <%= instanceName %>;
 	}
     <%_ }
     }

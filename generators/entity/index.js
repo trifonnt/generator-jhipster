@@ -368,8 +368,8 @@ module.exports = class extends BaseBlueprintGenerator {
                         field.visibleForRole = '';
                     }
 
-                    if (_.isUndefined(field.readonlyForRole)) {
-                        field.readonlyForRole = '';
+                    if (_.isUndefined(field.readOnlyForRole)) {
+                        field.readOnlyForRole = '';
                     }
 
                     if (_.isUndefined(field.fieldType)) {
@@ -509,8 +509,8 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
-                    if (_.isUndefined(relationship.readonlyForRole)) {
-                        relationship.readonlyForRole = '';
+                    if (_.isUndefined(relationship.readOnlyForRole)) {
+                        relationship.readOnlyForRole = '';
                     }
                     if (_.isUndefined(relationship.otherEntityName)) {
                         this.error(
@@ -524,8 +524,8 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
 
-                    if (_.isUndefined(relationship.otherEntityName2)) {
-                        relationship.otherEntityName2 = "";
+                    if (_.isUndefined(relationship.otherEntityField2)) {
+                        relationship.otherEntityField2 = "";
                     }
 
                     if (_.isUndefined(relationship.otherEntityRelationshipName)) {

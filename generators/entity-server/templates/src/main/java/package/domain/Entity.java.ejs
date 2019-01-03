@@ -144,6 +144,27 @@ public class <%= entityClass %> implements Serializable {
     <%_ } _%>
     private <%= pkType %> id;
 
+<% include('../common/functions', {capitalLetter: false});
+    if (hasUniqueField(fields) == false) {
+%>//	private RecordSource recordSource;
+
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		if (code == null || code.isEmpty()) {
+			code = java.util.UUID.randomUUID().toString();
+		}
+	}
+<% } %>
+
 <%_ for (idx in fields) {
     if (typeof fields[idx].javadoc !== 'undefined') { _%>
 <%- formatAsFieldJavadoc(fields[idx].javadoc) %>
@@ -205,6 +226,17 @@ public class <%= entityClass %> implements Serializable {
     @Field("<%=fieldNameUnderscored %>_content_type")
       <%_ } _%>
     private String <%= fieldName %>ContentType;
+
+      <%_ if (databaseType === 'sql' || databaseType === 'cassandra') { _%>
+    @Column(<% if (databaseType !== 'cassandra') { %>name = <% } %>"<%-fieldNameAsDatabaseColumn %>_file_name"<% if (required && databaseType !== 'cassandra') { %>, nullable = false<% } %>)
+        <%_ if (required && databaseType === 'cassandra') { _%>
+    @NotNull
+        <%_ } _%>
+      <%_ } _%>
+      <%_ if (databaseType === 'mongodb' || databaseType === 'couchbase') { _%>
+    @Field("<%=fieldNameUnderscored %>_file_name")
+      <%_ } _%>
+    private String <%= fieldName %>FileName;
 
     <%_ }
     }
@@ -351,16 +383,29 @@ public class <%= entityClass %> implements Serializable {
     public String get<%= fieldInJavaBeanMethod %>ContentType() {
         return <%= fieldName %>ContentType;
     }
+
+    public String get<%= fieldInJavaBeanMethod %>FileName() {
+        return <%= fieldName %>FileName;
+    }
     <%_ if (fluentMethods) { _%>
 
     public <%= entityClass %> <%= fieldName %>ContentType(String <%= fieldName %>ContentType) {
         this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
         return this;
     }
+
+    public <%= entityClass %> <%= fieldName %>FileName(String <%= fieldName %>FileName) {
+        this.<%= fieldName %>FileName = <%= fieldName %>FileName;
+        return this;
+    }
     <%_ } _%>
 
     public void set<%= fieldInJavaBeanMethod %>ContentType(String <%= fieldName %>ContentType) {
         this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
+    }
+
+    public void set<%= fieldInJavaBeanMethod %>FileName(String <%= fieldName %>FileName) {
+        this.<%= fieldName %>FileName = <%= fieldName %>FileName;
     }
     <%_ } _%>
 <%_ } _%>
@@ -468,6 +513,7 @@ public class <%= entityClass %> implements Serializable {
             ", <%= fieldName %>=<% if (! isNumeric) {%>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
                 <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
             ", <%= fieldName %>ContentType='" + get<%= fieldInJavaBeanMethod %>ContentType() + "'" +
+            ", <%= fieldName %>FileName='" + get<%= fieldInJavaBeanMethod %>FileName() + "'" +
                 <%_ } _%>
             <%_ } _%>
             "}";

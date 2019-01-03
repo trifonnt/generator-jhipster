@@ -26,18 +26,26 @@ let helpBlocks = 0; %>
                 "createOrEditLabel": "Create or edit a <%= entityClassHumanized %>"<% if (searchEngine === 'elasticsearch') { %>,
                 "search": "Search for <%= entityClassHumanized %>"<% } %>
             },<% if (!microserviceAppName) { %>
-            "created": "A new <%= entityClassHumanized %> is created with identifier {id}",
-            "updated": "A <%= entityClassHumanized %> is updated with identifier {id}",
-            "deleted": "A <%= entityClassHumanized %> is deleted with identifier {id}",<% } %>
+            "created": "A new <%= entityClassHumanized %> is created with identifier {{ id }}",
+            "updated": "A <%= entityClassHumanized %> is updated with identifier {{ id }}",
+            "deleted": "A <%= entityClassHumanized %> is deleted with identifier {{ id }}",<% } %>
             "delete": {
-                "question": "Are you sure you want to delete <%= entityClassHumanized %> {id}?"
+                "question": "Are you sure you want to delete <%= entityClassHumanized %> {{ id }}?"
             },
             "detail": {
                 "title": "<%= entityClassHumanized %>"
             }<% for (idx in fields) {
             if (typeof fields[idx].javadoc !== 'undefined') ++helpBlocks; %>,
-            "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { %>,
-            "<%=relationships[idx].relationshipName%>": "<%= relationships[idx].relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
+            "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { 
+            	let relationshipName = relationships[idx].relationshipName;
+            	let relationshipNameHumanized = relationships[idx].relationshipNameHumanized;
+            	
+            	if (relationshipType === 'many-to-many' || relationshipType === 'one-to-many') {
+            	  relationshipName = relationships[idx].relationshipNamePlural;
+       	          relationshipNameHumanized = relationships[idx].relationshipNameCapitalizedPlural;
+            	}
+            %>,
+            "<%=relationshipName%>": "<%= relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
             "help": {<% for (idx in fields) {
                 if (fields[idx].javadoc) {
                     --helpBlocks; %>
@@ -49,9 +57,9 @@ let helpBlocks = 0; %>
     }<% if (microserviceAppName) { %>,
     "<%= microserviceAppName %>": {
         "<%= entityTranslationKey %>" : {
-            "created": "A new <%= entityClassHumanized %> is created with identifier {id}",
-            "updated": "A <%= entityClassHumanized %> is updated with identifier {id}",
-            "deleted": "A <%= entityClassHumanized %> is deleted with identifier {id}"
+            "created": "A new <%= entityClassHumanized %> is created with identifier {{ id }}",
+            "updated": "A <%= entityClassHumanized %> is updated with identifier {{ id }}",
+            "deleted": "A <%= entityClassHumanized %> is deleted with identifier {{ id }}"
         }
     }<% } %>
 }

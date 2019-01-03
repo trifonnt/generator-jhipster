@@ -21,10 +21,10 @@ package <%=packageName%>.service;
     const instanceName = (dto === 'mapstruct') ? entityInstance + 'DTO' : entityInstance; %>
 <%_ if (dto === 'mapstruct') { _%>
 import <%=packageName%>.service.dto.<%= entityClass %>DTO;
-import <%=packageName%>.domain.<%= entityClass %>;
-<%_ } else { _%>
-import <%=packageName%>.domain.<%= entityClass %>;
 <%_ } _%>
+import <%=packageName%>.domain.<%= entityClass %>;
+import <%=packageName%>.domain.<%= entityClass %>Builder;
+
 <%_ if (pagination !== 'no' || fieldsContainOwnerManyToMany === true) { _%>
 
 import org.springframework.data.domain.Page;
@@ -54,6 +54,15 @@ public interface <%= entityClass %>Service {
      * @return the persisted entity
      */
     <%= instanceType %> save(<%= instanceType %> <%= instanceName %>);
+
+    /**
+     * Save a <%= entityInstance %>.
+     *
+     * @param <%= entityInstance %> the entity to save
+     * @return the persisted entity
+     */
+     // @Trifon
+    <%= entityClass %> save(<%= entityClass %> <%= entityInstance %>);
 
     /**
      * Get all the <%= entityInstancePlural %>.
@@ -134,7 +143,16 @@ public interface <%= entityClass %>Service {
      *
      * @return the entity
      */
-     <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %> param);
+     <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder);
+
+    //@Trifon
+    /**
+     * Import one <%= entityInstance %> by <%= fieldName %>.
+     *
+     * @param columns list of columns
+     * @return the entity
+     */
+    <%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns);
 
     <%_ }
     } _%>

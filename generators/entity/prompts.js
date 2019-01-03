@@ -512,7 +512,7 @@ function askForField(done) {
         {
             when: response => response.fieldAdd === true,
             type: 'input',
-            name: 'readonlyForRole',
+            name: 'readOnlyForRole',
             message: 'What roles is this field read only for? String with commas, no spaces',
             default: false,
         },
@@ -881,7 +881,7 @@ function askForField(done) {
             const field = {
                 fieldName: props.fieldName,
                 visibleForRole: props.visibleForRole,
-                readonlyForRole: props.readonlyForRole,
+                readOnlyForRole: props.readOnlyForRole,
                 fieldType: props.fieldType,
                 fieldTypeBlobContent: props.fieldTypeBlobContent,
                 fieldValues: props.fieldValues,
@@ -932,7 +932,7 @@ function askForRelationship(done) {
         {
             when: response => response.relationshipAdd === true,
             type: 'input',
-            name: 'readonlyForRole',
+            name: 'readOnlyForRole',
             message: 'What roles is this field read only for? String with commas, no spaces',
             default: false
         },
@@ -960,7 +960,7 @@ function askForRelationship(done) {
         {
             when: response => response.relationshipAdd === true,
             type: 'input',
-            name: 'otherEntityName2',
+            name: 'otherEntityField2',
             validate: input => {
                 if (!/^([a-zA-Z0-9_]*)$/.test(input)) {
                     return 'Your other entity name cannot contain special characters';
@@ -1101,12 +1101,12 @@ function askForRelationship(done) {
             const relationship = {
                 relationshipName: props.relationshipName,
                 visibleForRole: props.visibleForRole,
-                readonlyForRole: props.readonlyForRole,
+                readOnlyForRole: props.readOnlyForRole,
                 otherEntityName: _.lowerFirst(props.otherEntityName),
                 relationshipType: props.relationshipType,
                 relationshipValidateRules: props.relationshipValidateRules,
                 otherEntityField: props.otherEntityField,
-                otherEntityName2: props.otherEntityName2,
+                otherEntityField2: props.otherEntityField2,
                 ownerSide: props.ownerSide,
                 otherEntityRelationshipName: props.otherEntityRelationshipName
             };

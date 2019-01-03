@@ -1,0 +1,242 @@
+<%#
+ Copyright 2013-2018 the original author or authors from the JHipster project.
+
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+package <%=packageName%>.domain;<%
+let importApiModelProperty = false;
+let importJsonIgnore = false;
+let importJsonIgnoreProperties = false;
+let importSet = false;
+const uniqueEnums = {}; %><%- include imports -%>
+
+<%_ if (fieldsContainInstant) { _%>
+import java.time.Instant;
+<%_ } _%>
+<%_ if (fieldsContainLocalDate) { _%>
+import java.time.LocalDate;
+<%_ } _%>
+<%_ if (fieldsContainZonedDateTime) { _%>
+import java.time.ZonedDateTime;
+<%_ } _%>
+<%_ if (fieldsContainBigDecimal) { _%>
+import java.math.BigDecimal;
+<%_ } _%>
+<%_ if (fieldsContainBlob && databaseType === 'cassandra') { _%>
+import java.nio.ByteBuffer;
+<%_ } _%>
+<%_ if (importSet) { _%>
+import java.util.HashSet;
+import java.util.Set;
+<%_ } _%>
+<%_ if (databaseType === 'cassandra') { _%>
+import java.util.UUID;
+<%_ } _%>
+<%_ if (fieldsContainBlob && databaseType === 'sql') { _%>
+import javax.persistence.Lob;
+<%_ } _%>
+<%_ for (idx in fields) { if (fields[idx].fieldIsEnum) { _%>
+import <%=packageName%>.domain.enumeration.<%= fields[idx].fieldType %>;
+<%_ } } _%>
+
+/**
+ * A Builder for the <%= entityClass %> entity.
+ */
+public class <%= entityClass %>Builder {
+
+<%_ for (idx in fields) {
+    const fieldValidate = fields[idx].fieldValidate;
+    const fieldValidateRules = fields[idx].fieldValidateRules;
+    const fieldValidateRulesMinlength = fields[idx].fieldValidateRulesMinlength;
+    const fieldValidateRulesMaxlength = fields[idx].fieldValidateRulesMaxlength;
+    const fieldValidateRulesMinbytes = fields[idx].fieldValidateRulesMinbytes;
+    const fieldValidateRulesMaxbytes = fields[idx].fieldValidateRulesMaxbytes;
+    const fieldValidateRulesMin = fields[idx].fieldValidateRulesMin;
+    const fieldValidateRulesMax = fields[idx].fieldValidateRulesMax;
+    const fieldValidateRulesPatternJava = fields[idx].fieldValidateRulesPatternJava;
+    const fieldType = fields[idx].fieldType;
+    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+    const fieldName = fields[idx].fieldName;
+
+    if (fieldTypeBlobContent !== 'text') { _%>
+    private <%= fieldType %> <%= fieldName %> <%_ if (fieldType === 'Boolean') { _%> = Boolean.FALSE<%_ } _%>;
+
+<%_ } else { _%>
+    private String <%= fieldName %>;
+
+<%_ }
+    if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
+    private String <%= fieldName %>ContentType;
+
+<%_ }
+}
+
+for (idx in relationships) {
+    const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
+    const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
+    const relationshipName = relationships[idx].relationshipName;
+    const relationshipFieldName = relationships[idx].relationshipFieldName;
+    const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+    const joinTableName = getJoinTableName(name, relationshipName, prodDatabaseType);
+    const relationshipType = relationships[idx].relationshipType;
+    const relationshipValidate = relationships[idx].relationshipValidate;
+    const relationshipRequired = relationships[idx].relationshipRequired;
+    const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+    const ownerSide = relationships[idx].ownerSide;
+
+    if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') { _%>
+    private Set<<%= otherEntityNameCapitalized %>> <%= relationshipFieldNamePlural %> = new HashSet<>();
+
+<%_ } else { _%>
+    private <%= otherEntityNameCapitalized %> <%= relationshipFieldName %>;
+
+<%_ }
+}
+
+
+for (idx in fields) {
+    const fieldType = fields[idx].fieldType;
+    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+    const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+    const fieldName = fields[idx].fieldName;
+
+    if (fieldTypeBlobContent !== 'text') { _%>
+    public <%= fieldType %> <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<%_ } _%><%= fieldInJavaBeanMethod %>() {
+<%_ } else { _%>
+    public String get<%= fieldInJavaBeanMethod %>() {
+<%_ } _%>
+        return <%= fieldName %>;
+    }
+
+<%_ if (fieldTypeBlobContent !== 'text') { _%>
+    public <%= entityClass %>Builder <%= fieldName %>(<%= fieldType %> <%= fieldName %>) {
+<%_ } else { _%>
+    public <%= entityClass %>Builder <%= fieldName %>(String <%= fieldName %>) {
+<%_ } _%>
+        this.<%= fieldName %> = <%= fieldName %>;
+        return this;
+    }
+
+<%_ if (fieldTypeBlobContent !== 'text') { _%>
+    public void set<%= fieldInJavaBeanMethod %>(<%= fieldType %> <%= fieldName %>) {
+<%_ } else { _%>
+    public void set<%= fieldInJavaBeanMethod %>(String <%= fieldName %>) {
+<%_ } _%>
+        this.<%= fieldName %> = <%= fieldName %>;
+    }
+
+<%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
+    public String get<%= fieldInJavaBeanMethod %>ContentType() {
+        return <%= fieldName %>ContentType;
+    }
+
+    public <%= entityClass %>Builder <%= fieldName %>ContentType(String <%= fieldName %>ContentType) {
+        this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
+        return this;
+    }
+
+    public void set<%= fieldInJavaBeanMethod %>ContentType(String <%= fieldName %>ContentType) {
+        this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
+    }
+
+<%_ }
+}
+
+for (idx in relationships) {
+        const relationshipFieldName = relationships[idx].relationshipFieldName;
+        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+        const relationshipType = relationships[idx].relationshipType;
+        const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+        const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
+        const relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural;
+        const otherEntityName = relationships[idx].otherEntityName;
+        const otherEntityNamePlural = relationships[idx].otherEntityNamePlural;
+        const otherEntityRelationshipNameCapitalized = relationships[idx].otherEntityRelationshipNameCapitalized;
+        const otherEntityRelationshipNameCapitalizedPlural = relationships[idx].otherEntityRelationshipNameCapitalizedPlural;
+
+if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') { _%>
+
+    public Set<<%= otherEntityNameCapitalized %>> get<%= relationshipNameCapitalizedPlural %>() {
+        return <%= relationshipFieldNamePlural %>;
+    }
+
+    public <%= entityClass %>Builder <%= relationshipFieldNamePlural %>(Set<<%= otherEntityNameCapitalized %>> <%= otherEntityNamePlural %>) {
+        this.<%= relationshipFieldNamePlural %> = <%= otherEntityNamePlural %>;
+        return this;
+    }
+
+    public <%= entityClass %>Builder add<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldNamePlural %>.add(<%= otherEntityName %>);
+        return this;
+    }
+
+    public <%= entityClass %>Builder remove<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldNamePlural %>.remove(<%= otherEntityName %>);
+        return this;
+    }
+
+    public void set<%= relationshipNameCapitalizedPlural %>(Set<<%= otherEntityNameCapitalized %>> <%= otherEntityNamePlural %>) {
+        this.<%= relationshipFieldNamePlural %> = <%= otherEntityNamePlural %>;
+    }
+<%_ } else { _%>
+
+    public <%= otherEntityNameCapitalized %> get<%= relationshipNameCapitalized %>() {
+        return <%= relationshipFieldName %>;
+    }
+
+    public <%= entityClass %>Builder <%= relationshipFieldName %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldName %> = <%= otherEntityName %>;
+        return this;
+    }
+
+    public void set<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %> <%= otherEntityName %>) {
+        this.<%= relationshipFieldName %> = <%= otherEntityName %>;
+    }
+<%_ }
+} _%>
+
+	public <%= entityClass %> build() {
+		return new <%= entityClass %>()
+			<%- include('../common/list-of-fields_names_n_values3_template', {returnDirectly:true}); -%>
+		;
+	}
+
+    @Override
+    public String toString() {
+        return "<%= entityClass %>Builder{" +
+            <%_ let isFirstField = true;
+              for (idx in fields) {
+                const fieldName = fields[idx].fieldName;
+                const fieldType = fields[idx].fieldType;
+                const isNumeric = ['integer', 'long', 'float', 'double', 'bigdecimal'].includes(fieldType.toLowerCase());
+                let startLineCharacter = isFirstField ? ' ' : ',';
+                isFirstField = false; _%>
+            "<%= startLineCharacter %> <%= fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<% } %><%= fields[idx].fieldInJavaBeanMethod %>() <% if (! isNumeric) { %>+ "'" <% } %>+
+            <%_ } _%>
+            <%_ for (idx in relationships) {
+                const relationshipFieldName = relationships[idx].relationshipFieldName;
+                const relationshipType = relationships[idx].relationshipType;
+                const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
+                const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized;
+                const ownerSide = relationships[idx].ownerSide;
+                let startLineCharacter = isFirstField ? ' ' : ',';
+                isFirstField = false; _%>
+                <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) { _%>
+            "<%= startLineCharacter %> <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
+            <%_ } } _%>
+            "}";
+    }
+}

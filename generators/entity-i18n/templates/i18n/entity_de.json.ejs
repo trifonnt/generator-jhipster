@@ -26,18 +26,26 @@ let helpBlocks = 0; %>
                 "createOrEditLabel": "<%= entityClassHumanized %> erstellen oder bearbeiten"<% if (searchEngine === 'elasticsearch') { %>,
                 "search": "Suche nach <%= entityClassHumanized %>"<% } %>
             },<% if (!microserviceAppName) { %>
-            "created": "<%= entityClassHumanized %> erstellt mit ID {id}",
-            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {id}",
-            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {id}",<% } %>
+            "created": "<%= entityClassHumanized %> erstellt mit ID {{ id }}",
+            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {{ id }}",
+            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {{ id }}",<% } %>
             "delete": {
-                "question": "Soll <%= entityClassHumanized %> {id} wirklich dauerhaft gelöscht werden?"
+                "question": "Soll <%= entityClassHumanized %> {{ id }} wirklich dauerhaft gelöscht werden?"
             },
             "detail": {
                 "title": "<%= entityClassHumanized %>"
             }<% for (idx in fields) {
             if (typeof fields[idx].javadoc !== 'undefined') ++helpBlocks; %>,
-            "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { %>,
-            "<%=relationships[idx].relationshipName%>": "<%= relationships[idx].relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
+            "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { 
+            	let relationshipName = relationships[idx].relationshipName;
+            	let relationshipNameHumanized = relationships[idx].relationshipNameHumanized;
+            	
+            	if (relationshipType === 'many-to-many' || relationshipType === 'one-to-many') {
+            	  relationshipName = relationships[idx].relationshipNamePlural;
+       	          relationshipNameHumanized = relationships[idx].relationshipNameCapitalizedPlural;
+            	}
+            %>,
+            "<%=relationshipName%>": "<%= relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
             "help": {<% for (idx in fields) {
                 if (fields[idx].javadoc) {
                     --helpBlocks; %>
@@ -49,9 +57,9 @@ let helpBlocks = 0; %>
     }<% if (microserviceAppName) { %>,
     "<%= microserviceAppName %>": {
         "<%= entityTranslationKey %>" : {
-            "created": "<%= entityClassHumanized %> erstellt mit ID {id}",
-            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {id}",
-            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {id}"
+            "created": "<%= entityClassHumanized %> erstellt mit ID {{ id }}",
+            "updated": "<%= entityClassHumanized %> aktualisiert mit ID {{ id }}",
+            "deleted": "<%= entityClassHumanized %> gelöscht mit ID {{ id }}"
         }
     }<% } %>
 }

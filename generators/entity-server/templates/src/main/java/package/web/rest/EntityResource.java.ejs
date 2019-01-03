@@ -39,6 +39,7 @@ import <%=packageName%>.repository.UserRepository;
 import <%=packageName%>.web.rest.errors.BadRequestAlertException;
 import <%=packageName%>.web.rest.util.HeaderUtil;<% if (pagination !== 'no') { %>
 import <%=packageName%>.web.rest.util.PaginationUtil;<% } %>
+import <%=packageName%>.service.dto.IdArrayDTO;
 <%_ if (dto === 'mapstruct') { _%>
 import <%=packageName%>.service.dto.<%= entityClass %>DTO;
 <%_ if (service === 'no') { _%>
@@ -61,7 +62,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 <%_ } _%>
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 <%_ if (reactiveRepositories) { _%>
 import reactor.core.publisher.Flux;
 <%_ } _%>
@@ -209,8 +214,12 @@ public class <%= entityClass %>Resource {
     @Timed
     public ResponseEntity<<%= instanceType %>> getTemplate<%= entityClass %>() {
         log.debug("REST request to get Template for <%= entityClass %>");        
-//        return ResponseUtil.wrapOrNotFound(Optional.of(new <%= instanceType %>()));
-        return ResponseEntity.ok().body(new <%= instanceType %>());
+
+        <%= instanceType %> <%= instanceName %> = new <%= instanceType %>();
+        // Populate all automatically populated fields!
+//        <%= instanceName %>.setCode();
+
+        return ResponseEntity.ok().body(<%= instanceName %>);
     }
 
     /**
@@ -228,6 +237,24 @@ public class <%= entityClass %>Resource {
     }<% if (searchEngine === 'elasticsearch') { %>
 
     /**
+     * DELETE  /<%= entityApiUrl %>/ : delete list of <%= entityInstancePlural %>.
+     *
+     * @param IdArrayDTO the list with <%= entityClass %> ids to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    //   Delete multiple records using REST
+    // - https://stackoverflow.com/questions/21863326/delete-multiple-records-using-rest
+    @DeleteMapping("/<%= entityApiUrl %>")
+    @Timed
+    public ResponseEntity<Void> delete<%= entityClassPlural %>(@Valid @RequestBody IdArrayDTO idArrayDTO) {
+        log.debug("REST request to delete MULTIPLE <%= entityClassPlural %> : {}", idArrayDTO);
+        for (Long id : idArrayDTO.getIds()) {
+    <%- include('../../common/delete_template', {viaService: viaService}); -%>
+        }
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idArrayDTO.getIds().toString())).build();
+    }
+
+    /**
      * SEARCH  /_search/<%= entityApiUrl %>?query=:query : search for the <%= entityInstance %> corresponding
      * to the query.
      *
@@ -237,4 +264,59 @@ public class <%= entityClass %>Resource {
      */
     @GetMapping("/_search/<%= entityApiUrl %>")
     @Timed<%- include('../../common/search_template', {viaService: viaService}); -%><% } %>
+
+<%_ for (idx in fields) {
+      const fieldType = fields[idx].fieldType;
+      const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+      const fieldName = fields[idx].fieldName;
+      const fieldInJavaBeanMethod = fields[idx].fieldInJavaBeanMethod;
+      if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('unique')) { _%>
+	/**
+	 * Import <%= entityInstance %> by <%= fieldName %> from .csv file
+	 * 
+	 * @param file
+	 * @return
+	 * @throws URISyntaxException, IOException
+	 */
+	@PostMapping("/<%= entityApiUrl %>/import-by-<%= fieldName %>.csv")
+	@Timed
+	public ResponseEntity<String> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(@RequestParam("file") MultipartFile file) throws URISyntaxException, IOException {
+		if (!file.isEmpty()) {
+			log.debug("REST request to import <%= entityClass %> by <%= fieldName %> with file: {}", file);
+			BufferedReader buffReader = null;
+			try {
+				// Open the file
+				buffReader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+
+				int numImportedRecords = 0;
+				boolean isFirstLine = true;
+				String strLine;
+				// Read file line by line
+				while ((strLine = buffReader.readLine()) != null) {
+					if (isFirstLine) {
+						isFirstLine = false;
+					} else {
+						String[] columns = strLine.split(";"); // TODO - Add separator as parameter of REST request
+
+						<%= instanceType %> <%= instanceName %> = <%= entityInstance %>Service.import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(columns);
+
+						<%= instanceName %> = <%= entityInstance %>Service.save(<%= instanceName %>);
+
+						numImportedRecords = numImportedRecords + 1;
+					}
+				}
+				return ResponseEntity.ok().body(String.format("Imported #%s records from file %s", numImportedRecords, file.getOriginalFilename()));
+			} finally {
+				if (buffReader != null) {
+					buffReader.close();
+				}
+			}
+		} else {
+			return ResponseEntity.ok().body("File is empty, no records were imported.");
+		}
+	}
+
+<%_ }
+}
+_%>
 }

@@ -26,18 +26,26 @@ let helpBlocks = 0; %>
                 "createOrEditLabel": "Създай или модифицирай <%= entityClassHumanized %>"<% if (searchEngine === 'elasticsearch') { %>,
                 "search": "Търси <%= entityClassHumanized %>"<% } %>
             },<% if (!microserviceAppName) { %>
-            "created": "Създаден е нов <%= entityClassHumanized %> с ключ {id}",
-            "updated": "<%= entityClassHumanized %> с ключ {id} е модифициран",
-            "deleted": "<%= entityClassHumanized %> с ключ {id} е изтрит",<% } %>
+            "created": "Създаден е нов <%= entityClassHumanized %> с идентификатор {{ id }}",
+            "updated": "<%= entityClassHumanized %> с идентификатор {{ id }} е модифициран",
+            "deleted": "<%= entityClassHumanized %> с идентификатор {{ id }} е изтрит",<% } %>
             "delete": {
-                "question": "Сигурни ли сте, че искате да изтриете <%= entityClassHumanized %> {id}?"
+                "question": "Сигурни ли сте, че искате да изтриете <%= entityClassHumanized %> {{ id }}?"
             },
             "detail": {
                 "title": "<%= entityClassHumanized %>"
             }<% for (idx in fields) {
             if (typeof fields[idx].javadoc !== 'undefined') ++helpBlocks; %>,
-            "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { %>,
-            "<%=relationships[idx].relationshipName%>": "<%= relationships[idx].relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
+            "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { 
+            	let relationshipName = relationships[idx].relationshipName;
+            	let relationshipNameHumanized = relationships[idx].relationshipNameHumanized;
+            	
+            	if (relationshipType === 'many-to-many' || relationshipType === 'one-to-many') {
+            	  relationshipName = relationships[idx].relationshipNamePlural;
+       	          relationshipNameHumanized = relationships[idx].relationshipNameCapitalizedPlural;
+            	}
+            %>,
+            "<%=relationshipName%>": "<%= relationshipNameHumanized %>"<% } if (helpBlocks > 0){%>,
             "help": {<% for (idx in fields) {
                 if (fields[idx].javadoc) {
                     --helpBlocks; %>
@@ -49,9 +57,9 @@ let helpBlocks = 0; %>
     }<% if (microserviceAppName) { %>,
     "<%= microserviceAppName %>": {
         "<%= entityTranslationKey %>" : {
-            "created": "Създаден е нов <%= entityClassHumanized %> с ключ {id}",
-            "updated": "<%= entityClassHumanized %> с ключ {id} е модифициран",
-            "deleted": "<%= entityClassHumanized %> с ключ {id} е изтрит"
+            "created": "Създаден е нов <%= entityClassHumanized %> с идентификатор {{ id }}",
+            "updated": "<%= entityClassHumanized %> с идентификатор {{ id }} е модифициран",
+            "deleted": "<%= entityClassHumanized %> с идентификатор {{ id }} е изтрит"
         }
     }<% } %>
 }

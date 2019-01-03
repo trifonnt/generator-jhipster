@@ -33,7 +33,7 @@ for (idx in fields) {
       methodPrefix = 'is';
     }
 
-    fieldsArray.push('.' + field.fieldName + '(builder.'+methodPrefix + field.fieldInJavaBeanMethod +'())');
+    fieldsArray.push('.' + field.fieldName + '(this.'+methodPrefix + field.fieldInJavaBeanMethod +'())');
 }
 
 for (idx in relationships) {
@@ -58,14 +58,14 @@ for (idx in relationships) {
     	|| (relationshipType === 'many-to-many')
     ) {
     	if (ownerSide === true) {
-        	fieldsArray.push('.' + relationships[idx].relationshipFieldNamePlural + '(builder.get' + relationshipNameCapitalizedPlural + '())');
+        	fieldsArray.push('.' + relationships[idx].relationshipFieldNamePlural + '(this.get' + relationshipNameCapitalizedPlural + '())');
         }
     } else {
-        fieldsArray.push('.' + relationships[idx].relationshipName + '(builder.get' + relationshipNameCapitalized + '())');
+        fieldsArray.push('.' + relationships[idx].relationshipName + '(this.get' + relationshipNameCapitalized + '())');
     }
 }
 
-    result = fieldsArray.join('\r\n							');
+    result = fieldsArray.join('\r\n			');
     result += '\r\n';
 -%>
 <%- result -%>
