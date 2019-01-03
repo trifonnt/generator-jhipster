@@ -557,9 +557,6 @@ module.exports = class extends BaseBlueprintGenerator {
                         relationship.otherEntityField = 'id';
                     }
 
-                    if (_.isUndefined(relationship.otherEntityField2)) {
-                        relationship.otherEntityField2 = "";
-                    }
                     if (
                         _.isUndefined(relationship.otherEntityField2) &&
                         (relationship.relationshipType === 'many-to-one' ||
