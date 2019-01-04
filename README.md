@@ -26,4 +26,6 @@ List of new features added to JHipster:
 
 [x] Added importBy<UNIQUE_FIELD>(...) in Java service classes.
 
+[x] Added new model field "defaultValueConstant" to .jhipster/MODEL.json
+
 [] Different DB Sequence for each entity.
