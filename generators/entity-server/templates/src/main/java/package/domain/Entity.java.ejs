@@ -215,7 +215,7 @@ public class <%= entityClass %> implements Serializable {
       defaultValueConstant = ' = ' + fields[idx].defaultValueConstant + ';'
     }
     _%>
-    private <%= fieldType %> <%= fieldName %><%= defaultValueConstant %>
+    private <%= fieldType %> <%= fieldName %><%- defaultValueConstant %>
     <%_ } else { _%>
     private String <%= fieldName %>;
     <%_ } _%>
