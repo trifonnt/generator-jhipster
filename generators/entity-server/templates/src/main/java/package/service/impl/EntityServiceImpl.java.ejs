@@ -273,23 +273,32 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 */
 	public <%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns) {
 <%_ for (idx2 in fields) {
-      const fieldType2 = fields[idx2].fieldType;
+      let fieldType2 = fields[idx2].fieldType;
       const fieldTypeBlobContent2 = fields[idx2].fieldTypeBlobContent;
       const fieldName2 = fields[idx2].fieldName;
       const fieldInJavaBeanMethod2 = fields[idx2].fieldInJavaBeanMethod;
 
+      if ((fieldType2 === 'byte[]' || fieldType2 === 'ByteBuffer') && fieldTypeBlobContent2 === 'text') {
+        fieldType2 = "String";
+      }
+
       let columnValue = 'columns['+ idx2 + ']';
       if (fieldType2.toLowerCase() === 'integer') {
         columnValue = 'Integer.parseInt(columns['+ idx2 +'])';
+
       } else if (fieldType2.toLowerCase() === 'long') {
         columnValue = 'Long.parseLong(columns['+ idx2 +'])';
+
       } else if (fieldType2.toLowerCase() === 'float') {
         columnValue = 'Float.parseFloat(columns['+ idx2 +'])';
+
       } else if (fieldType2.toLowerCase() === 'double') {
         columnValue = 'Double.parseDouble(columns['+ idx2 +'])';
+
       } else if (fieldType2.toLowerCase() === 'bigdecimal') {
         // 
         columnValue = 'new BigDecimal(columns['+ idx2 +'])';
+
       } else if (fieldType2.toLowerCase() === 'boolean') {
         columnValue = 'Boolean.valueOf(columns['+ idx2 +'])';
       }
