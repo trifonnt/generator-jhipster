@@ -236,7 +236,7 @@ public class <%= entityClass %>Resource {
         const otherEntityName = relationships[idx].otherEntityName;
         const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
         const ownerSide = relationships[idx].ownerSide;
-        if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') { _%>
+        if (relationshipType === 'one-to-many') { _%>
 
     @GetMapping("/<%= entityApiUrl %>/{id}/<%= relationshipNamePlural %>/template")
     @Timed
