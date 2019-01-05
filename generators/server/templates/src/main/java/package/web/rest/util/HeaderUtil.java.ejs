@@ -78,4 +78,11 @@ public final class HeaderUtil {
         headers.add("X-" + APPLICATION_NAME + "-params", entityName);
         return headers;
     }
+
+    //@Trifon
+    public static HttpHeaders createHiddenFieldsHeader(String fields) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-" + APPLICATION_NAME + "-hidden-fields", fields);
+        return headers;
+    }
 }

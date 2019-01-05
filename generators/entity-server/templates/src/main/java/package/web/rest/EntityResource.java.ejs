@@ -252,7 +252,7 @@ public class <%= entityClass %>Resource {
         // Populate all automatically populated fields!
 //      <%= otherEntityName %>DTO.setCode(...);
 
-		HttpHeaders headers = HeaderUtil.createHiddenFieldsHeader(<%= firstToLower(entityClass) %>Id);
+		HttpHeaders headers = HeaderUtil.createHiddenFieldsHeader("<%= firstToLower(entityClass) %>Id");
 
         return ResponseEntity.ok().headers(headers).body(<%= otherEntityName %>DTO);
     }
