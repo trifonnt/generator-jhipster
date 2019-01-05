@@ -240,7 +240,7 @@ public class <%= entityClass %>Resource {
 
     @GetMapping("/<%= entityApiUrl %>/{id}/<%= relationshipNamePlural %>/template")
     @Timed
-    public ResponseEntity<<%= otherEntityNameCapitalized %>DTO> getTemplate<%= firstToUpper(relationshipNamePlural) %>(@PathVariable Long id) {
+    public ResponseEntity<<%= otherEntityNameCapitalized %>DTO> get<%= firstToUpper(relationshipName) %>Template(@PathVariable Long id) {
         log.debug("REST request to get Template for <%= firstToUpper(relationshipNamePlural) %> in <%= entityClass %> : {}", id);
 
         Optional<<%= instanceType %>> <%= instanceName %> = <%= entityInstance %>Service.findOne(id);
@@ -252,7 +252,9 @@ public class <%= entityClass %>Resource {
         // Populate all automatically populated fields!
 //      <%= otherEntityName %>DTO.setCode(...);
 
-        return ResponseEntity.ok().body(<%= otherEntityName %>DTO);
+		HttpHeaders headers = HeaderUtil.createHiddenFieldsHeader(<%= firstToLower(entityClass) %>Id);
+
+        return ResponseEntity.ok().headers(headers).body(<%= otherEntityName %>DTO);
     }
 <%_ }
 } _%>
