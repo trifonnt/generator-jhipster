@@ -44,6 +44,8 @@ import <%= packageName %>.service.mapper.<%= entityClass %>Mapper;
 <%_ } _%>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.math.BigDecimal;
+import java.time.Instant;
 
 <%_ if (pagination !== 'no' || fieldsContainOwnerManyToMany === true) { _%>
 import org.springframework.data.domain.Page;

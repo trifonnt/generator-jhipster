@@ -221,6 +221,37 @@ public class <%= entityClass %>Resource {
 
         return ResponseEntity.ok().body(<%= instanceName %>);
     }
+<%_ for (idx in relationships) {
+        const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
+        const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
+        const relationshipName = relationships[idx].relationshipName;
+        const relationshipFieldName = relationships[idx].relationshipFieldName;
+        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+        const joinTableName = getJoinTableName(name, relationshipName, prodDatabaseType);
+        const relationshipType = relationships[idx].relationshipType;
+        const relationshipValidate = relationships[idx].relationshipValidate;
+        const relationshipRequired = relationships[idx].relationshipRequired;
+        const otherEntityName = relationships[idx].otherEntityName;
+        const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+        const ownerSide = relationships[idx].ownerSide; _%>
+
+    @GetMapping("/<%= entityApiUrl %>/{id}/<%= relationshipFieldNamePlural %>/template")
+    @Timed
+    public ResponseEntity<<%= instanceType %>> getTemplate<%= relationshipName %>(@PathVariable Long id) {
+        log.debug("REST request to get Template for Region in <%= entityClass %> : {}", id);
+
+        Optional<<%= instanceType %>> <%= instanceName %> = <%= entityInstance %>Service.findOne(id);
+        if (!<%= instanceName %>.isPresent()) {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        <%= otherEntityNameCapitalized %>DTO <%= otherEntityName %>DTO = new <%= otherEntityNameCapitalized %>DTO();
+        <%= otherEntityName %>DTO.set<%= entityClass %>Id(id);
+        // Populate all automatically populated fields!
+//      <%= otherEntityName %>DTO.setCode(...);
+
+        return ResponseEntity.ok().body(<%= otherEntityName %>DTO);
+    }
+<%_ } _%>
 
     /**
      * DELETE  /<%= entityApiUrl %>/:id : delete the "id" <%= entityInstance %>.
