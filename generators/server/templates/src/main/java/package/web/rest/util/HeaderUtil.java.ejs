@@ -80,9 +80,9 @@ public final class HeaderUtil {
     }
 
     //@Trifon
-    public static HttpHeaders createHiddenFieldsHeader(String fields) {
+    public static HttpHeaders createHiddenFieldsHeader(String field) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-" + APPLICATION_NAME + "-hidden-fields", fields);
+        headers.add("X-" + APPLICATION_NAME + "-hidden-fields", "[\""+ field +"\"]");
         return headers;
     }
 }
