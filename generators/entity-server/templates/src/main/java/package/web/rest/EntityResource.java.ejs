@@ -236,7 +236,8 @@ public class <%= entityClass %>Resource {
         const relationshipRequired = relationships[idx].relationshipRequired;
         const otherEntityName = relationships[idx].otherEntityName;
         const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
-        const ownerSide = relationships[idx].ownerSide; _%>
+        const ownerSide = relationships[idx].ownerSide;
+        if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') { _%>
 
     @GetMapping("/<%= entityApiUrl %>/{id}/<%= relationshipNamePlural %>/template")
     @Timed
@@ -254,7 +255,8 @@ public class <%= entityClass %>Resource {
 
         return ResponseEntity.ok().body(<%= otherEntityName %>DTO);
     }
-<%_ } _%>
+<%_ }
+} _%>
 
     /**
      * DELETE  /<%= entityApiUrl %>/:id : delete the "id" <%= entityInstance %>.
