@@ -16,6 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
+<% include ../../common/functions.ejs %>
 package <%=packageName%>.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
@@ -41,6 +42,7 @@ import <%=packageName%>.web.rest.util.HeaderUtil;<% if (pagination !== 'no') { %
 import <%=packageName%>.web.rest.util.PaginationUtil;<% } %>
 import <%=packageName%>.service.dto.IdArrayDTO;
 <%_ if (dto === 'mapstruct') { _%>
+import <%=packageName%>.service.dto.*; //@Trifon
 import <%=packageName%>.service.dto.<%= entityClass %>DTO;
 <%_ if (service === 'no') { _%>
 import <%=packageName%>.service.mapper.<%= entityClass %>Mapper;
@@ -225,6 +227,7 @@ public class <%= entityClass %>Resource {
         const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
         const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
         const relationshipName = relationships[idx].relationshipName;
+        const relationshipNamePlural = relationships[idx].relationshipNamePlural;
         const relationshipFieldName = relationships[idx].relationshipFieldName;
         const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
         const joinTableName = getJoinTableName(name, relationshipName, prodDatabaseType);
@@ -235,10 +238,10 @@ public class <%= entityClass %>Resource {
         const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
         const ownerSide = relationships[idx].ownerSide; _%>
 
-    @GetMapping("/<%= entityApiUrl %>/{id}/<%= relationshipFieldNamePlural %>/template")
+    @GetMapping("/<%= entityApiUrl %>/{id}/<%= relationshipNamePlural %>/template")
     @Timed
-    public ResponseEntity<<%= instanceType %>> getTemplate<%= relationshipName %>(@PathVariable Long id) {
-        log.debug("REST request to get Template for Region in <%= entityClass %> : {}", id);
+    public ResponseEntity<<%= otherEntityNameCapitalized %>DTO> getTemplate<%= firstToUpper(relationshipNamePlural) %>(@PathVariable Long id) {
+        log.debug("REST request to get Template for <%= firstToUpper(relationshipNamePlural) %> in <%= entityClass %> : {}", id);
 
         Optional<<%= instanceType %>> <%= instanceName %> = <%= entityInstance %>Service.findOne(id);
         if (!<%= instanceName %>.isPresent()) {

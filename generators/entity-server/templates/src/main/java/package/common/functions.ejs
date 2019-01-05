@@ -18,30 +18,55 @@
 -%>
 <%#	Returns name of unique field. -%>
 <%
-hasUniqueField = function(fields) {
+	hasUniqueField = function(fields) {
+	
+	  let resultName = '';
+	  let hasUniqField = false;
+	
+	  for (idx in fields) {
+	    const field = fields[idx];
+	
+	    const fieldType = field.fieldType;
+	    const fieldTypeBlobContent = field.fieldTypeBlobContent;
+	    const fieldName = field.fieldName;
+	    const fieldNameHumanized = field.fieldNameHumanized;
+	    const fieldNameCapitalized = field.fieldNameCapitalized;
+	    const fieldInJavaBeanMethod = field.fieldInJavaBeanMethod;
+	
+	    if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
+	      if (capitalLetter) {
+	      	resultName = fieldNameCapitalized;
+	      } else {
+	      	resultName = fieldName;
+	      }
+	      hasUniqField = true;
+	    }
+	  }
+	  return hasUniqField;
+	}
 
-  let resultName = '';
-  let hasUniqField = false;
+	toSpaced = function toSpaced(str) {
+		str = str.replace(/([A-Z])/g," $1")
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
 
-  for (idx in fields) {
-    const field = fields[idx];
+	toDashed = function toDashed(str) {
+	  return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase()
+	}
 
-    const fieldType = field.fieldType;
-    const fieldTypeBlobContent = field.fieldTypeBlobContent;
-    const fieldName = field.fieldName;
-    const fieldNameHumanized = field.fieldNameHumanized;
-    const fieldNameCapitalized = field.fieldNameCapitalized;
-    const fieldInJavaBeanMethod = field.fieldInJavaBeanMethod;
+	toLower = function toLower(str) {
+		return str.toLowerCase();
+	}
 
-    if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
-      if (capitalLetter) {
-      	resultName = fieldNameCapitalized;
-      } else {
-      	resultName = fieldName;
-      }
-      hasUniqField = true;
-    }
-  }
-  return hasUniqField;
-}
+	addS = function addS(str) {
+		return str+'s';
+	}
+
+	firstToUpper = function firstToUpper(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	firstToLower = function firstToLower(str) {
+		return str.charAt(0).toLowerCase() + str.slice(1);
+	}
 %>
