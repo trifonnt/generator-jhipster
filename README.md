@@ -12,7 +12,7 @@ List of new features added to JHipster:
 
 [x] Generate method to delete multiple records by ids in Java REST Resource classes.
 
-[x] Generate REST endpoint /ENTITY/template which returns template for new record creation.
+[x] Generate REST endpoint /api/ENTITY/template which returns template for new record creation.
 
 [x] Generate Builder class for each ENTITY.
 
@@ -27,5 +27,7 @@ List of new features added to JHipster:
 [x] Added importBy<UNIQUE_FIELD>(...) in Java service classes.
 
 [x] Added new model field "defaultValueConstant" to .jhipster/MODEL.json
+
+[x] Generate REST endpoint /api/ENTITY/{id}/RELATIONSHIP_NAME/template
 
 [] Different DB Sequence for each entity.
