@@ -117,17 +117,14 @@ public class <%= entityClass %>DTO implements Serializable {
             //@Trifon
             if (includeAsObjectInDTO) { _%>
 
-    private <%= otherEntityName %>DTO <%= relationshipName %>;
+    private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>;
         <%_ } else { _%>
 
     private <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>String<% } else { %><%= pkType %><% } %> <%= relationshipFieldName %>Id;
     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
 
     private String <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>;
-    <%_ } if (relationships[idx].includeAsObjectInDTO) { _%>
-
-    private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>; //@Trifon
-    <%_ } } } } _%>
+    <%_ } } } _%>
 
     public <%= pkType %> getId() {
         return id;
