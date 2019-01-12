@@ -258,7 +258,7 @@ public class <%= entityClass %> implements Serializable {
         const relationshipRequired = relationships[idx].relationshipRequired;
         const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
         const ownerSide = relationships[idx].ownerSide;
-        const includeAsObjectInDTOValue = '  ';
+        let includeAsObjectInDTOValue = '  ';
         if (relationships[idx].includeAsObjectInDTO) {
           includeAsObjectInDTOValue = '//';
         }
