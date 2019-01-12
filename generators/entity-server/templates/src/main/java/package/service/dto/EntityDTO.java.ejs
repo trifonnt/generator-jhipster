@@ -117,6 +117,9 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
 
     private String <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>;
+    <%_ } if (relationships[idx].includeAsObjectInDTO) { _%>
+
+    private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>; //@Trifon
     <%_ } } } _%>
 
     public <%= pkType %> getId() {
@@ -257,12 +260,16 @@ public class <%= entityClass %>DTO implements Serializable {
                 const relationshipType = relationships[idx].relationshipType;
                 const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
                 const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized;
-                const ownerSide = relationships[idx].ownerSide; _%>
-                <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) { _%>
+                const ownerSide = relationships[idx].ownerSide;
+                const includeAsObjectInDTO = relationships[idx].includeAsObjectInDTO; _%>
+                <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
+                      if (includeAsObjectInDTO) { _%>
+            ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
+            <%_       } else { _%>
             ", <%= relationshipFieldName %>Id=<% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>'<% } %>" + get<%= relationshipNameCapitalized %>Id() <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>+ "'" <% } %>+
                     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
             ", <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>='" + get<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>() + "'" +
-            <%_ } } } _%>
+            <%_ } } } } _%>
             "}";
     }
 }
