@@ -258,6 +258,10 @@ public class <%= entityClass %> implements Serializable {
         const relationshipRequired = relationships[idx].relationshipRequired;
         const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
         const ownerSide = relationships[idx].ownerSide;
+        const includeAsObjectInDTOValue = '  ';
+        if (relationships[idx].includeAsObjectInDTO) {
+          includeAsObjectInDTOValue = '//';
+        }
         if (otherEntityRelationshipName) {
             mappedBy = otherEntityRelationshipName.charAt(0).toLowerCase() + otherEntityRelationshipName.slice(1)
         }
@@ -292,7 +296,7 @@ public class <%= entityClass %> implements Serializable {
     @DBRef
     @Field("<%= relationshipFieldName %>")
     <%_ } _%>
-    @JsonIgnoreProperties("<%= otherEntityRelationshipNamePlural %>")
+<%= includeAsObjectInDTOValue %>  @JsonIgnoreProperties("<%= otherEntityRelationshipNamePlural %>")
     private <%= otherEntityNameCapitalized %> <%= relationshipFieldName %>;
 
     <%_ } else if (relationshipType === 'many-to-many') {

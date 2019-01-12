@@ -1064,10 +1064,22 @@ function askForRelationship(done) {
             type: 'input',
             name: 'otherEntityField2',
             message: response =>
-                `When you display this relationship on client-side, which SECoND field from '${
+                `When you display this relationship on client-side, which SECOND field from '${
                     response.otherEntityName
                 }' do you want to use? This field will be displayed as a String, so it cannot be a Blob`,
             default: ''
+        },
+        {
+            when: response =>
+                response.relationshipAdd === true &&
+                (response.relationshipType === 'many-to-one' ||
+                    (response.relationshipType === 'many-to-many' && response.ownerSide === true) ||
+                    (response.relationshipType === 'one-to-one' && response.ownerSide === true)),
+            type: 'confirm',
+            name: 'includeAsObjectInDTO',
+            message: response =>
+                `Do you want to include this relationship as Object in DTO?`,
+            default: false
         },
         {
             when: response =>
@@ -1108,6 +1120,7 @@ function askForRelationship(done) {
                 relationshipValidateRules: props.relationshipValidateRules,
                 otherEntityField: props.otherEntityField,
                 otherEntityField2: props.otherEntityField2,
+                includeAsObjectInDTO: props.includeAsObjectInDTO,
                 ownerSide: props.ownerSide,
                 otherEntityRelationshipName: props.otherEntityRelationshipName
             };
@@ -1116,6 +1129,7 @@ function askForRelationship(done) {
                 relationship.ownerSide = true;
                 relationship.otherEntityField = 'login';
                 relationship.otherEntityField2 = '';
+                relationship.includeAsObjectInDTO = false;
                 relationship.otherEntityRelationshipName = _.lowerFirst(name);
             }
 

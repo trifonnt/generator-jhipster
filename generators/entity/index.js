@@ -587,6 +587,22 @@ module.exports = class extends BaseBlueprintGenerator {
                         relationship.otherEntityField2 = '';
                     }
 
+                    if (
+                        _.isUndefined(relationship.includeAsObjectInDTO) &&
+                        (relationship.relationshipType === 'many-to-one' ||
+                            (relationship.relationshipType === 'many-to-many' && relationship.ownerSide === true) ||
+                            (relationship.relationshipType === 'one-to-one' && relationship.ownerSide === true))
+                    ) {
+                        this.warning(
+                            `includeAsObjectInDTO is missing in .jhipster/${entityName}.json for relationship ${JSON.stringify(
+                                relationship,
+                                null,
+                                4
+                            )}, using FALSE as fallback`
+                        );
+                        relationship.includeAsObjectInDTO = false';
+                    }
+
                     if (_.isUndefined(relationship.relationshipType)) {
                         this.error(
                             chalk.red(
