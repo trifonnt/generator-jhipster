@@ -102,6 +102,7 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ } _%>
     <%_ for (idx in relationships) {
         const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
+        const relationshipName = relationships[idx].relationshipName;
         const relationshipFieldName = relationships[idx].relationshipFieldName;
         const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
         const relationshipType = relationships[idx].relationshipType;
