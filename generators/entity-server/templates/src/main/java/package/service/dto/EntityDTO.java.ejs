@@ -183,9 +183,11 @@ public class <%= entityClass %>DTO implements Serializable {
         relationshipType = relationships[idx].relationshipType,
         otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized,
         otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized,
+        relationshipName = relationships[idx].relationshipName,
         relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized,
         relationshipNameCapitalizedPlural = relationships[idx].relationshipNameCapitalizedPlural,
         ownerSide = relationships[idx].ownerSide;
+        includeAsObjectInDTO = relationships[idx].includeAsObjectInDTO;
         if ((relationshipType === 'many-to-many' || relationshipType === 'one-to-many') && ownerSide === true) { _%>
 
     public Set<<%= otherEntityNameCapitalized %>DTO> get<%= relationshipNameCapitalizedPlural %>() {
@@ -195,7 +197,18 @@ public class <%= entityClass %>DTO implements Serializable {
     public void set<%= relationshipNameCapitalizedPlural %>(Set<<%= otherEntityNameCapitalized %>DTO> <%= otherEntityNamePlural %>) {
         this.<%= relationshipFieldNamePlural %> = <%= otherEntityNamePlural %>;
     }
-    <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) { _%>
+    <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
+            //@Trifon
+            if (includeAsObjectInDTO) { _%>
+
+    public <%= otherEntityNameCapitalized %>DTO get<%= relationshipNameCapitalized %>() {
+        return <%= relationshipName %>;
+    }
+
+    public void set<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %>DTO <%= otherEntityName %>) {
+        this.<%= relationshipName %> = <%= otherEntityName %>;
+    }
+        <%_ } else { _%>
 
     <%_ if (relationshipNameCapitalized.length > 1) { _%>
     public <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>String<% } else { %><%= pkType %><% } %> get<%= relationshipNameCapitalized %>Id() {
