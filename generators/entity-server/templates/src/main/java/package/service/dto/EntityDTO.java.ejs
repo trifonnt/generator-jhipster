@@ -120,6 +120,8 @@ public class <%= entityClass %>DTO implements Serializable {
     private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>;
         <%_ } else { _%>
 
+    private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>;
+
     private <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>String<% } else { %><%= pkType %><% } %> <%= relationshipFieldName %>Id;
     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
 
@@ -212,6 +214,14 @@ public class <%= entityClass %>DTO implements Serializable {
         this.<%= relationshipName %> = <%= otherEntityName %>;
     }
         <%_ } else { _%>
+
+    public <%= otherEntityNameCapitalized %>DTO get<%= relationshipNameCapitalized %>() {
+        return <%= relationshipName %>;
+    }
+
+    public void set<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %>DTO <%= otherEntityName %>) {
+        this.<%= relationshipName %> = <%= otherEntityName %>;
+    }
 
     <%_ if (relationshipNameCapitalized.length > 1) { _%>
     public <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>String<% } else { %><%= pkType %><% } %> get<%= relationshipNameCapitalized %>Id() {
