@@ -115,10 +115,10 @@ public class <%= entityClass %>DTO implements Serializable {
     private Set<<%= otherEntityNameCapitalized %>DTO> <%= relationshipFieldNamePlural %> = new HashSet<>();
     <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
             //@Trifon
-            if (includeAsObjectInDTO && false) { _%>
+            if (includeAsObjectInDTO) { _%>
 
     private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>;
-        <%_ } else { _%>
+        <%_ } _%>
 
     private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>;
 
@@ -126,7 +126,7 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
 
     private String <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>;
-    <%_ } } } } _%>
+    <%_ } } } _%>
 
     public <%= pkType %> getId() {
         return id;
@@ -204,7 +204,7 @@ public class <%= entityClass %>DTO implements Serializable {
     }
     <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
             //@Trifon
-            if (includeAsObjectInDTO && false) { _%>
+            if (includeAsObjectInDTO) { _%>
 
     public <%= otherEntityNameCapitalized %>DTO get<%= relationshipNameCapitalized %>() {
         return <%= relationshipName %>;
@@ -213,7 +213,7 @@ public class <%= entityClass %>DTO implements Serializable {
     public void set<%= relationshipNameCapitalized %>(<%= otherEntityNameCapitalized %>DTO <%= otherEntityName %>) {
         this.<%= relationshipName %> = <%= otherEntityName %>;
     }
-        <%_ } else { _%>
+        <%_ } _%>
 
     public <%= otherEntityNameCapitalized %>DTO get<%= relationshipNameCapitalized %>() {
         return <%= relationshipName %>;
@@ -249,7 +249,7 @@ public class <%= entityClass %>DTO implements Serializable {
     public void set<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>(String <%= otherEntityName %><%= otherEntityFieldCapitalized %>) {
         this.<%= relationshipFieldName %><%= otherEntityFieldCapitalized %> = <%= otherEntityName %><%= otherEntityFieldCapitalized %>;
     }
-    <%_ } } } } _%>
+    <%_ } } } _%>
 
     @Override
     public boolean equals(Object o) {
@@ -290,13 +290,13 @@ public class <%= entityClass %>DTO implements Serializable {
                 const ownerSide = relationships[idx].ownerSide;
                 const includeAsObjectInDTO = relationships[idx].includeAsObjectInDTO; _%>
                 <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
-                      if (includeAsObjectInDTO && false) { _%>
+                      if (includeAsObjectInDTO) { _%>
             ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
-            <%_       } else { _%>
+            <%_       } _%>
             ", <%= relationshipFieldName %>Id=<% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>'<% } %>" + get<%= relationshipNameCapitalized %>Id() <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>+ "'" <% } %>+
                     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
             ", <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>='" + get<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>() + "'" +
-            <%_ } } } } _%>
+            <%_ } } } _%>
             "}";
     }
 }
