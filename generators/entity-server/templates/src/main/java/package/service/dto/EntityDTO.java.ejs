@@ -115,7 +115,7 @@ public class <%= entityClass %>DTO implements Serializable {
     private Set<<%= otherEntityNameCapitalized %>DTO> <%= relationshipFieldNamePlural %> = new HashSet<>();
     <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
             //@Trifon
-            if (includeAsObjectInDTO) { _%>
+            if (includeAsObjectInDTO && false) { _%>
 
     private <%= otherEntityNameCapitalized %>DTO <%= relationshipName %>;
         <%_ } else { _%>
@@ -204,7 +204,7 @@ public class <%= entityClass %>DTO implements Serializable {
     }
     <%_ } else if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
             //@Trifon
-            if (includeAsObjectInDTO) { _%>
+            if (includeAsObjectInDTO && false) { _%>
 
     public <%= otherEntityNameCapitalized %>DTO get<%= relationshipNameCapitalized %>() {
         return <%= relationshipName %>;
@@ -290,7 +290,7 @@ public class <%= entityClass %>DTO implements Serializable {
                 const ownerSide = relationships[idx].ownerSide;
                 const includeAsObjectInDTO = relationships[idx].includeAsObjectInDTO; _%>
                 <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true)) {
-                      if (includeAsObjectInDTO) { _%>
+                      if (includeAsObjectInDTO && false) { _%>
             ", <%= relationshipFieldName %>='" + get<%= relationshipNameCapitalized %>() + "'" +
             <%_       } else { _%>
             ", <%= relationshipFieldName %>Id=<% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>'<% } %>" + get<%= relationshipNameCapitalized %>Id() <% if (relationshipFieldName === 'user' && authenticationType === 'oauth2') { %>+ "'" <% } %>+
