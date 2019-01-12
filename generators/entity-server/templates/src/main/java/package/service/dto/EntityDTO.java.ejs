@@ -124,7 +124,7 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ if (otherEntityFieldCapitalized !== 'Id' && otherEntityFieldCapitalized !== '') { _%>
 
     private String <%= relationshipFieldName %><%= otherEntityFieldCapitalized %>;
-    <%_ } } } _%>
+    <%_ } } } } _%>
 
     public <%= pkType %> getId() {
         return id;
