@@ -236,7 +236,7 @@ public class <%= entityClass %>DTO implements Serializable {
     public void set<%= relationshipNameCapitalized %><%= otherEntityFieldCapitalized %>(String <%= otherEntityName %><%= otherEntityFieldCapitalized %>) {
         this.<%= relationshipFieldName %><%= otherEntityFieldCapitalized %> = <%= otherEntityName %><%= otherEntityFieldCapitalized %>;
     }
-    <%_ } } } _%>
+    <%_ } } } } _%>
 
     @Override
     public boolean equals(Object o) {
