@@ -600,7 +600,7 @@ module.exports = class extends BaseBlueprintGenerator {
                                 4
                             )}, using FALSE as fallback`
                         );
-                        relationship.includeAsObjectInDTO = false';
+                        relationship.includeAsObjectInDTO = false;
                     }
 
                     if (_.isUndefined(relationship.relationshipType)) {
