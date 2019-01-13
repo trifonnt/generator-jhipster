@@ -37,6 +37,8 @@ let helpBlocks = 0; %>
             }<% for (idx in fields) {
             if (typeof fields[idx].javadoc !== 'undefined') ++helpBlocks; %>,
             "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { 
+            	let relationshipType = relationships[idx].relationshipType;
+
             	let relationshipName = relationships[idx].relationshipName;
             	let relationshipNameHumanized = relationships[idx].relationshipNameHumanized;
             	
