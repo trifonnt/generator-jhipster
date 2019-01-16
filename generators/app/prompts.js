@@ -26,7 +26,8 @@ module.exports = {
     askForModuleName,
     askFori18n,
     askForTestOpts,
-    askForMoreModules
+    askForMoreModules,
+    skipGitCommit,
 };
 
 function askForInsightOptIn() {
@@ -46,6 +47,18 @@ function askForInsightOptIn() {
     });
 }
 
+function skipGitCommit() {
+    const done = this.async();
+
+    this.prompt({
+        type: 'confirm',
+        name: 'skipGitCommit',
+        message: 'Do you want to skip git',
+        default: true
+    }).then(prompt=> {
+        done();
+    })
+}
 function askForAccountLinking() {
     const done = this.async();
 

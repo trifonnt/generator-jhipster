@@ -273,7 +273,8 @@ module.exports = class extends BaseGenerator {
             // TODO : enable this. It's a bit messy for now, it need better sync.
             // askForAccountLinking: prompts.askForAccountLinking,
             askForApplicationType: prompts.askForApplicationType,
-            askForModuleName: prompts.askForModuleName
+            askForModuleName: prompts.askForModuleName,
+            skipGitCommit: prompts.skipGitCommit,
         };
     }
 
@@ -385,6 +386,7 @@ module.exports = class extends BaseGenerator {
             },
 
             saveConfig() {
+                this.options['skip-git'] = this.prompting.skipGitCommit;
                 const config = {
                     jhipsterVersion: packagejs.version,
                     applicationType: this.applicationType,
