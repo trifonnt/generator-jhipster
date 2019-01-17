@@ -147,7 +147,7 @@ public class <%= entityClass %> implements Serializable {
 <% include('../common/functions', {capitalLetter: false});
     if (hasUniqueField(fields) == false) {
 %>//	private RecordSource recordSource;
-
+/*
 	private String code;
 
 	public String getCode() {
@@ -163,6 +163,7 @@ public class <%= entityClass %> implements Serializable {
 			code = java.util.UUID.randomUUID().toString();
 		}
 	}
+*/
 <% } %>
 
 <%_ for (idx in fields) {
