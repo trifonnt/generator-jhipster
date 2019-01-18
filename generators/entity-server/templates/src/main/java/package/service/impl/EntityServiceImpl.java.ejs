@@ -255,11 +255,11 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 *
 	 * @return the entity
 	 */
-	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder) {
-		<%= entityClass %> <%= entityInstance %> = <%= entityInstance %>Repository.findOneBy<%= fieldInJavaBeanMethod %>(builder.get<%= fieldInJavaBeanMethod %>())
+	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %> param<%= entityClass %>) {
+		<%= entityClass %> <%= entityInstance %> = <%= entityInstance %>Repository.findOneBy<%= fieldInJavaBeanMethod %>(param<%= entityClass %>.get<%= fieldInJavaBeanMethod %>())
 				.orElse(null);
 		if (<%= entityInstance %> == null) {
-			<%= entityInstance %> = save(builder.build());
+			<%= entityInstance %> = save(param<%= entityClass %>);
 		}
 		log.debug("Trifon - <%= entityClass %>.Id = " + <%= entityInstance %>.getId());
 
