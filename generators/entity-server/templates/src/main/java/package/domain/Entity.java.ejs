@@ -273,7 +273,7 @@ public class <%= entityClass %> implements Serializable {
         if (relationshipType === 'one-to-many') {
             if (databaseType === 'sql') {
     _%>
-    @OneToMany(mappedBy = "<%= otherEntityRelationshipName %>")
+    @OneToMany(mappedBy = "<%= otherEntityRelationshipName %>", fetch = FetchType.EAGER, cascade = CascadeType.ALL) // @Trifon
             <%_ if (enableHibernateCache) {
                     if (cacheProvider === 'infinispan') { _%>
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
