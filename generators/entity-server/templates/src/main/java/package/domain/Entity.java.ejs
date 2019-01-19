@@ -325,6 +325,7 @@ public class <%= entityClass %> implements Serializable {
     <%_ } _%>
     private Set<<%= otherEntityNameCapitalized %>> <%= relationshipFieldNamePlural %> = new HashSet<>();
 
+
     <%_ } else {
         if (databaseType === 'sql') {
             if (ownerSide) { _%>
