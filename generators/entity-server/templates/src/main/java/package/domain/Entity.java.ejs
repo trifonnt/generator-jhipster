@@ -264,7 +264,7 @@ public class <%= entityClass %> implements Serializable {
         if (otherEntityRelationshipName) {
             mappedBy = otherEntityRelationshipName.charAt(0).toLowerCase() + otherEntityRelationshipName.slice(1)
         }
-        if (relationshipType === 'one-to-many') {
+        if (relationshipType === 'many-to-one') {
             if (databaseType === 'sql') { _%>
 		if (<%= relationshipName %> != null) {
 			System.err.println("TRIFON - PreRemove -- <%= entityClass %>");
