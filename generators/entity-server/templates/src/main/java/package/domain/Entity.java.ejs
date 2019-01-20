@@ -243,8 +243,8 @@ public class <%= entityClass %> implements Serializable {
       <%_ } _%>
     private String <%= fieldName %>FileName;
 
-    @PreRemove
-    private void preRemove() {
+	@PreRemove
+	private void preRemove() {
 <%_
     for (idx in relationships) {
         const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
@@ -263,15 +263,14 @@ public class <%= entityClass %> implements Serializable {
         }
         if (relationshipType === 'one-to-many') {
             if (databaseType === 'sql') { _%>
-    	if (<%= relationshipName %> != null) {
-    		System.err.println("TRIFON - PreRemove -- <%= entityClass %>");
-    		<%= relationshipName %>.remove<%= entityClass %>(this);
-    	}
-    <%_ } } _%>
-    }
+		if (<%= relationshipName %> != null) {
+			System.err.println("TRIFON - PreRemove -- <%= entityClass %>");
+			<%= relationshipName %>.remove<%= entityClass %>(this);
+		}
+    <%_ } } } _%>
+	}
 
-<%_ }
-
+<%_
     for (idx in relationships) {
         const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
         const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
