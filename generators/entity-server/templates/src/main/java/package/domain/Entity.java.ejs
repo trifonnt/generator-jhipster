@@ -243,6 +243,9 @@ public class <%= entityClass %> implements Serializable {
       <%_ } _%>
     private String <%= fieldName %>FileName;
 
+    <%_ }
+    } _%>
+
 	@PreRemove
 	private void preRemove() {
 <%_
@@ -270,7 +273,7 @@ public class <%= entityClass %> implements Serializable {
     <%_ } } } _%>
 	}
 
-<%_
+<%_ 
     for (idx in relationships) {
         const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
         const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
