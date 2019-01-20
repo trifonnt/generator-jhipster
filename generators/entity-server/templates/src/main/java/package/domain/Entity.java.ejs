@@ -147,23 +147,22 @@ public class <%= entityClass %> implements Serializable {
 <% include('../common/functions', {capitalLetter: false});
     if (hasUniqueField(fields) == false) {
 %>//	private RecordSource recordSource;
-/*
-	private String code;
 
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
+//	private String code;
 
-	@PrePersist
-	public void prePersist() {
-		if (code == null || code.isEmpty()) {
-			code = java.util.UUID.randomUUID().toString();
-		}
-	}
-*/
+//	public String getCode() {
+//		return code;
+//	}
+//	public void setCode(String code) {
+//		this.code = code;
+//	}
+
+//	@PrePersist
+//	public void prePersist() {
+//		if (code == null || code.isEmpty()) {
+//			code = java.util.UUID.randomUUID().toString();
+//		}
+//	}
 <% } %>
 
 <%_ for (idx in fields) {
@@ -243,6 +242,33 @@ public class <%= entityClass %> implements Serializable {
     @Field("<%=fieldNameUnderscored %>_file_name")
       <%_ } _%>
     private String <%= fieldName %>FileName;
+
+    @PreRemove
+    private void preRemove() {
+    <%_
+        for (idx in relationships) {
+        const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
+        const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
+        const relationshipName = relationships[idx].relationshipName;
+        const relationshipFieldName = relationships[idx].relationshipFieldName;
+        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+        const joinTableName = getJoinTableName(name, relationshipName, prodDatabaseType);
+        const relationshipType = relationships[idx].relationshipType;
+        const relationshipValidate = relationships[idx].relationshipValidate;
+        const relationshipRequired = relationships[idx].relationshipRequired;
+        const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+        const ownerSide = relationships[idx].ownerSide;
+        if (otherEntityRelationshipName) {
+            mappedBy = otherEntityRelationshipName.charAt(0).toLowerCase() + otherEntityRelationshipName.slice(1)
+        }
+        if (relationshipType === 'one-to-many') {
+            if (databaseType === 'sql') { _%>
+    	if (<%= relationshipName %> != null) {
+    		System.err.println("TRIFON - PreRemove -- <%= entityClass %>");
+    		<%= relationshipName %>.remove<%= entityClass %>(this);
+    	}
+    <%_ } } _%>
+    }
 
     <%_ }
     }
