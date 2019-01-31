@@ -924,7 +924,7 @@ function askForField(done) {
                 fieldValidateRulesMaxbytes: props.fieldValidateRulesMaxbytes,
                 maxFileSize: props.maxFiles,
                 maxFiles: props.maxFiles,
-                contentType: props.contentType;
+                contentType: props.contentType,
             };
 
             fieldNamesUnderscored.push(_.snakeCase(props.fieldName));
