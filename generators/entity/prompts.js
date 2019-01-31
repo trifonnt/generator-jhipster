@@ -1170,7 +1170,7 @@ function askForRelationship(done) {
                 otherEntityRelationshipName: props.otherEntityRelationshipName,
                 maxFileSize: props.maxFiles,
                 maxFiles: props.maxFiles,
-                contentType: props.contentType;
+                contentType: props.contentType,
             };
 
             if (props.otherEntityName.toLowerCase() === 'user') {
