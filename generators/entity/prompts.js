@@ -727,6 +727,27 @@ function askForField(done) {
             default: 0
         },
         {
+            when: response => response.fieldAdd === true && response.fieldTypeBlobContent === 'image',
+            type: 'input',
+            name: 'maxFileSize',
+            message: 'What is the max file size?',
+            default: 10,
+        },
+        {
+            when: response => response.fieldAdd === true && response.fieldTypeBlobContent === 'image',
+            type: 'input',
+            name: 'maxFiles',
+            message: 'How many files can be uploaded?',
+            default: 20,
+        },
+        {
+            when: response => response.fieldAdd === true && response.fieldTypeBlobContent === 'image',
+            type: 'input',
+            name: 'contentType',
+            message: 'What files should be accepted, please separate them with a comma, no space?',
+            default: "image/*,.pdf",
+        },
+        {
             when: response => response.fieldAdd === true && response.fieldType === 'ByteBuffer',
             type: 'list',
             name: 'fieldTypeBlobContent',
@@ -900,7 +921,10 @@ function askForField(done) {
                 fieldValidateRulesMin: props.fieldValidateRulesMin,
                 fieldValidateRulesMax: props.fieldValidateRulesMax,
                 fieldValidateRulesMinbytes: props.fieldValidateRulesMinbytes,
-                fieldValidateRulesMaxbytes: props.fieldValidateRulesMaxbytes
+                fieldValidateRulesMaxbytes: props.fieldValidateRulesMaxbytes,
+                maxFileSize: props.maxFiles,
+                maxFiles: props.maxFiles,
+                contentType: props.contentType;
             };
 
             fieldNamesUnderscored.push(_.snakeCase(props.fieldName));
@@ -1107,7 +1131,28 @@ function askForRelationship(done) {
                 }
             ],
             default: 0
-        }
+        },
+        {
+            when: response => response.otherEntityName.toLowerCase() == 'file',
+            type: 'input',
+            name: 'maxFileSize',
+            message: 'What is the max file size?',
+            default: 10,
+        },
+        {
+            when: response => response.otherEntityName.toLowerCase() == 'file',
+            type: 'input',
+            name: 'maxFiles',
+            message: 'How many files can be uploaded?',
+            default: 20,
+        },
+        {
+            when: response => response.otherEntityName.toLowerCase() == 'file',
+            type: 'input',
+            name: 'contentType',
+            message: 'What files should be accepted, please separate them with a comma, no space?',
+            default: "image/*,.pdf",
+        },
     ];
     this.prompt(prompts).then(props => {
         if (props.relationshipAdd) {
