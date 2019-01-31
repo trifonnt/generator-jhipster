@@ -198,7 +198,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
     @Override
     <%_ } _%>
     public void delete(<%= pkType %> id) {
-        log.debug("Request to delete <%= entityClass %> : {}", id);<%- include('../../common/delete_template', {viaService: viaService}); -%>
+        log.debug("Request to delete <%= entityClass %> by Id: {}", id);<%- include('../../common/delete_template', {viaService: viaService}); -%>
     }
     <%_ if (searchEngine === 'elasticsearch') { _%>
 
@@ -255,11 +255,11 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 *
 	 * @return the entity
 	 */
-	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %>Builder builder) {
-		<%= entityClass %> <%= entityInstance %> = <%= entityInstance %>Repository.findOneBy<%= fieldInJavaBeanMethod %>(builder.get<%= fieldInJavaBeanMethod %>())
+	public <%= entityClass %> getOrCreate<%= entityClass %>By<%= fieldInJavaBeanMethod %>(<%= entityClass %> param<%= entityClass %>) {
+		<%= entityClass %> <%= entityInstance %> = <%= entityInstance %>Repository.findOneBy<%= fieldInJavaBeanMethod %>(param<%= entityClass %>.get<%= fieldInJavaBeanMethod %>())
 				.orElse(null);
 		if (<%= entityInstance %> == null) {
-			<%= entityInstance %> = save(builder.build());
+			<%= entityInstance %> = save(param<%= entityClass %>);
 		}
 		log.debug("Trifon - <%= entityClass %>.Id = " + <%= entityInstance %>.getId());
 

@@ -148,21 +148,21 @@ public class <%= entityClass %> implements Serializable {
     if (hasUniqueField(fields) == false) {
 %>//	private RecordSource recordSource;
 
-	private String code;
+//	private String code;
 
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
+//	public String getCode() {
+//		return code;
+//	}
+//	public void setCode(String code) {
+//		this.code = code;
+//	}
 
-	@PrePersist
-	public void prePersist() {
-		if (code == null || code.isEmpty()) {
-			code = java.util.UUID.randomUUID().toString();
-		}
-	}
+//	@PrePersist
+//	public void prePersist() {
+//		if (code == null || code.isEmpty()) {
+//			code = java.util.UUID.randomUUID().toString();
+//		}
+//	}
 <% } %>
 
 <%_ for (idx in fields) {
@@ -244,8 +244,36 @@ public class <%= entityClass %> implements Serializable {
     private String <%= fieldName %>FileName;
 
     <%_ }
-    }
+    } _%>
 
+	@PreRemove
+	private void preRemove() {
+<%_
+    for (idx in relationships) {
+        const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
+        const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
+        const relationshipName = relationships[idx].relationshipName;
+        const relationshipFieldName = relationships[idx].relationshipFieldName;
+        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+        const joinTableName = getJoinTableName(name, relationshipName, prodDatabaseType);
+        const relationshipType = relationships[idx].relationshipType;
+        const relationshipValidate = relationships[idx].relationshipValidate;
+        const relationshipRequired = relationships[idx].relationshipRequired;
+        const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
+        const ownerSide = relationships[idx].ownerSide;
+        if (otherEntityRelationshipName) {
+            mappedBy = otherEntityRelationshipName.charAt(0).toLowerCase() + otherEntityRelationshipName.slice(1)
+        }
+        if (relationshipType === 'many-to-one') {
+            if (databaseType === 'sql') { _%>
+		if (<%= relationshipName %> != null) {
+			System.err.println("TRIFON - PreRemove -- <%= entityClass %>");
+			<%= relationshipName %>.remove<%= entityClass %>(this);
+		}
+    <%_ } } } _%>
+	}
+
+<%_ 
     for (idx in relationships) {
         const otherEntityRelationshipName = relationships[idx].otherEntityRelationshipName;
         const otherEntityRelationshipNamePlural = relationships[idx].otherEntityRelationshipNamePlural;
@@ -272,7 +300,7 @@ public class <%= entityClass %> implements Serializable {
         if (relationshipType === 'one-to-many') {
             if (databaseType === 'sql') {
     _%>
-    @OneToMany(mappedBy = "<%= otherEntityRelationshipName %>")
+    @OneToMany(mappedBy = "<%= otherEntityRelationshipName %>", fetch = FetchType.EAGER, cascade = CascadeType.ALL) // @Trifon
             <%_ if (enableHibernateCache) {
                     if (cacheProvider === 'infinispan') { _%>
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

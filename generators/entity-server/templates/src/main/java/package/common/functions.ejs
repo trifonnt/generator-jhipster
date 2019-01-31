@@ -44,6 +44,14 @@
 	  return hasUniqField;
 	}
 
+	getRelationshipNamesForOtherEntityName = function(relationships, searchedEntityName) {
+		return relationships
+			.filter(relationship=>relationship.otherEntityName == searchedEntityName)
+			.map(relationship=>relationship.relationshipName)
+			.join(', ')
+		;
+	}
+	
 	toSpaced = function toSpaced(str) {
 		str = str.replace(/([A-Z])/g," $1")
 		return str.charAt(0).toUpperCase() + str.slice(1);
