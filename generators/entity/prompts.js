@@ -1167,7 +1167,10 @@ function askForRelationship(done) {
                 otherEntityField2: props.otherEntityField2,
                 includeAsObjectInDTO: props.includeAsObjectInDTO,
                 ownerSide: props.ownerSide,
-                otherEntityRelationshipName: props.otherEntityRelationshipName
+                otherEntityRelationshipName: props.otherEntityRelationshipName,
+                maxFileSize: props.maxFiles,
+                maxFiles: props.maxFiles,
+                contentType: props.contentType;
             };
 
             if (props.otherEntityName.toLowerCase() === 'user') {
