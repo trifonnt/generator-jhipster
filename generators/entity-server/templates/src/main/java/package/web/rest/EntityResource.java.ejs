@@ -40,6 +40,7 @@ import <%=packageName%>.web.rest.errors.BadRequestAlertException;
 import <%=packageName%>.web.rest.util.HeaderUtil;<% if (pagination !== 'no') { %>
 import <%=packageName%>.web.rest.util.PaginationUtil;<% } %>
 import <%=packageName%>.service.dto.IdArrayDTO;
+import io.swagger.annotations.Api; //@Trifon
 <%_ if (dto === 'mapstruct') { _%>
 import <%=packageName%>.service.dto.*; //@Trifon
 import <%=packageName%>.service.dto.<%= entityClass %>DTO;
@@ -93,6 +94,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;<% } %>
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags={"<%= entityApiUrl %>"})
 public class <%= entityClass %>Resource {
 
     private final Logger log = LoggerFactory.getLogger(<%= entityClass %>Resource.class);
