@@ -250,7 +250,7 @@ public class <%= entityClass %>Resource {
         	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         <%= otherEntityNameCapitalized %>DTO <%= otherEntityName %>DTO = new <%= otherEntityNameCapitalized %>DTO();
-        <%= otherEntityName %>DTO.set<%= otherEntityRelationshipName %>Id(id);
+        <%= otherEntityName %>DTO.set<%= firstToUpper(otherEntityRelationshipName) %>Id(id);
         // Populate all automatically populated fields!
 //      <%= otherEntityName %>DTO.setCode(...);
 
