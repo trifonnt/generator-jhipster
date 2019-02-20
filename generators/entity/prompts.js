@@ -1120,7 +1120,7 @@ function askForRelationship(done) {
             default: false
         },
         {
-            when: response => {this.log(response,"MAMKATI");response.relationshipValidate === true},
+            when: response => response.relationshipValidate === true,
             type: 'checkbox',
             name: 'relationshipValidateRules',
             message: 'Which validation rules do you want to add?',
