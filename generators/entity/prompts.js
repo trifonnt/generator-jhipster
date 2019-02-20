@@ -1140,14 +1140,14 @@ function askForRelationship(done) {
             default: 10,
         },
         {
-            when: response => relationshipValidateRules && response.otherEntityRelationshipName.toLowerCase() == 'file',
+            when: response => response.relationshipValidateRules && response.otherEntityRelationshipName.toLowerCase() == 'file',
             type: 'input',
             name: 'maxFiles',
             message: 'How many files can be uploaded?',
             default: 20,
         },
         {
-            when: response => relationshipValidateRules && response.otherEntityRelationshipName.toLowerCase() == 'file',
+            when: response => response.relationshipValidateRules && response.otherEntityRelationshipName.toLowerCase() == 'file',
             type: 'input',
             name: 'contentType',
             message: 'What files should be accepted, please separate them with a comma, no space?',
