@@ -30,6 +30,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -39,6 +40,7 @@ import java.security.Principal;
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags={"account"})
 public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
