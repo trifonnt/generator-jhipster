@@ -1300,8 +1300,7 @@
                                 <configuration>
                                     <%_ if(configOptions.clientFramework == 'vue') { _%>
                                         <arguments>run build</arguments>
-                                    <%_ } _%>
-                                    <%_ else { _%>
+                                    <%_ } else { _%>
                                         <arguments>run webpack:build</arguments>
                                     <%_ } _%>
                                     <%_ if (clientPackageManager === 'yarn') { _%>
