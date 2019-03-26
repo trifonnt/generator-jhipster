@@ -1,0 +1,144 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "login",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "unique"
+            ]
+        },
+        {
+            "fieldName": "firstName",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "50"
+        },
+        {
+            "fieldName": "lastName",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "50"
+        },
+        {
+            "fieldName": "email",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "254"
+        },
+        {
+            "fieldName": "imageUrl",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "256"
+        },
+        {
+            "fieldName": "activated",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "authorities",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "Enumeration",
+            "fieldValues": "ROLE_USER,ROLE_ADMIN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdBy",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "50"
+        },
+        {
+            "fieldName": "createdDate",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "50"
+        },
+        {
+            "fieldName": "lastModifiedBy",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "50"
+        },
+        {
+            "fieldName": "lastModifiedDate",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "langKey",
+            "visibleForRole": "ROLE_USER,ROLE_ADMIN",
+            "readOnlyForRole": false,
+            "defaultValueConstant": false,
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "6"
+        }
+    ],
+    "changelogDate": "20190325153023",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "userx",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no",
+    "generateMenuItem": true
+}
