@@ -240,6 +240,21 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-afterburner</artifactId>
         </dependency>
+
+		<!-- @Trifon -->
+		<!-- https://github.com/trifonnt/rest-patch-sample -->
+		<dependency>
+			<groupId>com.github.fge</groupId>
+			<artifactId>json-patch</artifactId>
+			<version>1.9</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -1298,7 +1313,12 @@
                                 </goals>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>run webpack:build</arguments>
+                                    <%_ if(configOptions.clientFramework == 'vue') { _%>
+                                        <arguments>run build</arguments>
+                                    <%_ } _%>
+                                    <%_ else { _%>
+                                        <arguments>run webpack:build</arguments>
+                                    <%_ } _%>
                                     <%_ if (clientPackageManager === 'yarn') { _%>
                                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                                     <%_ } else if (clientPackageManager === 'npm') { _%>

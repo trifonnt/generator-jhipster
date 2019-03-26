@@ -1111,7 +1111,10 @@ const serverFiles = {
                 },
                 { file: 'package/web/rest/package-info.java', renameTo: generator => `${generator.javaDir}web/rest/package-info.java` },
 
-                { file: 'package/web/rest/LogsResource.java', renameTo: generator => `${generator.javaDir}web/rest/LogsResource.java` }
+                { file: 'package/web/rest/LogsResource.java', renameTo: generator => `${generator.javaDir}web/rest/LogsResource.java` },
+                { file: 'package/web/rest/common/JsonMergePatcher.java', renameTo: generator => `${generator.javaDir}web/rest/common/JsonMergePatcher.java` },
+                { file: 'package/web/rest/common/JsonPatcher.java', renameTo: generator => `${generator.javaDir}web/rest/common/JsonPatcher.java` },
+                { file: 'package/web/rest/common/RestMediaType.java', renameTo: generator => `${generator.javaDir}web/rest/common/RestMediaType.java` }
             ]
         }
     ],

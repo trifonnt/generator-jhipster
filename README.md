@@ -30,4 +30,6 @@ List of new features added to JHipster:
 
 [x] Generate REST endpoint /api/ENTITY/{id}/RELATIONSHIP_NAME/template
 
+[x] Implemented PATCH method. Added new REST endpoint /api/ENTITY/{id}
+
 [] Different DB Sequence for each entity.
