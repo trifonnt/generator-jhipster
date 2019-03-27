@@ -507,6 +507,10 @@ module.exports = class extends BaseBlueprintGenerator {
                             field.validation = false;
                             field.fieldValidateRules = [];
                         }
+                        if(field.fieldType == 'Enumeration') {
+                            this.warning('No enumMultiple value is specified for the field' + field + '. Assuming false')
+                            field.enumMultiple = false;
+                        }
                     }
                 });
 
