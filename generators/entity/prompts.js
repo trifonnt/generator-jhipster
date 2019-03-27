@@ -511,6 +511,13 @@ function askForField(done) {
         },
         {
             when: response => response.fieldAdd === true,
+            type: 'confirm',
+            name: 'visibleInTableMode',
+            message: "Do you want this field to be visible in the entity's table",
+            default: true,
+        },
+        {
+            when: response => response.fieldAdd === true,
             type: 'input',
             name: 'readOnlyForRole',
             message: 'What roles is this field read only for? String with commas, no spaces',
@@ -919,6 +926,7 @@ function askForField(done) {
                 readOnlyForRole: props.readOnlyForRole,
                 defaultValueConstant: props.defaultValueConstant,
                 fieldType: props.fieldType,
+                visibleInTableMode: props.visibleInTableMode,
                 fieldTypeBlobContent: props.fieldTypeBlobContent,
                 fieldValues: props.fieldValues,
                 enumMultiple: props.enumMultiple,
@@ -1063,6 +1071,13 @@ function askForRelationship(done) {
             default: false
         },
         {
+            when: response => response.relationshipAdd === true,
+            type: 'confirm',
+            name: 'visibleInTableMode',
+            message: "Do you want this field to be visible in the entity's table",
+            default: true,
+        },
+        {
             when: response =>
                 response.relationshipAdd === true &&
                 (response.relationshipType === 'one-to-many' ||
@@ -1166,6 +1181,7 @@ function askForRelationship(done) {
         if (props.relationshipAdd) {
             const relationship = {
                 relationshipName: props.relationshipName,
+                visibleInTableMode: props.visibleInTableMode,
                 visibleForRole: props.visibleForRole,
                 readOnlyForRole: props.readOnlyForRole,
                 otherEntityName: _.lowerFirst(props.otherEntityName),
