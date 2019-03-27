@@ -1298,7 +1298,11 @@
                                 </goals>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>run webpack:build</arguments>
+                                    <%_ if(configOptions.clientFramework == 'vue') { _%>
+                                        <arguments>run build</arguments>
+                                    <%_ } else { _%>
+                                        <arguments>run webpack:build</arguments>
+                                    <%_ } _%>
                                     <%_ if (clientPackageManager === 'yarn') { _%>
                                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                                     <%_ } else if (clientPackageManager === 'npm') { _%>
