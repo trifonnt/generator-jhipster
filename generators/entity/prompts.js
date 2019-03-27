@@ -611,6 +611,13 @@ function askForField(done) {
             message: 'What is the class name of your enumeration?'
         },
         {
+            when: response=>response.fieldType === 'enum',
+            type: 'confirm',
+            name: 'enumMultiple',
+            message: 'Do you want this enum to have multiple values?',
+            default: false,
+        },
+        {
             when: response => response.fieldIsEnum,
             type: 'input',
             name: 'fieldValues',
@@ -914,6 +921,7 @@ function askForField(done) {
                 fieldType: props.fieldType,
                 fieldTypeBlobContent: props.fieldTypeBlobContent,
                 fieldValues: props.fieldValues,
+                enumMultiple: props.enumMultiple,
                 fieldValidateRules: props.fieldValidateRules,
                 fieldValidateRulesMinlength: props.fieldValidateRulesMinlength,
                 fieldValidateRulesMaxlength: props.fieldValidateRulesMaxlength,
