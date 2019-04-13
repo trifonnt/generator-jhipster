@@ -363,7 +363,10 @@ module.exports = class extends BaseBlueprintGenerator {
                             chalk.red(`fieldName is missing in .jhipster/${entityName}.json for field ${JSON.stringify(field, null, 4)}`)
                         );
                     }
-
+                    if(_.isUndefined(field.visibleInTableMode)) {
+                        field.visibleInTableMode = true,
+                        this.warning("The field visibleInTableMode is missing in the .json for field" + field + ' Assuming true')
+                    }
                     if (_.isUndefined(field.visibleForRole)) {
                         field.visibleForRole = 'ROLE_USER,ROLE_ADMIN';
                         this.warning(
@@ -526,7 +529,10 @@ module.exports = class extends BaseBlueprintGenerator {
                             )}, using ${relationship.otherEntityName} as fallback`
                         );
                     }
-
+                    if(_.isUndefined(relationship.visibleInTableMode)) {
+                        field.visibleInTableMode = true,
+                        this.warning("The field visibleInTableMode is missing in the .json for field" + relationship + ' Assuming true')
+                    }
                     if (_.isUndefined(relationship.readOnlyForRole)) {
                         relationship.readOnlyForRole = '';
                     }
