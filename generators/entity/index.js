@@ -530,7 +530,7 @@ module.exports = class extends BaseBlueprintGenerator {
                         );
                     }
                     if(_.isUndefined(relationship.visibleInTableMode)) {
-                        field.visibleInTableMode = true,
+                        relationship.visibleInTableMode = true,
                         this.warning("The field visibleInTableMode is missing in the .json for field" + relationship + ' Assuming true')
                     }
                     if (_.isUndefined(relationship.readOnlyForRole)) {
