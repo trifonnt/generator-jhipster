@@ -1069,6 +1069,10 @@ const serverFiles = {
                     renameTo: generator => `${generator.javaDir}web/rest/errors/EmailNotFoundException.java`
                 },
                 {
+                    file: 'package/web/rest/errors/EntityNotFoundException.java',
+                    renameTo: generator => `${generator.javaDir}web/rest/errors/EntityNotFoundException.java`
+                },
+                {
                     file: 'package/web/rest/errors/ErrorConstants.java',
                     renameTo: generator => `${generator.javaDir}web/rest/errors/ErrorConstants.java`
                 },

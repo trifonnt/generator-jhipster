@@ -37,9 +37,13 @@ import <%=packageName%>.repository.search.<%= entityClass %>SearchRepository;
 import <%=packageName%>.repository.UserRepository;
 <%_ } _%>
 import <%=packageName%>.web.rest.errors.BadRequestAlertException;
+import <%=packageName%>.web.rest.errors.EntityNotFoundException; //@Trifon
 import <%=packageName%>.web.rest.util.HeaderUtil;<% if (pagination !== 'no') { %>
 import <%=packageName%>.web.rest.util.PaginationUtil;<% } %>
-import <%=packageName%>.service.dto.IdArrayDTO;
+import <%=packageName%>.web.rest.common.JsonPatcher; //@Trifon
+import <%=packageName%>.web.rest.common.RestMediaType; //@Trifon
+import <%=packageName%>.service.dto.IdArrayDTO; //@Trifon
+import com.github.fge.jsonpatch.JsonPatchException; //@Trifon
 import io.swagger.annotations.Api; //@Trifon
 <%_ if (dto === 'mapstruct') { _%>
 import <%=packageName%>.service.dto.*; //@Trifon
@@ -63,7 +67,9 @@ import org.springframework.http.HttpStatus;
 <%_ if (reactiveRepositories) { _%>
 import org.springframework.http.MediaType;
 <%_ } _%>
+import org.springframework.http.MediaType; //@Trifon
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired; //@Trifon
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
@@ -98,6 +104,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;<% } %>
 public class <%= entityClass %>Resource {
 
     private final Logger log = LoggerFactory.getLogger(<%= entityClass %>Resource.class);
+
+    //@Trifon
+    @Autowired
+    private JsonPatcher jsonPatcher;
 
     <%_ let entityName = entityInstance;
     if (clientRootFolder && !skipUiGrouping) {
@@ -165,6 +175,41 @@ public class <%= entityClass %>Resource {
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, <%= instanceName %>.getId().toString()))
             .body(result);
     }
+
+    // @Trifon
+    // JSON PATCH - V3
+    // echo '[{ "op": "replace", "path": "/description", "value": "Patched Description" }]' | http PATCH :10000/api/<%= entityApiUrl %>/1 Content-Type:application/json-patch+json
+    /**
+     * PATCH  /<%= entityApiUrl %>/:id : Patches an existing <%= entityInstance %>.
+     *
+     * @param <%= instanceName %> the <%= instanceName %> to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated <%= instanceName %>,
+     * or with status 400 (Bad Request) if the <%= instanceName %> is not valid,
+     * or with status 500 (Internal Server Error) if the <%= instanceName %> couldn't be updated
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PatchMapping(value = "/<%= entityApiUrl %>/{id}", 
+    	consumes = RestMediaType.APPLICATION_PATCH_JSON_VALUE,
+		produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+    public ResponseEntity<<%= instanceType %>> partialUpdate<%= entityClass %>(@PathVariable Long id, @RequestBody String patchCommand) {
+        log.debug("REST request to PATCH <%= entityClass %> : {}", id);
+
+		<%= instanceType %> existing<%= instanceType %> = <%= entityInstance %>Service.findOne(id).orElseThrow(() -> new EntityNotFoundException());
+		Optional<<%= instanceType %>> <%= instanceName %> = null;
+		try {
+			<%= instanceName %> = jsonPatcher.patch(patchCommand, existing<%= instanceType %);
+		} catch (RuntimeException ex) {
+			if (JsonPatchException.class.isAssignableFrom(ex.getCause().getClass())) {
+				ex.printStackTrace();
+			}
+		}
+
+<%- include('../../common/save_template', {viaService: viaService, returnDirectly: false}); -%>
+		return ResponseEntity.ok()
+			.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
+			.body(result);
+	}
 
     /**
      * GET  /<%= entityApiUrl %> : get all the <%= entityInstancePlural %>.
