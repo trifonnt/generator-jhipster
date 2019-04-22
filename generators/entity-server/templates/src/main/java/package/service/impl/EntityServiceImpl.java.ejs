@@ -46,6 +46,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 
 <%_ if (pagination !== 'no' || fieldsContainOwnerManyToMany === true) { _%>
 import org.springframework.data.domain.Page;
@@ -274,6 +278,12 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	 * @return the entity
 	 */
 	public <%= instanceType %> import<%= entityClass %>By<%= fieldInJavaBeanMethod %>(String[] columns) {
+		DateTimeFormatter FMT = new DateTimeFormatterBuilder()
+			.appendPattern("yyyy-MM-dd")
+			.parseDefaulting(ChronoField.NANO_OF_DAY, 0)
+			.toFormatter()
+			.withZone(ZoneId.systemDefault()); // ZoneId.of("Europe/Sofia")
+
 <%_ for (idx2 in fields) {
       let fieldType2 = fields[idx2].fieldType;
       const fieldTypeBlobContent2 = fields[idx2].fieldTypeBlobContent;
@@ -303,6 +313,8 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 
       } else if (fieldType2.toLowerCase() === 'boolean') {
         columnValue = 'Boolean.valueOf(columns['+ idx2 +'])';
+      } else if (fieldType2.toLowerCase() === 'instant') {
+        columnValue = 'FMT.parse(columns['+ idx2 +'], Instant::from)';
       }
       _%>
 		<%= fieldType2 %> <%= fieldName2 %> = <%= columnValue %>;
