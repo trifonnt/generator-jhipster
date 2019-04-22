@@ -198,7 +198,7 @@ public class <%= entityClass %>Resource {
 		<%= instanceType %> existing<%= instanceType %> = <%= entityInstance %>Service.findOne(id).orElseThrow(() -> new EntityNotFoundException());
 		<%= instanceType %> <%= instanceName %> = null;
 		try {
-			<%= instanceName %> = (<%= entityClass %>)jsonPatcher.patch(patchCommand, existing<%= instanceType %>).get();
+			<%= instanceName %> = (<%= instanceType %>)jsonPatcher.patch(patchCommand, existing<%= instanceType %>).get();
 		} catch (RuntimeException ex) {
 			if (JsonPatchException.class.isAssignableFrom(ex.getCause().getClass())) {
 				ex.printStackTrace();
