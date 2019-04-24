@@ -676,8 +676,10 @@ module.exports = class extends BaseBlueprintGenerator {
             },
 
             writeEntityJson() {
-                this.log("HERE")
+                this.log("=================================")
                 const context = this.context;
+                this.log(context)
+                this.log("=================================")
                 if (context.useConfigurationFile && context.updateEntity === 'regenerate') {
                     return; // do not update if regenerating entity
                 }
