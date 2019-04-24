@@ -681,7 +681,7 @@ module.exports = class extends BaseBlueprintGenerator {
                 this.log(context)
                 this.log("=================================")
                 if (context.useConfigurationFile && context.updateEntity === 'regenerate') {
-                    return; // do not update if regenerating entity
+                    //return; // do not update if regenerating entity
                 }
                 // store information in a file for further use.
                 if (!context.useConfigurationFile && ['sql', 'cassandra'].includes(context.databaseType)) {
@@ -811,6 +811,10 @@ module.exports = class extends BaseBlueprintGenerator {
                         context.i18nToLoad.push(field.enumInstance);
                     }
 
+                    if (_.isUndefined(field.visibleInTableMode)) {
+                        field.visibleInTableMode = true;
+                    }
+
                     if (_.isUndefined(field.fieldNameCapitalized)) {
                         field.fieldNameCapitalized = _.upperFirst(field.fieldName);
                     }
@@ -912,6 +916,10 @@ module.exports = class extends BaseBlueprintGenerator {
 
                     if (_.isUndefined(relationship.relationshipNameHumanized)) {
                         relationship.relationshipNameHumanized = _.startCase(relationship.relationshipName);
+                    }
+
+                    if (_.isUndefined(relationship.visibleInTableMode)) {
+                        relationship.visibleInTableMode = true;
                     }
 
                     if (_.isUndefined(relationship.relationshipNamePlural)) {
