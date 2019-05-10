@@ -32,4 +32,6 @@ List of new features added to JHipster:
 
 [x] Implemented PATCH method. Added new REST endpoint /api/ENTITY/{id}
 
+[x] Added HTML5 mode. https://www.jhipster.tech/tips/010_tip_configuring_html_5_mode.html
+
 [] Different DB Sequence for each entity.
