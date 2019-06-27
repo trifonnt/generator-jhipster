@@ -575,7 +575,7 @@ public class <%= entityClass %> implements Serializable {
                 <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
             ", <%= fieldName %>ContentType='" + get<%= fieldInJavaBeanMethod %>ContentType() + "'" +
             ", <%= fieldName %>FileName='" + get<%= fieldInJavaBeanMethod %>FileName() + "'" +
-            ", <%= fieldName %>FileSize='" + get<%= fieldInJavaBeanMethod %>FileSize() + "'" +
+            ", <%= fieldName %>FileSize=" + get<%= fieldInJavaBeanMethod %>FileSize() + "" +
                 <%_ } _%>
             <%_ } _%>
             "}";
