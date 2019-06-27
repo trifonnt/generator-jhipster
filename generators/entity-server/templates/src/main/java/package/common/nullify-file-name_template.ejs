@@ -37,6 +37,7 @@ for (idx in fields) {
       fieldsArray.push('if ('+ instanceName + '.get'+ fieldInJavaBeanMethod +'() == null || '+ instanceName +'.get'+ fieldInJavaBeanMethod +'().length == 0) {');
       fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'ContentType(null);');
       fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'FileName(null);');
+      fieldsArray.push('	'+ instanceName + '.set'+ fieldInJavaBeanMethod +'FileSize(-1l);');
       fieldsArray.push('}');
       
       hasFields = true;

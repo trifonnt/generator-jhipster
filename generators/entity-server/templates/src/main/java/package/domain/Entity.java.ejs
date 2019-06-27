@@ -243,6 +243,17 @@ public class <%= entityClass %> implements Serializable {
       <%_ } _%>
     private String <%= fieldName %>FileName;
 
+      <%_ if (databaseType === 'sql' || databaseType === 'cassandra') { _%>
+    @Column(<% if (databaseType !== 'cassandra') { %>name = <% } %>"<%-fieldNameAsDatabaseColumn %>_file_size"<% if (required && databaseType !== 'cassandra') { %>, nullable = false<% } %>)
+        <%_ if (required && databaseType === 'cassandra') { _%>
+    @NotNull
+        <%_ } _%>
+      <%_ } _%>
+      <%_ if (databaseType === 'mongodb' || databaseType === 'couchbase') { _%>
+    @Field("<%=fieldNameUnderscored %>_file_size")
+      <%_ } _%>
+    private long <%= fieldName %>FileSize;
+
     <%_ }
     } _%>
 
@@ -424,6 +435,10 @@ public class <%= entityClass %> implements Serializable {
     public String get<%= fieldInJavaBeanMethod %>FileName() {
         return <%= fieldName %>FileName;
     }
+
+    public long get<%= fieldInJavaBeanMethod %>FileSize() {
+        return <%= fieldName %>FileSize;
+    }
     <%_ if (fluentMethods) { _%>
 
     public <%= entityClass %> <%= fieldName %>ContentType(String <%= fieldName %>ContentType) {
@@ -435,6 +450,11 @@ public class <%= entityClass %> implements Serializable {
         this.<%= fieldName %>FileName = <%= fieldName %>FileName;
         return this;
     }
+
+    public <%= entityClass %> <%= fieldName %>FileSize(long <%= fieldName %>FileSize) {
+        this.<%= fieldName %>FileSize = <%= fieldName %>FileSize;
+        return this;
+    }
     <%_ } _%>
 
     public void set<%= fieldInJavaBeanMethod %>ContentType(String <%= fieldName %>ContentType) {
@@ -443,6 +463,10 @@ public class <%= entityClass %> implements Serializable {
 
     public void set<%= fieldInJavaBeanMethod %>FileName(String <%= fieldName %>FileName) {
         this.<%= fieldName %>FileName = <%= fieldName %>FileName;
+    }
+
+    public void set<%= fieldInJavaBeanMethod %>FileSize(long <%= fieldName %>FileSize) {
+        this.<%= fieldName %>FileSize = <%= fieldName %>FileSize;
     }
     <%_ } _%>
 <%_ } _%>

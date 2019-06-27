@@ -18,7 +18,10 @@ List of new features added to JHipster:
 
 [x] Save File name for byte[] field types.
 
-[x] When byte[] field is updated and set to null then set xxxContentType and xxxFieldName to null.
+[x] Save File size for byte[] field types.
+
+[x] When byte[] field is updated and set to null then set xxxContentType, xxxFieldName and xxxFieldSize to null.
+    - /generator-jhipster-x/generators/entity-server/templates/src/main/java/package/common/nullify-file-name_template.ejs
 
 [x] Added PATCH method to jhipster spring-controller.
 

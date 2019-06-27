@@ -98,6 +98,7 @@ public class <%= entityClass %>DTO implements Serializable {
     <%_ if ((fieldType === 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent !== 'text') { _%>
     private String <%= fieldName %>ContentType;
     private String <%= fieldName %>FileName;
+    private long <%= fieldName %>FileSize;
         <%_ } _%>
     <%_ } _%>
     <%_ for (idx in relationships) {
@@ -175,6 +176,14 @@ public class <%= entityClass %>DTO implements Serializable {
 
     public void set<%= fieldInJavaBeanMethod %>FileName(String <%= fieldName %>FileName) {
         this.<%= fieldName %>FileName = <%= fieldName %>FileName;
+    }
+
+    public long get<%= fieldInJavaBeanMethod %>FileSize() {
+        return <%= fieldName %>FileSize;
+    }
+
+    public void set<%= fieldInJavaBeanMethod %>FileSize(long <%= fieldName %>FileSize) {
+        this.<%= fieldName %>FileSize = <%= fieldName %>FileSize;
     }
         <%_ } _%>
     <%_ } _%>

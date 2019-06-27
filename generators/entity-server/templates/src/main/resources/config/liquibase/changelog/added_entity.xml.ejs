@@ -121,6 +121,9 @@
             <column name="<%=columnName %>_file_name" type="varchar(255)">
                 <constraints nullable="<%= nullable %>" />
             </column>
+            <column name="<%=columnName %>_file_size" type="bigint">
+                <constraints nullable="<%= nullable %>" />
+            </column>
             <%_ }  _%>
             <%_ } _%><% for (idx in relationships) {
                 let nullable_relation = true,
