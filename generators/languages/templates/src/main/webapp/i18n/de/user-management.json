@@ -25,6 +25,8 @@
         "createdBy": "Erstellt von",
         "createdDate": "Erstellt am",
         "lastModifiedBy": "Bearbeitet von",
-        "lastModifiedDate": "Zuletzt bearbeitet"
+        "lastModifiedDate": "Zuletzt bearbeitet",
+        "authorities": "Authorities",
+        "imageUrl": "Image URL"
     }
 }
