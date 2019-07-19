@@ -16,32 +16,55 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%><%
-	// Returns name of unique field.
+	// Returns true if entity contains unique field.
 	hasUniqueField = function(fields) {
-	
-	  let resultName = '';
+
 	  let hasUniqField = false;
-	
+
 	  for (idx in fields) {
 	    const field = fields[idx];
-	
+
 	    const fieldType = field.fieldType;
 	    const fieldTypeBlobContent = field.fieldTypeBlobContent;
 	    const fieldName = field.fieldName;
 	    const fieldNameHumanized = field.fieldNameHumanized;
 	    const fieldNameCapitalized = field.fieldNameCapitalized;
 	    const fieldInJavaBeanMethod = field.fieldInJavaBeanMethod;
-	
+
+	    if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
+	      return true;
+	    }
+	  }
+	  return hasUniqField;
+	}
+
+	// Returns name of unique field.
+	getNameOfUniqueField = function(fields, capitalLetter = false) {
+
+	  let resultName = '';
+//	  let hasUniqField = false;
+
+	  for (idx in fields) {
+	    const field = fields[idx];
+
+	    const fieldType = field.fieldType;
+	    const fieldTypeBlobContent = field.fieldTypeBlobContent;
+	    const fieldName = field.fieldName;
+	    const fieldNameHumanized = field.fieldNameHumanized;
+	    const fieldNameCapitalized = field.fieldNameCapitalized;
+	    const fieldInJavaBeanMethod = field.fieldInJavaBeanMethod;
+
 	    if (field.fieldValidate === true && field.fieldValidateRules.includes('unique')) {
 	      if (capitalLetter) {
 	      	resultName = fieldNameCapitalized;
 	      } else {
 	      	resultName = fieldName;
 	      }
-	      hasUniqField = true;
+	      return resultName;
+//	      hasUniqField = true;
 	    }
 	  }
-	  return hasUniqField;
+	  return resultName;
 	}
 
 	getRelationshipNamesForOtherEntityName = function(relationships, searchedEntityName) {
