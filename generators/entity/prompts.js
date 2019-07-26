@@ -527,7 +527,7 @@ function askForField(done) {
             when: response => response.fieldAdd === true,
             type: 'input',
             name: 'defaultValueConstant',
-            message: 'Default value of your field if any? Boolean.TRUE/Boolean.FALSE/Integer.MAX_VALUE/new Integer("0")',
+            message: 'Default value of your field if any? Boolean.TRUE/Boolean.FALSE/Integer.MAX_VALUE/new Integer("0")/java.util.UUID.randomUUID().toString()',
             default: false,
         },
         {
