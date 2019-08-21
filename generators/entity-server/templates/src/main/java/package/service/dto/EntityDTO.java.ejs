@@ -60,6 +60,21 @@ public class <%= entityClass %>DTO implements Serializable {
 	//@Trifon
 	private static final long serialVersionUID = 1L;
 
+<% include('../common/functions', {capitalLetter: false});
+    if (hasUniqueField(fields) == false) {
+%>//	private RecordSource recordSource;
+
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+<% } %>
+
     private <%= pkType %> id;
     <%_ for (idx in fields) {
         const fieldValidate = fields[idx].fieldValidate;

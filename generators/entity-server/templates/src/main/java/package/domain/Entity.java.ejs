@@ -148,21 +148,21 @@ public class <%= entityClass %> implements Serializable {
     if (hasUniqueField(fields) == false) {
 %>//	private RecordSource recordSource;
 
-//	private String code;
+	private String code;
 
-//	public String getCode() {
-//		return code;
-//	}
-//	public void setCode(String code) {
-//		this.code = code;
-//	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-//	@PrePersist
-//	public void prePersist() {
-//		if (code == null || code.isEmpty()) {
-//			code = java.util.UUID.randomUUID().toString();
-//		}
-//	}
+	@PrePersist
+	public void prePersist() {
+		if (code == null || code.isEmpty()) {
+			code = java.util.UUID.randomUUID().toString();
+		}
+	}
 <% } %>
 
 <%_ for (idx in fields) {
