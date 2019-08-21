@@ -331,7 +331,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
       }
       _%>
 		<%= fieldType2 %> <%= fieldName2 %> = null;
-		if (columns.length >= <%= (idx2+1) %>) {
+		if (columns.length > <%= idx2 %>) {
 			<%= fieldName2 %> = <%= columnValue %>;
 		}
 <%_	} _%>
