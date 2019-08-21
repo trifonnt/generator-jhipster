@@ -271,6 +271,20 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
 	}
 
 	//@Trifon
+	private BigDecimal parseBigDecimalColumn(String[] columns, int indx) {
+		BigDecimal result = null;
+		if (columns.length > indx && columns[indx] != null && !columns[indx].isEmpty()) {
+			String contents = columns[indx];
+			contents = contents.replaceAll(" ", "");
+			contents = contents.replaceAll("\t", "");
+			if (!contents.isEmpty()) {
+				result = new BigDecimal(contents);
+			}
+		}
+		return result;
+	}
+
+	//@Trifon
 	/**
 	 * Import one <%= entityInstance %> by <%= fieldName %>.
 	 *
@@ -308,8 +322,7 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
         columnValue = 'Double.parseDouble(columns['+ idx2 +'])';
 
       } else if (fieldType2.toLowerCase() === 'bigdecimal') {
-        // 
-        columnValue = 'new BigDecimal(columns['+ idx2 +'])';
+        columnValue = 'parseBigDecimalColumn(columns, '+ idx2 +')';
 
       } else if (fieldType2.toLowerCase() === 'boolean') {
         columnValue = 'Boolean.valueOf(columns['+ idx2 +'])';
@@ -317,7 +330,10 @@ public class <%= serviceClassName %><% if (service === 'serviceImpl') { %> imple
         columnValue = 'FMT.parse(columns['+ idx2 +'], Instant::from)';
       }
       _%>
-		<%= fieldType2 %> <%= fieldName2 %> = <%= columnValue %>;
+		<%= fieldType2 %> <%= fieldName2 %> = null;
+		if (columns.length >= <%= (idx2+1) %>) {
+			<%= fieldName2 %> = <%= columnValue %>;
+		}
 <%_	} _%>
 
 		<%= instanceType %> <%= instanceName %> = null;
