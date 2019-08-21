@@ -60,7 +60,7 @@ public class <%= entityClass %>DTO implements Serializable {
 	//@Trifon
 	private static final long serialVersionUID = 1L;
 
-<% include('../common/functions', {capitalLetter: false});
+<% include('../../common/functions', {capitalLetter: false});
     if (hasUniqueField(fields) == false) {
 %>//	private RecordSource recordSource;
 
