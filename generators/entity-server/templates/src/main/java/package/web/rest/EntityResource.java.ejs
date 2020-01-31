@@ -113,7 +113,7 @@ public class <%= entityClass %>Resource {
     if (clientRootFolder && !skipUiGrouping) {
         entityName = _.camelCase(`${clientRootFolder}${entityClass}`);
     } _%>
-    private static final String ENTITY_NAME = "<%= entityName %>";
+    public static final String ENTITY_NAME = "<%= entityName %>";
     <%_
     const instanceType = (dto === 'mapstruct') ? entityClass + 'DTO' : entityClass;
     const instanceName = (dto === 'mapstruct') ? entityInstance + 'DTO' : entityInstance;
