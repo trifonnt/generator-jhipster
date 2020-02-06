@@ -41,6 +41,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 <%_ } _%>
 
+import java.util.Date;
+
 import javax.validation.Valid;
 <%_ if (reactive) { _%>
 import java.util.Optional;
@@ -91,6 +93,22 @@ public class UserJWTController {
                 return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
             });
     <%_ } _%>
+    }
+
+    // @Trifon - generate token which is valid one year, starting from NOW!
+    @PostMapping("/generate-token")
+    @Timed
+    public ResponseEntity<JWTToken> generateToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        long now = (new Date()).getTime();
+        // 1 common year = 365 days = (365 days) × (24 hours/day) × (3600 seconds/hour) = 31536000 seconds
+        Date validUntill = new Date(now + (1000l * 31536000l));
+
+        String jwt = tokenProvider.createToken(authentication, validUntill);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
     /**
