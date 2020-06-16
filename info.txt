@@ -1,3 +1,9 @@
+= Steps when installing generator-x
+$ sudo npm install -g generator-jhipster-x
+## Show which version is installed
+$ jhipster-x --version
+
+
 = Steps when publishing new version
 $ git commit -m "Version ..."
 $ git push
